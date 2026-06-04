@@ -5,12 +5,31 @@ service cloud.firestore {
       return request.auth != null &&
         exists(/databases/$(database)/documents/admins/$(request.auth.uid));
     }
+
+    // Contenus publics en lecture, modifiables uniquement par les admins
     match /event/{docId} { allow read: if true; allow write: if isAdmin(); }
     match /participants/{docId} { allow read: if true; allow write: if isAdmin(); }
     match /schedule/{docId} { allow read: if true; allow write: if isAdmin(); }
     match /donations/{docId} { allow read: if true; allow write: if isAdmin(); }
     match /faq/{docId} { allow read: if true; allow write: if isAdmin(); }
     match /association/{docId} { allow read: if true; allow write: if isAdmin(); }
+    match /associations/{docId} { allow read: if true; allow write: if isAdmin(); }
+
+    // Réservations de freestyles : soumission publique (statut "pending" forcé),
+    // gestion réservée aux admins.
+    match /freestyles/{docId} {
+      allow create: if request.resource.data.status == 'pending';
+      allow read, update, delete: if isAdmin();
+    }
+
+    // Messages de contact : envoi public, lecture/gestion réservées aux admins.
+    match /contacts/{docId} {
+      allow create: if true;
+      allow read, update, delete: if isAdmin();
+    }
+
+    // Collection des administrateurs : créée manuellement depuis la console
+    // Firebase. Aucune écriture possible côté client.
     match /admins/{uid} {
       allow read: if request.auth != null && request.auth.uid == uid;
       allow write: if false;

@@ -4,6 +4,8 @@ defineProps<{
   href?: string
   variant?: 'primary' | 'outline'
   external?: boolean
+  type?: 'button' | 'submit' | 'reset'
+  disabled?: boolean
 }>()
 </script>
 
@@ -26,8 +28,9 @@ defineProps<{
   </a>
   <button
     v-else
-    type="button"
-    :class="variant === 'outline' ? 'btn-outline' : 'btn-primary'"
+    :type="type ?? 'button'"
+    :disabled="disabled"
+    :class="[variant === 'outline' ? 'btn-outline' : 'btn-primary', disabled && 'opacity-50 cursor-not-allowed']"
   >
     <slot />
   </button>

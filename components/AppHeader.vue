@@ -4,10 +4,13 @@ const mobileOpen = ref(false)
 
 const links = [
   { to: '/', label: 'Accueil' },
-  { to: '/participants', label: 'Participants' },
-  { to: '/planning', label: 'Planning' },
-  { to: '/association', label: 'Association' },
+  { to: '/presentation', label: 'Présentation' },
+  { to: '/planning', label: 'Programme' },
+  { to: '/associations', label: 'Associations' },
+  { to: '/encheres', label: 'Enchères' },
+  { to: '/freestyles', label: 'Freestyles' },
   { to: '/faq', label: 'FAQ' },
+  { to: '/contact', label: 'Contact' },
 ]
 
 const isActive = (path: string) =>
@@ -21,17 +24,17 @@ const isActive = (path: string) =>
     <div class="mx-auto flex max-w-7xl items-center justify-between px-4 py-4 lg:px-8">
       <NuxtLink to="/" class="flex items-center gap-3">
         <div
-          class="flex h-10 w-10 items-center justify-center rounded-xl bg-gradient-to-br from-primary to-accent-cyan font-display text-lg font-bold"
+          class="flex h-10 w-10 items-center justify-center rounded-xl bg-gradient-to-br from-primary to-accent-cyan font-display text-sm font-bold"
         >
-          IP
+          PDS
         </div>
         <div>
-          <span class="font-display text-lg font-bold">Ibé PDS</span>
+          <span class="font-display text-lg font-bold">PDS Humanity</span>
           <p class="text-xs text-gray-400">Événement caritatif</p>
         </div>
       </NuxtLink>
 
-      <nav class="hidden items-center gap-6 md:flex">
+      <nav class="hidden items-center gap-5 xl:flex">
         <NuxtLink
           v-for="link in links"
           :key="link.to"
@@ -48,7 +51,7 @@ const isActive = (path: string) =>
           Faire un don
         </PrimaryButton>
         <button
-          class="rounded-lg p-2 text-gray-300 hover:bg-white/5 md:hidden"
+          class="rounded-lg p-2 text-gray-300 hover:bg-white/5 xl:hidden"
           aria-label="Menu"
           @click="mobileOpen = !mobileOpen"
         >
@@ -66,7 +69,7 @@ const isActive = (path: string) =>
 
     <div
       v-if="mobileOpen"
-      class="border-t border-white/5 bg-surface-elevated px-4 py-4 md:hidden"
+      class="border-t border-white/5 bg-surface-elevated px-4 py-4 xl:hidden"
     >
       <NuxtLink
         v-for="link in links"

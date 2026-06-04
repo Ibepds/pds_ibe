@@ -26,7 +26,7 @@ const onSubmit = async () => {
       class="w-full max-w-md rounded-2xl bg-white p-8 shadow-lg"
       @submit.prevent="onSubmit"
     >
-      <h1 class="text-2xl font-bold text-gray-900">Administration Ibé PDS</h1>
+      <h1 class="text-2xl font-bold text-gray-900">Administration PDS Humanity</h1>
       <p class="mt-2 text-sm text-gray-500">Connexion réservée aux administrateurs</p>
 
       <div class="mt-6 space-y-4">

@@ -55,8 +55,18 @@ const props = defineProps<{
             ▶ Regarder le live
           </PrimaryButton>
           <PrimaryButton v-else to="/planning" variant="outline">
-            Voir le planning
+            Voir le programme
           </PrimaryButton>
+          <PrimaryButton to="/freestyles" variant="outline">
+            Réserver un freestyle
+          </PrimaryButton>
+        </div>
+        <div v-if="event?.isLive" class="mt-4 flex flex-wrap gap-3 text-sm text-gray-400">
+          <span>Diffusion en direct :</span>
+          <a v-if="event.liveUrl" :href="event.liveUrl" target="_blank" rel="noopener" class="text-primary-light hover:underline">Twitch</a>
+          <a v-if="event.youtubeUrl" :href="event.youtubeUrl" target="_blank" rel="noopener" class="text-primary-light hover:underline">YouTube</a>
+          <a v-if="event.tiktokUrl" :href="event.tiktokUrl" target="_blank" rel="noopener" class="text-primary-light hover:underline">TikTok</a>
+          <a v-if="event.ebayLiveUrl" :href="event.ebayLiveUrl" target="_blank" rel="noopener" class="text-primary-light hover:underline">eBay Live</a>
         </div>
       </div>
     </div>

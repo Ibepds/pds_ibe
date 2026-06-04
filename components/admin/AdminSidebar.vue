@@ -4,9 +4,10 @@ const route = useRoute()
 const links = [
   { to: '/admin', label: 'Tableau de bord', icon: '📊' },
   { to: '/admin/event', label: 'Événement', icon: '🎯' },
+  { to: '/admin/freestyles', label: 'Freestyles', icon: '🎤' },
   { to: '/admin/participants', label: 'Participants', icon: '👥' },
   { to: '/admin/planning', label: 'Planning', icon: '📅' },
-  { to: '/admin/association', label: 'Association', icon: '🏛️' },
+  { to: '/admin/association', label: 'Associations', icon: '🏛️' },
   { to: '/admin/faq', label: 'FAQ', icon: '❓' },
 ]
 </script>
@@ -14,7 +15,7 @@ const links = [
 <template>
   <aside class="flex w-64 flex-col border-r border-gray-200 bg-white">
     <div class="border-b border-gray-200 p-6">
-      <NuxtLink to="/admin" class="font-bold text-gray-900">Ibé PDS Admin</NuxtLink>
+      <NuxtLink to="/admin" class="font-bold text-gray-900">PDS Humanity Admin</NuxtLink>
       <p class="text-xs text-gray-500">Gestion de l'événement</p>
     </div>
     <nav class="flex-1 space-y-1 p-4">

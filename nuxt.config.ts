@@ -19,7 +19,7 @@ export default defineNuxtConfig({
   },
   app: {
     head: {
-      title: 'Ibé PDS — Événement caritatif',
+      title: 'PDS Humanity — Musique & Solidarité',
       htmlAttrs: { lang: 'fr' },
       meta: [
         { charset: 'utf-8' },
@@ -27,8 +27,15 @@ export default defineNuxtConfig({
         {
           name: 'description',
           content:
-            'Événement caritatif organisé par Ibé PDS — streamers, artistes et invités réunis pour une cause solidaire.',
+            'PDS Humanity — Marathon caritatif de 24h organisé par PDS Records / Ibé. Musique, solidarité et dons en direct les 27 et 28 juin.',
         },
+        { property: 'og:title', content: 'PDS Humanity — Musique & Solidarité' },
+        {
+          property: 'og:description',
+          content:
+            'Marathon caritatif de 24h organisé par PDS Records / Ibé. Performances musicales, freestyles, enchères solidaires — 27 & 28 juin.',
+        },
+        { property: 'og:type', content: 'website' },
       ],
       link: [{ rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }],
     },

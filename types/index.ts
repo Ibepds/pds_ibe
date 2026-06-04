@@ -1,5 +1,6 @@
 export type ParticipantRole = 'streamer' | 'artiste' | 'invite'
 export type ScheduleType = 'stream' | 'show' | 'pause' | 'special'
+export type FreestyleStatus = 'pending' | 'validated' | 'rejected'
 
 export interface EventDoc {
   name: string
@@ -11,6 +12,9 @@ export interface EventDoc {
   currentAmount: number
   donorsCount: number
   liveUrl: string
+  youtubeUrl?: string
+  tiktokUrl?: string
+  ebayLiveUrl?: string
   donationUrl: string
   isLive: boolean
   heroTitle: string
@@ -68,6 +72,7 @@ export interface KeyNumber {
 }
 
 export interface AssociationDoc {
+  id?: string
   name: string
   description: string
   logoUrl: string
@@ -75,5 +80,18 @@ export interface AssociationDoc {
   mission: string
   keyNumbers: KeyNumber[]
   createdAt?: string
+  updatedAt?: string
+}
+
+export interface FreestyleBooking {
+  id: string
+  pseudo: string
+  email: string
+  socialLinks?: string
+  slot: string
+  trackUrl: string
+  message?: string
+  status: FreestyleStatus
+  createdAt: string
   updatedAt?: string
 }

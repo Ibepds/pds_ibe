@@ -3,141 +3,89 @@ import type {
   Donation,
   EventDoc,
   FaqItem,
+  FreestyleBooking,
   Participant,
   ScheduleItem,
 } from '~/types'
 
 export const MOCK_EVENT: EventDoc = {
-  name: 'Ibé Solidarité Live',
-  tagline: 'Un week-end de streams et de créativité au profit des enfants',
-  organizerName: 'Ibé PDS',
-  startDate: '2026-06-14T18:00:00',
-  endDate: '2026-06-16T23:59:00',
+  name: 'PDS Humanity',
+  tagline: 'Un marathon de 24h de musique et de solidarité pour une cause qui nous tient à cœur',
+  organizerName: 'PDS Records / Ibé',
+  startDate: '2026-06-27T18:00:00',
+  endDate: '2026-06-28T18:00:00',
   donationGoal: 50000,
-  currentAmount: 28450,
-  donorsCount: 412,
+  currentAmount: 0,
+  donorsCount: 0,
   liveUrl: 'https://www.twitch.tv/',
+  youtubeUrl: 'https://www.youtube.com/',
+  tiktokUrl: 'https://www.tiktok.com/',
+  ebayLiveUrl: 'https://www.ebay.fr/',
   donationUrl: 'https://www.helloasso.com/',
-  isLive: true,
+  isLive: false,
   heroTitle: 'Ensemble, faisons la différence',
   heroSubtitle:
-    'Streamers, artistes et invités spéciaux réunis par Ibé PDS pour une cause qui nous tient à cœur.',
+    'PDS Records et Ibé réunissent artistes et communauté pendant 24h pour soutenir des associations caritatives.',
 }
 
 export const MOCK_PARTICIPANTS: Participant[] = [
   {
     id: '1',
-    pseudo: 'NovaStream',
-    avatarUrl: '',
-    role: 'streamer',
-    category: 'FPS & variété',
-    twitchUrl: 'https://twitch.tv',
-    amountRaised: 4200,
-    isFeatured: true,
-  },
-  {
-    id: '2',
-    pseudo: 'LunaPaint',
+    pseudo: 'Ibé',
     avatarUrl: '',
     role: 'artiste',
-    category: 'Illustration live',
+    category: 'Musique / Rap',
     instagramUrl: 'https://instagram.com',
-    amountRaised: 3100,
+    amountRaised: 0,
     isFeatured: true,
-  },
-  {
-    id: '3',
-    pseudo: 'ChefKarma',
-    avatarUrl: '',
-    role: 'invite',
-    category: 'Invité spécial',
-    amountRaised: 1800,
-    isFeatured: true,
-  },
-  {
-    id: '4',
-    pseudo: 'PixelFox',
-    avatarUrl: '',
-    role: 'streamer',
-    category: 'Rétro gaming',
-    twitchUrl: 'https://twitch.tv',
-    amountRaised: 2650,
-    isFeatured: false,
-  },
-  {
-    id: '5',
-    pseudo: 'EchoVoice',
-    avatarUrl: '',
-    role: 'artiste',
-    category: 'Musique acoustique',
-    amountRaised: 1950,
-    isFeatured: false,
-  },
-  {
-    id: '6',
-    pseudo: 'Dr.Helix',
-    avatarUrl: '',
-    role: 'invite',
-    category: 'Association partenaire',
-    amountRaised: 900,
-    isFeatured: false,
   },
 ]
 
 export const MOCK_SCHEDULE: ScheduleItem[] = [
   {
     id: '1',
-    day: 'Vendredi 14 juin',
+    day: 'Vendredi 27 juin',
     time: '18:00',
-    title: 'Ouverture officielle',
-    description: 'Lancement de l\'événement avec Ibé PDS et les premiers streams.',
+    title: 'Ouverture officielle — PDS Humanity',
+    description: 'Lancement du marathon caritatif avec PDS Records et Ibé.',
     type: 'special',
     order: 1,
   },
   {
     id: '2',
-    day: 'Vendredi 14 juin',
+    day: 'Vendredi 27 juin',
     time: '20:00',
-    title: 'Marathon FPS solidaire',
-    description: 'Tournois communautaire avec dons en direct.',
-    type: 'stream',
+    title: 'Performances musicales & lives',
+    description: 'Concerts en direct, freestyles et moments forts de collecte de dons.',
+    type: 'show',
     order: 2,
   },
   {
     id: '3',
-    day: 'Samedi 15 juin',
-    time: '14:00',
-    title: 'Atelier créatif live',
-    description: 'Session illustration en direct avec les viewers.',
-    type: 'show',
+    day: 'Samedi 28 juin',
+    time: '04:00',
+    title: 'Freestyles nocturnes',
+    description: '50 créneaux de 6 minutes ouverts au public pour performer en live.',
+    type: 'stream',
     order: 3,
   },
   {
     id: '4',
-    day: 'Samedi 15 juin',
-    time: '22:00',
-    title: 'Concert acoustique',
-    description: 'Performance live au profit de l\'association.',
-    type: 'show',
+    day: 'Samedi 28 juin',
+    time: '10:00',
+    title: 'Ventes aux enchères solidaires',
+    description: 'Enchères live sur eBay Live — lots exclusifs au profit des associations.',
+    type: 'special',
     order: 4,
   },
   {
     id: '5',
-    day: 'Dimanche 16 juin',
+    day: 'Samedi 28 juin',
     time: '16:00',
-    title: 'Pause & bilan intermédiaire',
-    description: 'Point sur les dons et annonces spéciales.',
-    type: 'pause',
-    order: 5,
-  },
-  {
-    id: '6',
-    day: 'Dimanche 16 juin',
-    time: '21:00',
-    title: 'Grande finale',
-    description: 'Clôture de l\'événement et annonce du montant total.',
+    title: 'Bilan & clôture',
+    description: 'Annonce du montant total collecté et remerciements.',
     type: 'special',
-    order: 6,
+    order: 5,
   },
 ]
 
@@ -160,7 +108,7 @@ export const MOCK_DONATIONS: Donation[] = [
     id: '3',
     username: 'Anonyme',
     amount: 100,
-    message: 'Pour les enfants ❤️',
+    message: 'Pour une bonne cause ❤️',
     createdAt: new Date(Date.now() - 10800000).toISOString(),
   },
   {
@@ -177,47 +125,85 @@ export const MOCK_FAQ: FaqItem[] = [
     id: '1',
     question: 'Comment faire un don ?',
     answer:
-      'Rendez-vous sur la page Faire un don ou cliquez sur le bouton dédié dans le header. Vous serez redirigé vers notre plateforme sécurisée HelloAsso.',
+      'Cliquez sur le bouton "Faire un don" présent sur toutes les pages. Vous serez redirigé vers notre plateforme sécurisée de collecte en ligne.',
     order: 1,
   },
   {
     id: '2',
     question: 'Où va l\'argent collecté ?',
     answer:
-      '100 % des dons sont reversés à l\'association partenaire de l\'événement, après déduction des frais de plateforme de paiement.',
+      '100 % des fonds récoltés (dons + enchères) sont reversés aux associations partenaires de l\'événement, après déduction des frais de plateforme de paiement.',
     order: 2,
   },
   {
     id: '3',
-    question: 'Puis-je participer en tant que streamer ?',
+    question: 'Comment participer aux freestyles nocturnes ?',
     answer:
-      'Les participations sont sur invitation. Contactez Ibé PDS via les réseaux sociaux pour les prochaines éditions.',
+      'Rendez-vous sur la page "Réservation freestyles" et remplissez le formulaire. Choisissez votre créneau parmi les disponibilités (4h-9h), ajoutez un lien vers votre morceau. Votre participation sera validée manuellement par l\'organisateur.',
     order: 3,
   },
   {
     id: '4',
-    question: 'L\'événement est-il diffusé en direct ?',
+    question: 'Comment participer aux ventes aux enchères ?',
     answer:
-      'Oui ! Pendant les créneaux live, retrouvez la diffusion sur Twitch ou YouTube via le lien affiché sur la page d\'accueil.',
+      'Les enchères se déroulent en direct sur eBay Live. Rendez-vous sur la page "Enchères" pour accéder au lien de la vente et voir les lots disponibles.',
     order: 4,
+  },
+  {
+    id: '5',
+    question: 'Sur quelles plateformes l\'événement est-il diffusé ?',
+    answer:
+      'PDS Humanity est diffusé en direct sur Twitch, YouTube et TikTok. Les liens sont disponibles sur la page d\'accueil et dans le programme.',
+    order: 5,
+  },
+  {
+    id: '6',
+    question: 'Puis-je contacter l\'équipe organisatrice ?',
+    answer:
+      'Oui, utilisez le formulaire de contact disponible sur la page "Contact" pour toute demande : presse, partenariats ou informations générales.',
+    order: 6,
   },
 ]
 
-export const MOCK_ASSOCIATION: AssociationDoc = {
-  name: 'Les Petits Rayons',
-  description:
-    'Association loi 1901 qui accompagne les enfants hospitalisés grâce à des ateliers créatifs, du matériel adapté et des moments de répit pour les familles.',
-  logoUrl: '',
-  websiteUrl: 'https://example.org',
-  mission:
-    'Apporter de la lumière et du réconfort aux enfants et à leurs proches pendant le parcours de soins.',
-  keyNumbers: [
-    { label: 'Enfants accompagnés', value: '2 400+' },
-    { label: 'Ateliers par an', value: '180' },
-    { label: 'Bénévoles actifs', value: '95' },
-    { label: 'Hôpitaux partenaires', value: '12' },
-  ],
-}
+export const MOCK_ASSOCIATIONS: (AssociationDoc & { id: string })[] = [
+  {
+    id: 'asso-1',
+    name: 'Association partenaire 1',
+    description: 'Description de la première association partenaire de PDS Humanity. Les fonds collectés soutiendront leurs actions sur le terrain.',
+    logoUrl: '',
+    websiteUrl: '',
+    mission: 'À préciser — descriptif en cours de collecte.',
+    keyNumbers: [
+      { label: 'Bénéficiaires', value: 'À définir' },
+      { label: 'Projets', value: 'À définir' },
+    ],
+  },
+  {
+    id: 'asso-2',
+    name: 'Association partenaire 2',
+    description: 'Description de la deuxième association partenaire de PDS Humanity. Chaque don contribue directement à leur mission.',
+    logoUrl: '',
+    websiteUrl: '',
+    mission: 'À préciser — descriptif en cours de collecte.',
+    keyNumbers: [
+      { label: 'Bénéficiaires', value: 'À définir' },
+      { label: 'Projets', value: 'À définir' },
+    ],
+  },
+]
+
+// Kept for backward compatibility with admin/association page
+export const MOCK_ASSOCIATION: AssociationDoc = MOCK_ASSOCIATIONS[0]
+
+export const MOCK_FREESTYLE_BOOKINGS: FreestyleBooking[] = []
+
+export const FREESTYLE_SLOTS: string[] = [
+  '4h00', '4h06', '4h12', '4h18', '4h24', '4h30', '4h36', '4h42', '4h48', '4h54',
+  '5h00', '5h06', '5h12', '5h18', '5h24', '5h30', '5h36', '5h42', '5h48', '5h54',
+  '6h00', '6h06', '6h12', '6h18', '6h24', '6h30', '6h36', '6h42', '6h48', '6h54',
+  '7h00', '7h06', '7h12', '7h18', '7h24', '7h30', '7h36', '7h42', '7h48', '7h54',
+  '8h00', '8h06', '8h12', '8h18', '8h24', '8h30', '8h36', '8h42', '8h48', '8h54',
+]
 
 export const ROLE_LABELS: Record<string, string> = {
   streamer: 'Streamer',
