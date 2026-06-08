@@ -1,6 +1,19 @@
 <script setup lang="ts">
+import { formatDate } from '~/utils/format'
+
 const year = new Date().getFullYear()
 const { reset } = useCookieConsent()
+const { event } = useEvent()
+
+// Liens plateformes réutilisés depuis la config Événement (admin)
+const platforms = computed(() =>
+  [
+    { label: 'Twitch', url: event.value?.liveUrl },
+    { label: 'YouTube', url: event.value?.youtubeUrl },
+    { label: 'TikTok', url: event.value?.tiktokUrl },
+    { label: 'eBay Live', url: event.value?.ebayLiveUrl },
+  ].filter((p) => p.url),
+)
 </script>
 
 <template>
@@ -8,12 +21,36 @@ const { reset } = useCookieConsent()
     <div class="mx-auto max-w-7xl px-4 py-12 lg:px-8">
       <div class="grid gap-8 md:grid-cols-3">
         <div>
-          <h3 class="font-display text-xl font-bold gradient-text">PDS Humanity</h3>
+          <img
+            v-if="event?.logoUrl"
+            :src="event.logoUrl"
+            :alt="event?.name ?? 'PDS Humanity'"
+            height="32"
+            width="140"
+            loading="lazy"
+            decoding="async"
+            class="h-8 w-auto max-w-[140px] object-contain"
+          />
+          <h3 v-else class="font-display text-xl font-bold gradient-text">
+            {{ event?.name ?? 'PDS Humanity' }}
+          </h3>
           <p class="mt-2 text-sm text-gray-400">
-            Marathon caritatif de 24h organisé par PDS Records / Ibé — musique, solidarité et engagement.
+            {{ event?.tagline ?? 'Marathon caritatif de 24h — musique, solidarité et engagement.' }}
           </p>
-          <p class="mt-4 text-xs text-gray-500">27 juin (18h) — 28 juin (18h)</p>
+          <p v-if="event?.startDate && event?.endDate" class="mt-4 text-xs text-gray-500">
+            {{ formatDate(event.startDate) }} → {{ formatDate(event.endDate) }}
+          </p>
+
+          <div v-if="platforms.length" class="mt-4">
+            <p class="text-xs uppercase tracking-wide text-gray-500">Suivez le live</p>
+            <ul class="mt-2 flex flex-wrap gap-x-4 gap-y-1 text-sm text-gray-400">
+              <li v-for="p in platforms" :key="p.label">
+                <a :href="p.url" target="_blank" rel="noopener" class="hover:text-primary-light">{{ p.label }}</a>
+              </li>
+            </ul>
+          </div>
         </div>
+
         <div>
           <h4 class="font-semibold text-white">Navigation</h4>
           <ul class="mt-3 space-y-2 text-sm text-gray-400">
@@ -26,16 +63,18 @@ const { reset } = useCookieConsent()
             <li><NuxtLink to="/contact" class="hover:text-primary-light">Contact</NuxtLink></li>
           </ul>
         </div>
+
         <div>
           <h4 class="font-semibold text-white">Organisateur</h4>
           <p class="mt-3 text-sm text-gray-400">
-            Organisé par <strong class="text-primary-light">PDS Records / Ibé</strong>
+            Organisé par
+            <strong class="text-primary-light">{{ event?.organizerName ?? 'PDS Records / Ibé' }}</strong>
           </p>
           <PrimaryButton to="/donate" class="mt-4 w-full">
             Faire un don
           </PrimaryButton>
           <p class="mt-4 text-xs text-gray-500">
-            © {{ year }} PDS Humanity. Tous droits réservés.
+            © {{ year }} {{ event?.name ?? 'PDS Humanity' }}. Tous droits réservés.
           </p>
           <ul class="mt-2 flex flex-wrap gap-x-4 gap-y-1 text-xs text-gray-500">
             <li><NuxtLink to="/mentions-legales" class="hover:text-primary-light">Mentions légales</NuxtLink></li>
