@@ -29,6 +29,13 @@ const { data: associations, loading: aLoading } = useFirestoreCollection(
   'associations',
   MOCK_ASSOCIATIONS,
 )
+
+usePageSeo({
+  title: 'PDS Humanity — Musique & Solidarité',
+  description:
+    'Marathon caritatif de 24h organisé par PDS Records / Ibé les 27 et 28 juin. Dons en direct, freestyles nocturnes et enchères solidaires sur Twitch, YouTube, TikTok et eBay Live.',
+  path: '/',
+})
 </script>
 
 <template>
@@ -104,7 +111,7 @@ const { data: associations, loading: aLoading } = useFirestoreCollection(
       <div class="mx-auto max-w-7xl px-4 lg:px-8 text-center">
         <h2 class="section-title">Freestyles nocturnes</h2>
         <p class="mt-2 max-w-2xl mx-auto text-gray-400">
-          50 créneaux de 6 minutes ouverts au public dans la nuit du 27 au 28 juin (4h00 → 8h54).
+          56 créneaux de 8 minutes ouverts au public dans la nuit du 27 au 28 juin (03h00 → 10h29).
           Réservez le vôtre dès maintenant.
         </p>
         <div class="mt-8 flex flex-wrap justify-center gap-4">

@@ -22,7 +22,10 @@ const onFile = async (e: Event) => {
   uploading.value = true
   error.value = null
   try {
-    const url = await uploadImage(props.storagePath, file)
+    // Chemin unique par fichier pour éviter d'écraser les uploads précédents
+    const safeName = file.name.replace(/[^a-zA-Z0-9._-]/g, '_')
+    const uniquePath = `${props.storagePath}/${Date.now()}-${safeName}`
+    const url = await uploadImage(uniquePath, file)
     preview.value = url
     emit('uploaded', url)
   } catch (err: unknown) {
@@ -35,12 +38,12 @@ const onFile = async (e: Event) => {
 
 <template>
   <div>
-    <span class="mb-1 block text-sm font-medium text-gray-300">{{ label }}</span>
+    <span class="mb-1 block text-sm font-medium text-gray-700">{{ label }}</span>
     <div
       v-if="preview"
       class="mb-3 h-24 w-24 overflow-hidden rounded-lg border border-gray-200 bg-gray-100"
     >
-      <img :src="preview" alt="" class="h-full w-full object-cover">
+      <img :src="preview" alt="Aperçu" width="96" height="96" loading="lazy" decoding="async" class="h-full w-full object-cover">
     </div>
     <input
       type="file"

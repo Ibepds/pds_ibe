@@ -1,5 +1,6 @@
 <script setup lang="ts">
 const year = new Date().getFullYear()
+const { reset } = useCookieConsent()
 </script>
 
 <template>
@@ -36,6 +37,11 @@ const year = new Date().getFullYear()
           <p class="mt-4 text-xs text-gray-500">
             © {{ year }} PDS Humanity. Tous droits réservés.
           </p>
+          <ul class="mt-2 flex flex-wrap gap-x-4 gap-y-1 text-xs text-gray-500">
+            <li><NuxtLink to="/mentions-legales" class="hover:text-primary-light">Mentions légales</NuxtLink></li>
+            <li><NuxtLink to="/confidentialite" class="hover:text-primary-light">Confidentialité</NuxtLink></li>
+            <li><button type="button" class="hover:text-primary-light" @click="reset">Gérer les cookies</button></li>
+          </ul>
         </div>
       </div>
     </div>

@@ -8,6 +8,12 @@ const { data: participants, loading, error } = useFirestoreCollection(
   MOCK_PARTICIPANTS,
 )
 
+usePageSeo({
+  title: 'Participants — PDS Humanity',
+  description:
+    'Les artistes, streamers et invités qui font vibrer PDS Humanity pendant le marathon caritatif de 24h.',
+})
+
 const filtered = computed(() => {
   if (activeFilter.value === 'all') return participants.value
   return participants.value.filter((p) => p.role === activeFilter.value)

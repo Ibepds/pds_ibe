@@ -2,12 +2,18 @@
 definePageMeta({ layout: 'admin', middleware: 'admin' })
 
 import type { FreestyleBooking, FreestyleStatus } from '~/types'
-import { MOCK_FREESTYLE_BOOKINGS, FREESTYLE_SLOTS } from '~/utils/mockData'
+import { MOCK_FREESTYLE_BOOKINGS, MOCK_FREESTYLE_SLOTS } from '~/utils/mockData'
 
 const { data: bookings, loading, refresh } = useFirestoreCollection(
   'freestyles',
   MOCK_FREESTYLE_BOOKINGS,
   { orderField: 'createdAt', orderDirection: 'asc' },
+)
+
+const { data: slots } = useFirestoreCollection(
+  'freestyleSlots',
+  MOCK_FREESTYLE_SLOTS,
+  { orderField: 'order', orderDirection: 'asc' },
 )
 
 const { update } = useAdminFirestore()
@@ -48,7 +54,7 @@ const stats = computed(() => ({
   pending: bookings.value.filter((b) => b.status === 'pending').length,
   validated: bookings.value.filter((b) => b.status === 'validated').length,
   rejected: bookings.value.filter((b) => b.status === 'rejected').length,
-  available: FREESTYLE_SLOTS.length - bookings.value.filter((b) => b.status !== 'rejected').length,
+  available: slots.value.length - bookings.value.filter((b) => b.status !== 'rejected').length,
 }))
 
 const exportCsv = () => {

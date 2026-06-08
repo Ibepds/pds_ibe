@@ -1,6 +1,7 @@
 <script setup lang="ts">
 const route = useRoute()
 const mobileOpen = ref(false)
+const { event } = useEvent()
 
 const links = [
   { to: '/', label: 'Accueil' },
@@ -23,15 +24,27 @@ const isActive = (path: string) =>
   >
     <div class="mx-auto flex max-w-7xl items-center justify-between px-4 py-4 lg:px-8">
       <NuxtLink to="/" class="flex items-center gap-3">
-        <div
-          class="flex h-10 w-10 items-center justify-center rounded-xl bg-gradient-to-br from-primary to-accent-cyan font-display text-sm font-bold"
-        >
-          PDS
-        </div>
-        <div>
-          <span class="font-display text-lg font-bold">PDS Humanity</span>
-          <p class="text-xs text-gray-400">Événement caritatif</p>
-        </div>
+        <img
+          v-if="event?.logoUrl"
+          :src="event.logoUrl"
+          :alt="event?.name ?? 'PDS Humanity'"
+          height="40"
+          width="160"
+          decoding="async"
+          fetchpriority="high"
+          class="h-10 w-auto max-w-[160px] object-contain"
+        />
+        <template v-else>
+          <div
+            class="flex h-10 w-10 items-center justify-center rounded-xl bg-gradient-to-br from-primary to-accent-cyan font-display text-sm font-bold"
+          >
+            PDS
+          </div>
+          <div>
+            <span class="font-display text-lg font-bold">{{ event?.name ?? 'PDS Humanity' }}</span>
+            <p class="text-xs text-gray-400">Événement caritatif</p>
+          </div>
+        </template>
       </NuxtLink>
 
       <nav class="hidden items-center gap-5 xl:flex">

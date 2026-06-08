@@ -1,5 +1,9 @@
 <script setup lang="ts">
-useHead({ title: 'Contact — PDS Humanity' })
+usePageSeo({
+  title: 'Contact — PDS Humanity',
+  description:
+    "Contactez l'équipe de PDS Humanity : presse, partenariats ou informations générales sur l'événement caritatif.",
+})
 
 const form = reactive({
   name: '',
@@ -121,6 +125,10 @@ const send = async () => {
                 class="w-full rounded-lg border border-white/10 bg-white/5 px-4 py-2.5 text-white placeholder-gray-500 focus:border-primary/50 focus:outline-none focus:ring-1 focus:ring-primary/50"
               />
             </div>
+            <p class="text-xs text-gray-500">
+              Vos données sont traitées uniquement pour répondre à votre demande, conformément à notre
+              <NuxtLink to="/confidentialite" class="text-primary-light hover:underline">politique de confidentialité</NuxtLink>.
+            </p>
             <p v-if="error" class="text-sm text-accent-rose">{{ error }}</p>
             <PrimaryButton type="submit" :disabled="sending" class="w-full">
               {{ sending ? 'Envoi en cours…' : 'Envoyer le message' }}

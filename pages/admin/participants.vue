@@ -36,7 +36,7 @@ const openCreate = () => {
 }
 
 const openEdit = (row: Record<string, unknown>) => {
-  Object.assign(form, row as Participant)
+  Object.assign(form, row as unknown as Participant)
   editing.value = form
   showForm.value = true
 }

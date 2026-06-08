@@ -48,6 +48,12 @@ const save = async () => {
 
     <form class="max-w-2xl space-y-4 rounded-xl border border-gray-200 bg-white p-6" @submit.prevent="save">
       <AdminFormInput v-model="form.name" label="Nom de l'événement" />
+      <AdminImageUpload
+        label="Logo du site (header)"
+        storage-path="event/logo"
+        :current-url="form.logoUrl"
+        @uploaded="(url) => (form.logoUrl = url)"
+      />
       <AdminFormInput v-model="form.tagline" label="Tagline" />
       <AdminFormInput v-model="form.organizerName" label="Organisateur" />
       <AdminFormInput v-model="form.heroTitle" label="Titre hero" />
@@ -57,8 +63,11 @@ const save = async () => {
       <AdminFormInput v-model="form.donationGoal" label="Objectif (€)" type="number" />
       <AdminFormInput v-model="form.currentAmount" label="Montant actuel (€)" type="number" />
       <AdminFormInput v-model="form.donorsCount" label="Nombre de donateurs" type="number" />
-      <AdminFormInput v-model="form.donationUrl" label="URL don" />
-      <AdminFormInput v-model="form.liveUrl" label="URL live" />
+      <AdminFormInput v-model="form.donationUrl" label="URL cagnotte / don" />
+      <AdminFormInput v-model="form.liveUrl" label="URL live Twitch" />
+      <AdminFormInput v-model="form.youtubeUrl" label="URL YouTube" />
+      <AdminFormInput v-model="form.tiktokUrl" label="URL TikTok" />
+      <AdminFormInput v-model="form.ebayLiveUrl" label="URL eBay Live (enchères)" />
       <label class="flex items-center gap-2">
         <input v-model="form.isLive" type="checkbox" class="rounded">
         <span class="text-sm text-gray-700">Live actif</span>

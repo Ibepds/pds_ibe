@@ -3,6 +3,12 @@ import { MOCK_EVENT } from '~/utils/mockData'
 import { formatCurrency } from '~/utils/format'
 
 const { event, loading } = useEvent()
+
+usePageSeo({
+  title: 'Faire un don — PDS Humanity',
+  description:
+    'Soutenez PDS Humanity : faites un don en ligne. 100% des fonds récoltés sont reversés aux associations partenaires de l\'événement.',
+})
 </script>
 
 <template>

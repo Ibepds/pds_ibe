@@ -6,6 +6,12 @@ const { data: schedule, loading, error } = useFirestoreCollection(
   MOCK_SCHEDULE,
   { orderField: 'order', orderDirection: 'asc' },
 )
+
+usePageSeo({
+  title: 'Programme — PDS Humanity',
+  description:
+    'Le déroulé du marathon de 24h de PDS Humanity (27 juin 18h → 28 juin 18h) : performances, freestyles, enchères et temps forts.',
+})
 </script>
 
 <template>

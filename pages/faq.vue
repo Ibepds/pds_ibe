@@ -5,6 +5,12 @@ const { data: faq, loading, error } = useFirestoreCollection('faq', MOCK_FAQ, {
   orderField: 'order',
   orderDirection: 'asc',
 })
+
+usePageSeo({
+  title: 'FAQ — PDS Humanity',
+  description:
+    'Toutes les réponses sur PDS Humanity : dons, freestyles, enchères, plateformes de diffusion et participation à l\'événement caritatif.',
+})
 </script>
 
 <template>

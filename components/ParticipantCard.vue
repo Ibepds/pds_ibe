@@ -14,7 +14,11 @@ defineProps<{ participant: Participant }>()
       <img
         v-if="participant.avatarUrl"
         :src="participant.avatarUrl"
-        :alt="participant.pseudo"
+        :alt="`Photo de ${participant.pseudo}`"
+        width="320"
+        height="160"
+        loading="lazy"
+        decoding="async"
         class="h-full w-full object-cover"
       >
       <span

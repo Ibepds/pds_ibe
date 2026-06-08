@@ -6,6 +6,7 @@ export interface EventDoc {
   name: string
   tagline: string
   organizerName: string
+  logoUrl?: string
   startDate: string
   endDate: string
   donationGoal: number
@@ -79,6 +80,50 @@ export interface AssociationDoc {
   websiteUrl: string
   mission: string
   keyNumbers: KeyNumber[]
+  createdAt?: string
+  updatedAt?: string
+}
+
+export interface PresentationConceptCard {
+  icon: string
+  title: string
+  text: string
+}
+
+export interface PresentationPlatform {
+  icon: string
+  name: string
+}
+
+export interface PresentationDoc {
+  id?: string
+  eventText: string
+  porteurText: string
+  conceptCards: PresentationConceptCard[]
+  platforms: PresentationPlatform[]
+  createdAt?: string
+  updatedAt?: string
+}
+
+export interface LegalDoc {
+  id?: string
+  editorLegalForm: string
+  editorAddress: string
+  editorSiret: string
+  publicationDirector: string
+  contactEmail: string
+  hostName: string
+  hostAddress: string
+  retentionMonths: string
+  privacyUpdatedAt: string
+  createdAt?: string
+  updatedAt?: string
+}
+
+export interface FreestyleSlot {
+  id: string
+  label: string
+  order: number
   createdAt?: string
   updatedAt?: string
 }

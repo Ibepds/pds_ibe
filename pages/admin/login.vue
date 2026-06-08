@@ -1,22 +1,21 @@
 <script setup lang="ts">
 definePageMeta({ layout: false })
 
+useHead({
+  title: 'Connexion admin — PDS Humanity',
+  meta: [{ name: 'robots', content: 'noindex, nofollow' }],
+})
+
 const email = ref('')
 const password = ref('')
-const { login, error, loading, isAdmin, user } = useAuth()
+const { login, error } = useAuth()
 const submitting = ref(false)
-
-watch([user, isAdmin, loading], () => {
-  if (!loading.value && user.value && isAdmin.value) {
-    navigateTo('/admin')
-  }
-})
 
 const onSubmit = async () => {
   submitting.value = true
   const ok = await login(email.value, password.value)
   submitting.value = false
-  if (ok) navigateTo('/admin')
+  if (ok) await navigateTo('/admin')
 }
 </script>
 

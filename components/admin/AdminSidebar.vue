@@ -4,11 +4,16 @@ const route = useRoute()
 const links = [
   { to: '/admin', label: 'Tableau de bord', icon: '📊' },
   { to: '/admin/event', label: 'Événement', icon: '🎯' },
+  { to: '/admin/presentation', label: 'Présentation', icon: '📝' },
   { to: '/admin/freestyles', label: 'Freestyles', icon: '🎤' },
+  { to: '/admin/creneaux', label: 'Créneaux', icon: '⏱️' },
   { to: '/admin/participants', label: 'Participants', icon: '👥' },
   { to: '/admin/planning', label: 'Planning', icon: '📅' },
   { to: '/admin/association', label: 'Associations', icon: '🏛️' },
   { to: '/admin/faq', label: 'FAQ', icon: '❓' },
+  { to: '/admin/legal', label: 'Mentions légales', icon: '⚖️' },
+  // Outil temporaire — supprimer cette ligne + pages/admin/seed.vue après init
+  { to: '/admin/seed', label: 'Charger démo', icon: '📦' },
 ]
 </script>
 

@@ -6,22 +6,25 @@ service firebase.storage {
         firestore.exists(/databases/(default)/documents/admins/$(request.auth.uid));
     }
 
-    match /participants/{participantId}/avatar {
+    // Lecture publique, écriture réservée aux admins, sur tous les dossiers
+    // applicatifs (participants, associations, event, content...).
+    match /participants/{allPaths=**} {
       allow read: if true;
       allow write: if isAdmin();
     }
-
-    match /association/logo {
+    match /associations/{allPaths=**} {
       allow read: if true;
       allow write: if isAdmin();
     }
-
-    match /event/hero {
+    match /association/{allPaths=**} {
       allow read: if true;
       allow write: if isAdmin();
     }
-
-    match /event/gallery/{fileName} {
+    match /event/{allPaths=**} {
+      allow read: if true;
+      allow write: if isAdmin();
+    }
+    match /content/{allPaths=**} {
       allow read: if true;
       allow write: if isAdmin();
     }

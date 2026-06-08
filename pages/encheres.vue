@@ -1,5 +1,9 @@
 <script setup lang="ts">
-useHead({ title: 'Enchères solidaires — PDS Humanity' })
+usePageSeo({
+  title: 'Enchères solidaires — PDS Humanity',
+  description:
+    'Participez aux ventes aux enchères solidaires de PDS Humanity en direct sur eBay Live. Des lots exclusifs au profit des associations partenaires.',
+})
 
 const { event, loading } = useEvent()
 </script>

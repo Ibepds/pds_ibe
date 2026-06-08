@@ -1,11 +1,13 @@
 <script setup lang="ts">
 defineProps<{
   columns: { key: string; label: string }[]
-  rows: Record<string, unknown>[]
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  rows: any[]
   loading?: boolean
 }>()
 
-defineEmits<{ edit: [row: Record<string, unknown>]; delete: [row: Record<string, unknown>] }>()
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+defineEmits<{ edit: [row: any]; delete: [row: any] }>()
 </script>
 
 <template>

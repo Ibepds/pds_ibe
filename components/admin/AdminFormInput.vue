@@ -1,7 +1,7 @@
 <script setup lang="ts">
 defineProps<{
   label: string
-  modelValue: string | number
+  modelValue: string | number | undefined
   type?: string
   placeholder?: string
   required?: boolean

@@ -1,7 +1,11 @@
 <script setup lang="ts">
 import { MOCK_ASSOCIATIONS } from '~/utils/mockData'
 
-useHead({ title: 'Associations soutenues — PDS Humanity' })
+usePageSeo({
+  title: 'Associations soutenues — PDS Humanity',
+  description:
+    "Les associations partenaires de PDS Humanity. 100% des fonds récoltés lors de l'événement leur sont reversés.",
+})
 
 const { data: associations, loading, error } = useFirestoreCollection(
   'associations',
@@ -36,7 +40,15 @@ const { data: associations, loading, error } = useFirestoreCollection(
                   v-if="asso.logoUrl"
                   class="h-16 w-16 flex-shrink-0 overflow-hidden rounded-xl"
                 >
-                  <img :src="asso.logoUrl" :alt="asso.name" class="h-full w-full object-cover" />
+                  <img
+                    :src="asso.logoUrl"
+                    :alt="`Logo ${asso.name}`"
+                    width="64"
+                    height="64"
+                    loading="lazy"
+                    decoding="async"
+                    class="h-full w-full object-cover"
+                  />
                 </div>
                 <div
                   v-else

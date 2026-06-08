@@ -1,5 +1,4 @@
 import {
-  onAuthStateChanged,
   signInWithEmailAndPassword,
   signOut,
   type User,
@@ -13,49 +12,42 @@ export function useAuth() {
   const loading = useState<boolean>('auth-loading', () => true)
   const error = useState<string | null>('auth-error', () => null)
 
-  const initAuth = () => {
-    if (!ready || !auth) {
-      loading.value = false
-      return () => {}
-    }
-
-    return onAuthStateChanged(auth, async (firebaseUser) => {
-      user.value = firebaseUser
-      if (firebaseUser && db) {
-        try {
-          const adminDoc = await getDoc(doc(db, 'admins', firebaseUser.uid))
-          isAdmin.value = adminDoc.exists()
-        } catch {
-          isAdmin.value = false
-        }
-      } else {
-        isAdmin.value = false
-      }
-      loading.value = false
-    })
-  }
-
-  if (import.meta.client && ready) {
-    onMounted(() => {
-      const unsub = initAuth()
-      onUnmounted(() => unsub?.())
-    })
-  } else if (!ready) {
-    loading.value = false
-  }
-
   const login = async (email: string, password: string) => {
     error.value = null
-    if (!auth) {
+    if (!auth || !db) {
       error.value = 'Firebase non configuré. Vérifiez vos variables d\'environnement.'
       return false
     }
     try {
-      await signInWithEmailAndPassword(auth, email, password)
+      const cred = await signInWithEmailAndPassword(auth, email, password)
+
+      // Vérification déterministe du statut admin avant toute navigation.
+      const adminDoc = await getDoc(doc(db, 'admins', cred.user.uid))
+      if (!adminDoc.exists()) {
+        await signOut(auth)
+        isAdmin.value = false
+        error.value =
+          "Ce compte n'a pas les droits administrateur. Contactez un administrateur."
+        return false
+      }
+
+      isAdmin.value = true
       return true
     } catch (e: unknown) {
-      error.value =
-        e instanceof Error ? e.message : 'Erreur de connexion'
+      const code = (e as { code?: string })?.code ?? ''
+      if (
+        code === 'auth/invalid-credential' ||
+        code === 'auth/wrong-password' ||
+        code === 'auth/user-not-found'
+      ) {
+        error.value = 'Email ou mot de passe incorrect.'
+      } else if (code === 'auth/invalid-email') {
+        error.value = 'Adresse e-mail invalide.'
+      } else if (code === 'auth/too-many-requests') {
+        error.value = 'Trop de tentatives. Réessayez plus tard.'
+      } else {
+        error.value = e instanceof Error ? e.message : 'Erreur de connexion'
+      }
       return false
     }
   }

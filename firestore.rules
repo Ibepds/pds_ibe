@@ -14,6 +14,10 @@ service cloud.firestore {
     match /faq/{docId} { allow read: if true; allow write: if isAdmin(); }
     match /association/{docId} { allow read: if true; allow write: if isAdmin(); }
     match /associations/{docId} { allow read: if true; allow write: if isAdmin(); }
+    match /content/{docId} { allow read: if true; allow write: if isAdmin(); }
+
+    // Créneaux de freestyles : lecture publique, gestion réservée aux admins.
+    match /freestyleSlots/{docId} { allow read: if true; allow write: if isAdmin(); }
 
     // Réservations de freestyles : soumission publique (statut "pending" forcé),
     // gestion réservée aux admins.
