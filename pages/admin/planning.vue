@@ -2,14 +2,41 @@
 definePageMeta({ layout: 'admin', middleware: 'admin' })
 
 import type { ScheduleItem } from '~/types'
-import { MOCK_SCHEDULE } from '~/utils/mockData'
+import { MOCK_SCHEDULE, MOCK_PROGRAMME } from '~/utils/mockData'
 
 const { data: schedule, loading, refresh } = useFirestoreCollection(
   'schedule',
   MOCK_SCHEDULE,
   { orderField: 'order', orderDirection: 'asc' },
 )
-const { create, update, remove } = useAdminFirestore()
+const { single: programme, refresh: refreshProgramme } = useFirestoreCollection(
+  'content',
+  [{ id: 'programme', ...MOCK_PROGRAMME }],
+  { docId: 'programme' },
+)
+const { create, update, set, remove } = useAdminFirestore()
+
+// Sous-titre de la page publique Programme
+const subtitle = ref(MOCK_PROGRAMME.subtitle)
+const savingSubtitle = ref(false)
+
+watch(programme, (p) => {
+  if (p) subtitle.value = p.subtitle ?? ''
+}, { immediate: true })
+
+const saveSubtitle = async () => {
+  savingSubtitle.value = true
+  feedback.value = ''
+  try {
+    await set('content', 'programme', { subtitle: subtitle.value })
+    feedback.value = 'Sous-titre enregistré.'
+    await refreshProgramme()
+  } catch (e: unknown) {
+    feedback.value = e instanceof Error ? e.message : 'Erreur'
+  } finally {
+    savingSubtitle.value = false
+  }
+}
 
 const showForm = ref(false)
 const deleteTarget = ref<ScheduleItem | null>(null)
@@ -77,6 +104,26 @@ const confirmDelete = async () => {
     </div>
     <p v-if="feedback" class="mb-4 text-sm text-green-700">{{ feedback }}</p>
 
+    <!-- Sous-titre de la page publique Programme -->
+    <form class="mb-6 rounded-xl border border-gray-200 bg-white p-4" @submit.prevent="saveSubtitle">
+      <label class="mb-1 block text-sm font-medium text-gray-700">Sous-titre de la page Programme</label>
+      <div class="flex flex-wrap gap-3">
+        <input
+          v-model="subtitle"
+          type="text"
+          placeholder="Texte affiché sous le titre « Programme »"
+          class="min-w-[260px] flex-1 rounded-lg border border-gray-300 px-3 py-2 text-sm text-gray-900 placeholder-gray-400 focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary"
+        />
+        <button
+          type="submit"
+          :disabled="savingSubtitle"
+          class="rounded-lg bg-primary px-4 py-2 text-sm font-medium text-white hover:bg-primary-dark disabled:opacity-50"
+        >
+          {{ savingSubtitle ? 'Enregistrement…' : 'Enregistrer le sous-titre' }}
+        </button>
+      </div>
+    </form>
+
     <AdminTable
       :columns="[
         { key: 'day', label: 'Jour' },
@@ -102,10 +149,11 @@ const confirmDelete = async () => {
           <label class="block text-sm text-gray-700">
             Type
             <select v-model="form.type" class="input-field mt-1">
-              <option value="stream">Stream</option>
               <option value="show">Show</option>
-              <option value="pause">Pause</option>
-              <option value="special">Spécial</option>
+              <option value="freestyle">Freestyle</option>
+              <option value="talk">Talk</option>
+              <option value="enchere">Enchere</option>
+              <option value="concept">Concept</option>
             </select>
           </label>
           <AdminFormInput v-model="form.order" label="Ordre" type="number" />

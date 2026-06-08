@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import { MOCK_ENCHERES } from '~/utils/mockData'
+
 usePageSeo({
   title: 'Enchères solidaires — PDS Humanity',
   description:
@@ -6,6 +8,12 @@ usePageSeo({
 })
 
 const { event, loading } = useEvent()
+
+const { single: encheres } = useFirestoreCollection(
+  'content',
+  [{ id: 'encheres', ...MOCK_ENCHERES }],
+  { docId: 'encheres' },
+)
 </script>
 
 <template>
@@ -17,15 +25,7 @@ const { event, loading } = useEvent()
       <div class="mt-10 space-y-8">
         <div class="card-glow p-8">
           <h2 class="font-display text-2xl font-bold text-white">Comment ça fonctionne ?</h2>
-          <p class="mt-4 text-gray-300 leading-relaxed">
-            Pendant le marathon PDS Humanity, des <strong class="text-white">ventes aux enchères solidaires</strong>
-            sont organisées en direct sur <strong class="text-primary-light">eBay Live</strong>.
-            Les lots — exclusifs et uniques — sont mis aux enchères en temps réel devant les spectateurs.
-          </p>
-          <p class="mt-4 text-gray-300 leading-relaxed">
-            <strong class="text-white">100% des fonds</strong> issus des enchères sont reversés aux
-            associations partenaires de l'événement. Chaque enchère est un acte de solidarité.
-          </p>
+          <p class="mt-4 whitespace-pre-line text-gray-300 leading-relaxed">{{ encheres?.intro }}</p>
         </div>
 
         <div class="grid gap-4 md:grid-cols-3">
@@ -54,7 +54,17 @@ const { event, loading } = useEvent()
 
         <div class="card-glow p-8">
           <h2 class="font-display text-xl font-bold text-white">Aperçu des lots</h2>
-          <div class="mt-4 rounded-xl bg-white/5 p-6 text-center">
+          <div v-if="encheres?.lots?.length" class="mt-4 grid gap-4 sm:grid-cols-2">
+            <div
+              v-for="(lot, i) in encheres.lots"
+              :key="i"
+              class="rounded-xl bg-white/5 p-5"
+            >
+              <h3 class="font-semibold text-white">{{ lot.title }}</h3>
+              <p class="mt-2 text-sm text-gray-400">{{ lot.description }}</p>
+            </div>
+          </div>
+          <div v-else class="mt-4 rounded-xl bg-white/5 p-6 text-center">
             <p class="text-gray-400">
               Les lots seront dévoilés prochainement. Suivez-nous sur les réseaux sociaux pour ne rien manquer !
             </p>
@@ -64,9 +74,7 @@ const { event, loading } = useEvent()
         <div class="card-glow p-8">
           <h2 class="font-display text-xl font-bold text-white">Planning des enchères</h2>
           <div class="mt-4 rounded-xl bg-white/5 p-6 text-center">
-            <p class="text-gray-400">
-              Le planning des sessions d'enchères sera communiqué avant l'événement.
-            </p>
+            <p class="whitespace-pre-line text-gray-400">{{ encheres?.planningText }}</p>
           </div>
         </div>
 

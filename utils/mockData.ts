@@ -1,6 +1,8 @@
 import type {
   AssociationDoc,
+  ContactMessage,
   Donation,
+  EncheresDoc,
   EventDoc,
   FaqItem,
   FreestyleBooking,
@@ -8,6 +10,7 @@ import type {
   LegalDoc,
   Participant,
   PresentationDoc,
+  ProgrammeDoc,
   ScheduleItem,
 } from '~/types'
 
@@ -228,6 +231,20 @@ export const MOCK_LEGAL: LegalDoc = {
   retentionMonths: '12',
   privacyUpdatedAt: 'juin 2026',
 }
+
+export const MOCK_PROGRAMME: ProgrammeDoc = {
+  subtitle: 'Le déroulé complet du marathon de 24h — 27 juin 18h → 28 juin 18h.',
+}
+
+export const MOCK_ENCHERES: EncheresDoc = {
+  intro:
+    "Pendant le marathon PDS Humanity, des ventes aux enchères solidaires sont organisées en direct sur eBay Live. Les lots — exclusifs et uniques — sont mis aux enchères en temps réel devant les spectateurs.\n\n100% des fonds issus des enchères sont reversés aux associations partenaires de l'événement. Chaque enchère est un acte de solidarité.",
+  lots: [],
+  planningText:
+    "Le planning des sessions d'enchères sera communiqué avant l'événement.",
+}
+
+export const MOCK_CONTACTS: ContactMessage[] = []
 
 export const MOCK_FREESTYLE_BOOKINGS: FreestyleBooking[] = []
 

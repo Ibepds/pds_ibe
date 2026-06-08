@@ -11,7 +11,7 @@ defineEmits<{ 'update:modelValue': [value: string] }>()
 
 <template>
   <label class="block">
-    <span class="mb-1 block text-sm font-medium text-gray-300">{{ label }}</span>
+    <span class="mb-1 block text-sm font-medium text-gray-700">{{ label }}</span>
     <textarea
       :value="modelValue"
       :rows="rows ?? 4"

@@ -10,6 +10,8 @@ definePageMeta({ layout: 'admin', middleware: 'admin' })
 import {
   MOCK_EVENT,
   MOCK_PRESENTATION,
+  MOCK_PROGRAMME,
+  MOCK_ENCHERES,
   MOCK_LEGAL,
   MOCK_ASSOCIATIONS,
   MOCK_PARTICIPANTS,
@@ -64,6 +66,12 @@ const runSeed = async () => {
 
     await set('content', 'legal', { ...MOCK_LEGAL })
     log('✓ content/legal')
+
+    await set('content', 'encheres', { ...MOCK_ENCHERES })
+    log('✓ content/encheres')
+
+    await set('content', 'programme', { ...MOCK_PROGRAMME })
+    log('✓ content/programme')
 
     await seedCollection('associations', MOCK_ASSOCIATIONS)
     await seedCollection('participants', MOCK_PARTICIPANTS)

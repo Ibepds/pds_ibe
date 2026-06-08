@@ -12,7 +12,7 @@ defineEmits<{ 'update:modelValue': [value: string | number] }>()
 
 <template>
   <label class="block">
-    <span class="mb-1 block text-sm font-medium text-gray-300">{{ label }}</span>
+    <span class="mb-1 block text-sm font-medium text-gray-700">{{ label }}</span>
     <input
       :type="type ?? 'text'"
       :value="modelValue"

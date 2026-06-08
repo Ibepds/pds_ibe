@@ -2,4 +2,4 @@ User-agent: *
 Allow: /
 Disallow: /admin
 
-Sitemap: https://pdshumanity.fr/sitemap.xml
+Sitemap: https://pdshumanity.com/sitemap.xml

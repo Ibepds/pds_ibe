@@ -23,7 +23,16 @@ const sending = ref(false)
 const sent = ref(false)
 const error = ref('')
 
+// Destinataire des notifications de contact (extension Firebase Trigger Email)
+const TEAM_EMAIL = 'alizee.grosjean@pdsrecords.com'
+
 const { create } = useAdminFirestore()
+
+const escapeHtml = (s: string) =>
+  s.replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
 
 const send = async () => {
   if (!form.name || !form.email || !form.message) {
@@ -32,13 +41,44 @@ const send = async () => {
   }
   sending.value = true
   error.value = ''
+  const subject = form.subject || 'Information générale'
   try {
+    // 1) Enregistrement du message (consultable dans l'admin)
     await create('contacts', {
       name: form.name,
       email: form.email,
-      subject: form.subject || 'Information générale',
+      subject,
       message: form.message,
     })
+
+    // 2) Notification e-mail via l'extension "Trigger Email from Firestore".
+    //    L'extension surveille la collection `mail` et envoie l'e-mail.
+    //    Une erreur ici (ex. extension non encore installée) ne doit pas
+    //    bloquer l'utilisateur : le message est déjà sauvegardé.
+    try {
+      await create('mail', {
+        to: TEAM_EMAIL,
+        replyTo: form.email,
+        message: {
+          subject: `[Contact PDS Humanity] ${subject}`,
+          text:
+            `Nom : ${form.name}\n` +
+            `E-mail : ${form.email}\n` +
+            `Objet : ${subject}\n\n` +
+            `${form.message}`,
+          html:
+            `<h2>Nouveau message — PDS Humanity</h2>` +
+            `<p><strong>Nom :</strong> ${escapeHtml(form.name)}</p>` +
+            `<p><strong>E-mail :</strong> ${escapeHtml(form.email)}</p>` +
+            `<p><strong>Objet :</strong> ${escapeHtml(subject)}</p>` +
+            `<p><strong>Message :</strong></p>` +
+            `<p style="white-space:pre-line">${escapeHtml(form.message)}</p>`,
+        },
+      })
+    } catch {
+      /* notification e-mail optionnelle — ignorée si indisponible */
+    }
+
     sent.value = true
     Object.assign(form, { name: '', email: '', subject: '', message: '' })
   } catch (e: unknown) {

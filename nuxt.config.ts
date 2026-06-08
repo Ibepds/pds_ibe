@@ -6,7 +6,7 @@ export default defineNuxtConfig({
   css: ['~/assets/css/main.css'],
   runtimeConfig: {
     public: {
-      siteUrl: 'https://pdshumanity.fr',
+      siteUrl: 'https://pdshumanity.com',
       firebaseApiKey: '',
       firebaseAuthDomain: '',
       firebaseProjectId: '',

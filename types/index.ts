@@ -105,6 +105,36 @@ export interface PresentationDoc {
   updatedAt?: string
 }
 
+export interface ProgrammeDoc {
+  id?: string
+  subtitle: string
+  createdAt?: string
+  updatedAt?: string
+}
+
+export interface EncheresLot {
+  title: string
+  description: string
+}
+
+export interface EncheresDoc {
+  id?: string
+  intro: string
+  lots: EncheresLot[]
+  planningText: string
+  createdAt?: string
+  updatedAt?: string
+}
+
+export interface ContactMessage {
+  id: string
+  name: string
+  email: string
+  subject: string
+  message: string
+  createdAt: string
+}
+
 export interface LegalDoc {
   id?: string
   editorLegalForm: string

@@ -32,6 +32,16 @@ service cloud.firestore {
       allow read, update, delete: if isAdmin();
     }
 
+    // File d'envoi d'e-mails de l'extension "Trigger Email from Firestore".
+    // Création publique autorisée UNIQUEMENT vers l'adresse de l'équipe
+    // (empêche d'utiliser le formulaire pour spammer des tiers).
+    // L'extension écrit le statut de livraison via l'Admin SDK (hors règles).
+    match /mail/{docId} {
+      allow create: if request.resource.data.to == 'alizee.grosjean@pdsrecords.com'
+        && request.resource.data.message is map;
+      allow read, update, delete: if isAdmin();
+    }
+
     // Collection des administrateurs : créée manuellement depuis la console
     // Firebase. Aucune écriture possible côté client.
     match /admins/{uid} {
