@@ -54,8 +54,9 @@ const stats = computed(() => ({
   success: mails.value.filter((m) => m.delivery?.state === 'SUCCESS').length,
   error: mails.value.filter((m) => m.delivery?.state === 'ERROR').length,
   pending: mails.value.filter(
-    (m) => !m.delivery || ['PENDING', 'PROCESSING', 'RETRY'].includes(m.delivery.state ?? ''),
+    (m) => m.delivery && ['PENDING', 'PROCESSING', 'RETRY'].includes(m.delivery.state ?? ''),
   ).length,
+  untreated: mails.value.filter((m) => !m.delivery).length,
 }))
 </script>
 
@@ -67,10 +68,21 @@ const stats = computed(() => ({
         Rafraîchir
       </button>
     </div>
-    <p class="mb-6 max-w-2xl text-sm text-gray-500">
+    <p class="mb-4 max-w-2xl text-sm text-gray-500">
       État d'envoi des e-mails traités par l'extension « Trigger Email from Firestore »
       (collection <code>mail</code>). Si la liste est vide, aucun e-mail n'a encore été déclenché.
     </p>
+
+    <div
+      v-if="stats.untreated > 0"
+      class="mb-6 max-w-2xl rounded-lg border border-orange-200 bg-orange-50 p-3 text-sm text-orange-800"
+    >
+      <strong>{{ stats.untreated }} e-mail(s) « NON TRAITÉ »</strong> (sans champ
+      <code>delivery</code>) : l'extension ne les a pas pris en charge. Causes probables :
+      l'extension n'est pas encore active, surveille une autre collection que <code>mail</code>,
+      ou ces documents ont été créés <em>avant</em> son installation. Envoyez un nouveau test
+      une fois l'extension active.
+    </div>
 
     <!-- Stats -->
     <div class="mb-6 grid grid-cols-2 gap-3 sm:grid-cols-4">
@@ -107,9 +119,9 @@ const stats = computed(() => ({
             <div class="flex flex-wrap items-center gap-2">
               <span
                 class="rounded-full px-2 py-0.5 text-xs font-medium"
-                :class="stateClass(m.delivery?.state)"
+                :class="m.delivery ? stateClass(m.delivery.state) : 'bg-orange-100 text-orange-800'"
               >
-                {{ m.delivery?.state ?? 'EN ATTENTE' }}
+                {{ m.delivery?.state ?? 'NON TRAITÉ' }}
               </span>
               <span class="font-medium text-gray-900">{{ m.message?.subject ?? '(sans objet)' }}</span>
             </div>

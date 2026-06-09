@@ -5,30 +5,44 @@ consultable dans l'admin) **et** dépose un document dans la collection `mail`.
 L'extension Firebase **Trigger Email from Firestore** détecte ce document et
 envoie un e-mail à **alizee.grosjean@pdsrecords.com**.
 
-## 1. Prérequis : un compte SMTP
+## 1. Prérequis : un compte SMTP (SendGrid recommandé)
 
-Il faut un fournisseur capable d'envoyer des e-mails en SMTP, par exemple :
+### Configurer SendGrid
 
-- **Google Workspace / Gmail** (`smtp.gmail.com:465`) — créer un *mot de passe
-  d'application* si la double authentification est active.
-- **OVH** (`ssl0.ovh.net:465`)
-- **SendGrid / Mailgun / Brevo** (SMTP dédié, recommandé pour la délivrabilité)
+1. Créez un compte sur https://sendgrid.com (gratuit : 100 e-mails/jour).
+2. **Authentifiez l'expéditeur** (obligatoire) — Settings → *Sender Authentication* :
+   - **Single Sender** (rapide) : vérifiez une adresse (ex. `noreply@pdsrecords.com`)
+     via le lien reçu par e-mail.
+   - **Domain Authentication** (recommandé) : ajoutez les CNAME fournis au DNS de
+     `pdsrecords.com` ; toute adresse `@pdsrecords.com` devient alors expéditrice.
+3. **Créez une clé API** — Settings → *API Keys* → *Create API Key* → permission
+   **Mail Send**. Copiez la clé `SG.xxxxx` (affichée une seule fois).
 
-Notez : l'hôte SMTP, le port, l'identifiant et le mot de passe.
+Identifiants SMTP SendGrid à utiliser ensuite :
+
+| Champ | Valeur |
+|---|---|
+| Hôte | `smtp.sendgrid.net` |
+| Port | `465` |
+| Identifiant | `apikey` (mot littéral) |
+| Mot de passe | votre clé API `SG.xxxxx` |
 
 ## 2. Installer l'extension (méthode simple : console Firebase)
 
 1. Ouvrez la console Firebase → **Extensions** → **Explorer le catalogue**.
 2. Cherchez **« Trigger Email from Firestore »** (éditeur : Firebase) → **Installer**.
-3. Renseignez les paramètres :
+3. Renseignez les paramètres (valeurs SendGrid) :
    | Paramètre | Valeur |
    |---|---|
-   | Cloud Functions location | la région de votre projet (ex. `europe-west1`) |
-   | SMTP connection URI | `smtps://IDENTIFIANT@smtp.host.com:465` |
-   | SMTP password | *(votre mot de passe SMTP — saisi en secret)* |
+   | Cloud Functions location | `europe-west1` |
+   | SMTP connection URI | `smtps://apikey@smtp.sendgrid.net:465` |
+   | SMTP password | *(votre clé API SendGrid `SG.xxxxx` — saisie en secret)* |
    | Email documents collection | `mail` |
-   | Default FROM address | `PDS Humanity <noreply@pdsrecords.com>` |
+   | Default FROM address | `PDS Humanity <noreply@pdsrecords.com>` *(expéditeur vérifié)* |
    | Default REPLY-TO address | `alizee.grosjean@pdsrecords.com` |
+
+   ⚠️ Le **FROM** doit correspondre exactement à l'expéditeur vérifié dans
+   SendGrid, sinon erreur `The from address does not match a verified Sender Identity`.
 4. Validez l'installation (quelques minutes).
 
 ## 3. (Alternative) Installer via la CLI
