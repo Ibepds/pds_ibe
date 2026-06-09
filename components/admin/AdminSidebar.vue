@@ -7,6 +7,7 @@ const links = [
   { to: '/admin/presentation', label: 'Présentation', icon: '📝' },
   { to: '/admin/freestyles', label: 'Freestyles', icon: '🎤' },
   { to: '/admin/contacts', label: 'Messages', icon: '✉️' },
+  { to: '/admin/emails', label: 'Suivi e-mails', icon: '📨' },
   { to: '/admin/creneaux', label: 'Créneaux', icon: '⏱️' },
   { to: '/admin/participants', label: 'Participants', icon: '👥' },
   { to: '/admin/planning', label: 'Planning', icon: '📅' },
