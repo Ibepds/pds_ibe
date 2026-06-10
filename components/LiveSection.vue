@@ -72,40 +72,43 @@ const showEmbed = computed(() => props.isLive && !!embedUrl.value)
           />
         </div>
 
-        <!-- États de repli (live non démarré, ou embed indisponible) -->
+        <!-- Live en cours mais embed indisponible (autre plateforme) -->
         <div
-          v-else
+          v-else-if="isLive"
           class="relative aspect-video bg-gradient-to-br from-surface-elevated to-surface-card flex items-center justify-center"
         >
           <div
-            v-if="isLive"
             class="absolute left-4 top-4 flex items-center gap-2 rounded-full bg-red-600/90 px-3 py-1 text-sm font-semibold"
           >
             <span class="h-2 w-2 animate-pulse rounded-full bg-white" />
             LIVE
           </div>
           <div class="text-center p-8">
-            <div
-              class="mx-auto mb-4 flex h-20 w-20 items-center justify-center rounded-2xl bg-primary/20 text-4xl"
-            >
-              ▶
-            </div>
-            <p v-if="isLive" class="text-lg text-gray-300">
-              Le live est en cours — rejoignez-nous !
-            </p>
-            <p v-else class="text-lg text-gray-400">
-              Le live n'est pas encore démarré. Consultez le planning.
-            </p>
-            <PrimaryButton
-              v-if="isLive && liveUrl"
-              :href="liveUrl"
-              external
-              class="mt-6"
-            >
+            <div class="mx-auto mb-4 flex h-20 w-20 items-center justify-center rounded-2xl bg-primary/20 text-4xl">▶</div>
+            <p class="text-lg text-gray-300">Le live est en cours — rejoignez-nous !</p>
+            <PrimaryButton v-if="liveUrl" :href="liveUrl" external class="mt-6">
               Ouvrir le stream
             </PrimaryButton>
-            <PrimaryButton v-else to="/planning" variant="outline" class="mt-6">
-              Voir le planning
+          </div>
+        </div>
+
+        <!-- Écran d'attente « PATIENTEZ » (identité PDS Humanity) -->
+        <div
+          v-else
+          class="relative flex aspect-video items-center justify-center overflow-hidden bg-black"
+        >
+          <div class="pointer-events-none absolute inset-0 bg-pds-texture bg-cover bg-center opacity-25" />
+          <div class="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_center,_rgba(5,70,160,0.35),_transparent_60%)]" />
+          <div class="relative px-6 text-center">
+            <p class="font-display text-5xl font-bold uppercase leading-none tracking-tight text-white md:text-7xl">
+              Patientez <span class="text-primary-light">♥</span>
+            </p>
+            <p class="accent-serif -mt-1 text-3xl text-white/90 md:text-5xl">le stream va</p>
+            <p class="font-display text-5xl font-bold uppercase leading-none tracking-tight text-white md:text-7xl">
+              Commencer…
+            </p>
+            <PrimaryButton to="/planning" variant="outline" class="mt-8">
+              Voir le programme
             </PrimaryButton>
           </div>
         </div>

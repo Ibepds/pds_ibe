@@ -1,6 +1,8 @@
 <script setup lang="ts">
 import { MOCK_FREESTYLE_SLOTS, MOCK_FREESTYLE_BOOKINGS } from '~/utils/mockData'
 
+usePageBackground('dark')
+
 usePageSeo({
   title: 'Réservation freestyles — PDS Humanity',
   description:

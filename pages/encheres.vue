@@ -1,6 +1,8 @@
 <script setup lang="ts">
 import { MOCK_ENCHERES } from '~/utils/mockData'
 
+usePageBackground('blue')
+
 usePageSeo({
   title: 'Enchères solidaires — PDS Humanity',
   description:

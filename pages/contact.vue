@@ -1,4 +1,6 @@
 <script setup lang="ts">
+usePageBackground('cyan')
+
 usePageSeo({
   title: 'Contact — PDS Humanity',
   description:

@@ -1,6 +1,8 @@
 <script setup lang="ts">
 import { MOCK_ASSOCIATIONS } from '~/utils/mockData'
 
+usePageBackground('white')
+
 usePageSeo({
   title: 'Associations soutenues — PDS Humanity',
   description:

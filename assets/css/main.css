@@ -2,39 +2,95 @@
 @tailwind components;
 @tailwind utilities;
 
+/* ─── Typographies de l'identité PDS Humanity ─── */
+@font-face {
+  font-family: 'Cossette Titre';
+  src: url('/fonts/CossetteTitre-Regular.ttf') format('truetype');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Cossette Titre';
+  src: url('/fonts/CossetteTitre-Bold.ttf') format('truetype');
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'IM Fell DW Pica';
+  src: url('/fonts/IMFellDWPica-Regular.ttf') format('truetype');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'IM Fell DW Pica';
+  src: url('/fonts/IMFellDWPica-Italic.ttf') format('truetype');
+  font-weight: 400;
+  font-style: italic;
+  font-display: swap;
+}
+
 @layer base {
   html {
     scroll-behavior: smooth;
   }
 
   body {
-    @apply bg-surface text-gray-100 antialiased;
+    @apply bg-black text-white antialiased;
   }
 }
 
 @layer components {
+  /* Titres marquants : blanc plein (fort contraste sur le noir) */
   .gradient-text {
-    @apply bg-gradient-to-r from-primary-light via-accent-cyan to-accent-rose bg-clip-text text-transparent;
+    @apply text-white;
   }
 
+  /* Accent serif élégant (IM Fell DW Pica italique) */
+  .accent-serif {
+    @apply font-serif italic;
+  }
+
+  /* Panneau translucide clair (se détache du fond noir, sans néon) */
   .card-glow {
-    @apply rounded-2xl border border-white/10 bg-surface-card/80 backdrop-blur-sm shadow-glow;
+    @apply rounded-xl border border-white/10 bg-white/[0.05] backdrop-blur-md;
   }
 
   .section-title {
-    @apply font-display text-3xl font-bold tracking-tight md:text-4xl;
+    @apply font-display text-3xl font-bold uppercase tracking-tight md:text-5xl;
   }
 
+  /* CTA fort : bleu PDS Humanity (accent sur le noir) */
   .btn-primary {
-    @apply inline-flex items-center justify-center rounded-xl bg-gradient-to-r from-primary to-primary-dark px-6 py-3 font-semibold text-white shadow-glow transition-all hover:scale-[1.02] hover:shadow-glow-cyan active:scale-[0.98];
+    @apply inline-flex items-center justify-center rounded-lg bg-primary px-6 py-3 font-semibold uppercase tracking-wide text-white transition-all hover:bg-primary-dark active:scale-[0.98];
   }
 
   .btn-outline {
-    @apply inline-flex items-center justify-center rounded-xl border border-primary/50 bg-primary/10 px-6 py-3 font-semibold text-primary-light transition-all hover:border-primary hover:bg-primary/20;
+    @apply inline-flex items-center justify-center rounded-lg border border-white/60 bg-white/5 px-6 py-3 font-semibold uppercase tracking-wide text-white transition-all hover:bg-white hover:text-black;
   }
 
   /* Champs de formulaire de l'espace admin (fond clair) */
   .input-field {
     @apply w-full rounded-xl border border-gray-300 bg-white px-4 py-3 text-gray-900 placeholder-gray-400 outline-none transition focus:border-primary focus:ring-2 focus:ring-primary/20;
+  }
+}
+
+/* ─── Bandeau défilant (ticker streaming) ─── */
+@keyframes marquee {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
+}
+.animate-marquee {
+  animation: marquee 28s linear infinite;
+}
+@media (prefers-reduced-motion: reduce) {
+  .animate-marquee {
+    animation: none;
   }
 }

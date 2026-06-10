@@ -8,6 +8,8 @@ const { data: participants, loading, error } = useFirestoreCollection(
   MOCK_PARTICIPANTS,
 )
 
+usePageBackground('dark')
+
 usePageSeo({
   title: 'Participants — PDS Humanity',
   description:

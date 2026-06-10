@@ -11,29 +11,41 @@ export default {
   theme: {
     extend: {
       colors: {
+        // Fond sombre teinté bleu nuit (identité PDS Humanity)
         surface: {
-          DEFAULT: '#080A12',
-          elevated: '#0B1020',
-          card: '#12182B',
+          DEFAULT: '#040814',
+          elevated: '#081226',
+          card: '#0C1B38',
         },
+        // Bleu PDS Humanity : R5 G70 B160 = #0546A0
         primary: {
-          DEFAULT: '#7C3AED',
-          light: '#A78BFA',
-          dark: '#5B21B6',
+          DEFAULT: '#0546A0',
+          light: '#5B9BE8',
+          dark: '#033576',
         },
         accent: {
           rose: '#F472B6',
-          cyan: '#22D3EE',
+          cyan: '#6AB3FF',
           green: '#4ADE80',
         },
       },
       fontFamily: {
         sans: ['Inter', 'system-ui', 'sans-serif'],
-        display: ['Space Grotesk', 'system-ui', 'sans-serif'],
+        // Titres impactants condensés
+        display: ['"Cossette Titre"', 'Inter', 'sans-serif'],
+        // Accents serif élégants
+        serif: ['"IM Fell DW Pica"', 'Georgia', 'serif'],
+      },
+      backgroundImage: {
+        'pds-texture': "url('/images/fond-pds.jpg')",
+        'pds-street': "url('/images/fond-street.jpg')",
+        'pds-dark': "url('/images/fond-dark.jpg')",
+        'pds-white': "url('/images/fond-white.jpg')",
+        'pds-cyan': "url('/images/fond-cyan.jpg')",
       },
       boxShadow: {
-        glow: '0 0 40px rgba(124, 58, 237, 0.35)',
-        'glow-cyan': '0 0 30px rgba(34, 211, 238, 0.25)',
+        glow: '0 0 40px rgba(5, 70, 160, 0.45)',
+        'glow-cyan': '0 0 30px rgba(91, 155, 232, 0.30)',
         'glow-rose': '0 0 30px rgba(244, 114, 182, 0.25)',
       },
       animation: {

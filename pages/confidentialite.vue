@@ -1,6 +1,8 @@
 <script setup lang="ts">
 import { MOCK_LEGAL } from '~/utils/mockData'
 
+usePageBackground('dark')
+
 usePageSeo({
   title: 'Politique de confidentialité — PDS Humanity',
   description:

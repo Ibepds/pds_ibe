@@ -1,6 +1,8 @@
 <script setup lang="ts">
 import { MOCK_PRESENTATION } from '~/utils/mockData'
 
+usePageBackground('blue')
+
 usePageSeo({
   title: 'Présentation — PDS Humanity',
   description:

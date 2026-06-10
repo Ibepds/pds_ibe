@@ -1,6 +1,8 @@
 <script setup lang="ts">
 import { MOCK_LEGAL } from '~/utils/mockData'
 
+usePageBackground('blue')
+
 usePageSeo({
   title: 'Mentions légales — PDS Humanity',
   description: 'Mentions légales du site PDS Humanity (éditeur, hébergeur, propriété intellectuelle).',

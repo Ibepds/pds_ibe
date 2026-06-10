@@ -36,13 +36,13 @@ const isActive = (path: string) =>
         />
         <template v-else>
           <div
-            class="flex h-10 w-10 items-center justify-center rounded-xl bg-gradient-to-br from-primary to-accent-cyan font-display text-sm font-bold"
+            class="flex h-10 w-10 items-center justify-center rounded-xl bg-gradient-to-br from-primary to-primary-light font-display text-sm font-bold"
           >
             PDS
           </div>
           <div>
-            <span class="font-display text-lg font-bold">{{ event?.name ?? 'PDS Humanity' }}</span>
-            <p class="text-xs text-gray-400">Événement caritatif</p>
+            <span class="font-display text-lg font-bold uppercase tracking-wide">{{ event?.name ?? 'PDS Humanity' }}</span>
+            <p class="accent-serif text-xs text-gray-400">Musique &amp; Solidarité</p>
           </div>
         </template>
       </NuxtLink>

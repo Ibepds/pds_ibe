@@ -4,6 +4,8 @@ import { formatCurrency } from '~/utils/format'
 
 const { event, loading } = useEvent()
 
+usePageBackground('blue')
+
 usePageSeo({
   title: 'Faire un don — PDS Humanity',
   description:

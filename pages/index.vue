@@ -30,6 +30,8 @@ const { data: associations, loading: aLoading } = useFirestoreCollection(
   MOCK_ASSOCIATIONS,
 )
 
+usePageBackground('dark')
+
 usePageSeo({
   title: 'PDS Humanity — Musique & Solidarité',
   description:
@@ -42,11 +44,11 @@ usePageSeo({
   <div>
     <HeroSection :event="event" :loading="eventLoading" />
 
-    <section v-if="event" class="pb-8">
+    <BrandTicker :items="event?.tickerItems" />
+
+    <section v-if="event" class="py-12">
       <div class="mx-auto max-w-7xl px-4 text-center lg:px-8">
-        <p class="mb-4 text-sm uppercase tracking-wider text-gray-400">
-          L'événement commence dans
-        </p>
+        <p class="accent-serif mb-5 text-lg text-gray-300">L'événement commence dans</p>
         <EventCountdown :end-date="event.startDate" />
       </div>
     </section>
@@ -68,8 +70,8 @@ usePageSeo({
     <!-- Associations soutenues -->
     <section class="py-16 bg-surface-elevated/50">
       <div class="mx-auto max-w-7xl px-4 lg:px-8">
-        <h2 class="section-title">Associations soutenues</h2>
-        <p class="mt-2 text-gray-400">L'ensemble des fonds reversés à ces organisations</p>
+        <h2 class="section-title gradient-text">Associations soutenues</h2>
+        <p class="accent-serif mt-3 text-lg text-gray-300">L'ensemble des fonds reversés à ces organisations</p>
         <div v-if="aLoading" class="mt-8 grid gap-6 md:grid-cols-2">
           <div v-for="n in 2" :key="n" class="card-glow h-32 animate-pulse" />
         </div>
@@ -97,8 +99,8 @@ usePageSeo({
     <!-- Programme -->
     <section class="py-16">
       <div class="mx-auto max-w-7xl px-4 lg:px-8">
-        <h2 class="section-title">Programme</h2>
-        <p class="mt-2 text-gray-400">Les temps forts du marathon de 24h</p>
+        <h2 class="section-title gradient-text">Programme</h2>
+        <p class="accent-serif mt-3 text-lg text-gray-300">Les temps forts du marathon de 24h</p>
         <ScheduleTimeline :items="schedule" :loading="sLoading" :limit="4" />
         <div class="mt-6 text-center">
           <PrimaryButton to="/planning" variant="outline">Programme complet</PrimaryButton>
@@ -106,11 +108,13 @@ usePageSeo({
       </div>
     </section>
 
+    <BrandTicker :items="event?.tickerItems" variant="outline" />
+
     <!-- Freestyles CTA -->
     <section class="py-16 bg-surface-elevated/50">
       <div class="mx-auto max-w-7xl px-4 lg:px-8 text-center">
-        <h2 class="section-title">Freestyles nocturnes</h2>
-        <p class="mt-2 max-w-2xl mx-auto text-gray-400">
+        <h2 class="section-title gradient-text">Freestyles nocturnes</h2>
+        <p class="accent-serif mx-auto mt-3 max-w-2xl text-lg text-gray-300">
           56 créneaux de 8 minutes ouverts au public dans la nuit du 27 au 28 juin (03h00 → 10h29).
           Réservez le vôtre dès maintenant.
         </p>

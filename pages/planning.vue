@@ -13,6 +13,8 @@ const { single: programme } = useFirestoreCollection(
   { docId: 'programme' },
 )
 
+usePageBackground('cyan')
+
 usePageSeo({
   title: 'Programme — PDS Humanity',
   description:

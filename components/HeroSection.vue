@@ -10,14 +10,9 @@ const props = defineProps<{
 
 <template>
   <section class="relative overflow-hidden pt-28 pb-20">
+    <!-- Léger assombrissement en bas pour la lisibilité du texte -->
     <div
-      class="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_top,_rgba(124,58,237,0.25),_transparent_50%),radial-gradient(ellipse_at_bottom_right,_rgba(34,211,238,0.15),_transparent_40%)]"
-    />
-    <div
-      class="pointer-events-none absolute -right-32 top-20 h-96 w-96 rounded-full bg-accent-rose/20 blur-3xl"
-    />
-    <div
-      class="pointer-events-none absolute -left-32 bottom-0 h-80 w-80 rounded-full bg-primary/20 blur-3xl"
+      class="pointer-events-none absolute inset-x-0 bottom-0 h-1/2 bg-gradient-to-t from-black/30 to-transparent"
     />
 
     <div class="relative mx-auto max-w-7xl px-4 lg:px-8">
@@ -28,18 +23,18 @@ const props = defineProps<{
       </div>
       <div v-else class="animate-fade-in">
         <p
-          class="inline-flex items-center gap-2 rounded-full border border-primary/30 bg-primary/10 px-4 py-1 text-sm text-primary-light"
+          class="inline-flex items-center gap-2 rounded-full border border-white/20 bg-white/10 px-4 py-1 text-sm text-white backdrop-blur"
         >
           <span class="h-2 w-2 rounded-full bg-accent-green animate-pulse" />
-          Organisé par {{ event?.organizerName ?? 'Ibé PDS' }}
+          Organisé par {{ event?.organizerName ?? 'PDS Records / Ibé' }}
         </p>
-        <h1 class="mt-6 font-display text-4xl font-bold leading-tight md:text-6xl lg:text-7xl">
-          <span class="gradient-text">{{ event?.heroTitle ?? event?.name }}</span>
+        <h1 class="mt-6 font-display text-5xl font-bold uppercase leading-[0.95] tracking-tight text-white drop-shadow-[0_2px_12px_rgba(0,0,0,0.4)] md:text-7xl lg:text-8xl">
+          {{ event?.heroTitle ?? event?.name }}
         </h1>
-        <p class="mt-4 max-w-2xl text-lg text-gray-300 md:text-xl">
+        <p class="accent-serif mt-5 max-w-2xl text-xl text-white/90 md:text-2xl">
           {{ event?.heroSubtitle ?? event?.tagline }}
         </p>
-        <p v-if="event" class="mt-4 text-sm text-gray-400">
+        <p v-if="event" class="mt-4 text-sm text-white/70">
           {{ formatDate(event.startDate) }} → {{ formatDate(event.endDate) }}
         </p>
         <div class="mt-8 flex flex-wrap gap-4">

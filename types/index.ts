@@ -20,6 +20,7 @@ export interface EventDoc {
   isLive: boolean
   heroTitle: string
   heroSubtitle: string
+  tickerItems?: string[]
   createdAt?: string
   updatedAt?: string
 }

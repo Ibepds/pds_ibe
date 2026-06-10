@@ -12,13 +12,21 @@ const feedback = ref<{ type: 'success' | 'error'; msg: string } | null>(null)
 
 watch(event, (e) => {
   if (e) Object.assign(form, e)
+  if (!Array.isArray(form.tickerItems)) form.tickerItems = []
 }, { immediate: true })
+
+const addTickerItem = () => form.tickerItems!.push('')
+const removeTickerItem = (i: number) => form.tickerItems!.splice(i, 1)
 
 const save = async () => {
   saving.value = true
   feedback.value = null
   try {
-    await set('event', 'main', { ...form })
+    const payload = {
+      ...form,
+      tickerItems: (form.tickerItems ?? []).map((s) => s.trim()).filter(Boolean),
+    }
+    await set('event', 'main', payload)
     feedback.value = { type: 'success', msg: 'Événement enregistré.' }
     await refresh()
   } catch (e: unknown) {
@@ -72,6 +80,29 @@ const save = async () => {
         <input v-model="form.isLive" type="checkbox" class="rounded">
         <span class="text-sm text-gray-700">Live actif</span>
       </label>
+
+      <!-- Bandeau défilant (ticker) -->
+      <div class="rounded-lg border border-gray-200 bg-gray-50 p-4">
+        <div class="mb-2 flex items-center justify-between">
+          <div>
+            <span class="text-sm font-medium text-gray-700">Bandeau défilant (ticker)</span>
+            <p class="text-xs text-gray-400">Textes qui défilent en haut de l'accueil.</p>
+          </div>
+          <button type="button" class="text-sm text-primary" @click="addTickerItem">+ Ajouter</button>
+        </div>
+        <div v-if="form.tickerItems && form.tickerItems.length" class="space-y-2">
+          <div v-for="(item, i) in form.tickerItems" :key="i" class="flex items-center gap-2">
+            <input
+              v-model="form.tickerItems[i]"
+              type="text"
+              placeholder="ex. LIVE 24H"
+              class="flex-1 rounded-lg border border-gray-300 px-3 py-2 text-sm text-gray-900 focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary"
+            />
+            <button type="button" class="rounded p-2 text-red-600 hover:bg-red-100" @click="removeTickerItem(i)">✕</button>
+          </div>
+        </div>
+        <p v-else class="text-xs text-gray-400">Aucun texte : les valeurs par défaut seront utilisées.</p>
+      </div>
       <button
         type="submit"
         class="rounded-xl bg-primary px-6 py-2 text-white hover:bg-primary-dark disabled:opacity-50"

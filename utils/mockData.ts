@@ -33,6 +33,7 @@ export const MOCK_EVENT: EventDoc = {
   heroTitle: 'Ensemble, faisons la différence',
   heroSubtitle:
     'PDS Records et Ibé réunissent artistes et communauté pendant 24h pour soutenir des associations caritatives.',
+  tickerItems: ['LIVE 24H', 'GROS DONS !', 'ASSOCIATIONS CARITATIVES', 'STREAM BY IBÉ'],
 }
 
 export const MOCK_PARTICIPANTS: Participant[] = [

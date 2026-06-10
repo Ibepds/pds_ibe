@@ -6,6 +6,8 @@ const { data: faq, loading, error } = useFirestoreCollection('faq', MOCK_FAQ, {
   orderDirection: 'asc',
 })
 
+usePageBackground('white')
+
 usePageSeo({
   title: 'FAQ — PDS Humanity',
   description:
