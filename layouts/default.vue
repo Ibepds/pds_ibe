@@ -8,7 +8,7 @@ const pageBg = useState<BgVariant>('page-bg', () => 'dark')
 // (Classes en dur ici pour être détectées par Tailwind.)
 const BG: Record<BgVariant, { img: string; overlays: string[] }> = {
   blue: { img: 'bg-pds-texture', overlays: ['bg-black/30'] },
-  dark: { img: 'bg-pds-dark', overlays: ['bg-black/25'] },
+  dark: { img: 'bg-pds-logo', overlays: ['bg-black/40'] },
   cyan: { img: 'bg-pds-cyan', overlays: ['bg-primary/55', 'bg-black/35'] },
   white: { img: 'bg-pds-white', overlays: ['bg-primary/45', 'bg-black/50'] },
 }
@@ -31,6 +31,8 @@ const bg = computed(() => BG[pageBg.value] ?? BG.dark)
       :class="o"
       aria-hidden="true"
     />
+    <!-- Pictogrammes PERSO (blanc/bleu/rouge) en parallax, derrière les graffitis -->
+    <PersoLayer />
     <!-- Graffitis avec parallax (dérivent au scroll, fond fixe) -->
     <GraffitiLayer />
     <AppHeader />

@@ -42,6 +42,7 @@ export default {
         'pds-dark': "url('/images/fond-dark.jpg')",
         'pds-white': "url('/images/fond-white.jpg')",
         'pds-cyan': "url('/images/fond-cyan.jpg')",
+        'pds-logo': "url('/images/fond-logo.jpg')",
       },
       boxShadow: {
         glow: '0 0 40px rgba(5, 70, 160, 0.45)',
