@@ -2,75 +2,87 @@
 import type { EventDoc } from '~/types'
 import { formatDate } from '~/utils/format'
 
-defineProps<{
+const props = defineProps<{
   event: EventDoc | null
   loading?: boolean
 }>()
+
+const titleParts = computed(() => {
+  const full = props.event?.heroTitle ?? props.event?.name ?? 'PDS Humanity'
+  const words = full.trim().split(/\s+/).filter(Boolean)
+  if (words.length <= 1) {
+    return { lead: [] as string[], highlight: words[0] ?? 'PDS Humanity' }
+  }
+  return { lead: words.slice(0, -1), highlight: words[words.length - 1]! }
+})
+
+const scrollY = ref(0)
+let raf = 0
+const onScroll = () => {
+  cancelAnimationFrame(raf)
+  raf = requestAnimationFrame(() => (scrollY.value = window.scrollY))
+}
+onMounted(() => {
+  window.addEventListener('scroll', onScroll, { passive: true })
+  onScroll()
+})
+onUnmounted(() => {
+  window.removeEventListener('scroll', onScroll)
+  cancelAnimationFrame(raf)
+})
+const imgStyle = computed(() => ({
+  transform: `translate3d(0, ${scrollY.value * 0.3}px, 0) scale(1.08)`,
+}))
 </script>
 
 <template>
-  <section class="section-dark relative overflow-hidden">
-    <!-- Halos animés discrets (dynamisme) -->
-    <div class="floaty pointer-events-none absolute -right-24 top-10 h-72 w-72 rounded-full bg-primary/25 blur-3xl" />
-    <div class="floaty pointer-events-none absolute -left-20 bottom-0 h-64 w-64 rounded-full bg-accent-red/15 blur-3xl" style="animation-delay: -2s" />
+  <section class="section-dark relative flex min-h-screen items-end overflow-hidden">
+    <img
+      src="https://picsum.photos/seed/pdshumanity-hero/1920/1200"
+      alt=""
+      aria-hidden="true"
+      class="absolute inset-0 h-full w-full object-cover opacity-55 will-change-transform"
+      :style="imgStyle"
+    />
+    <div class="absolute inset-0 bg-gradient-to-t from-ink via-ink/75 to-ink/20" />
 
-    <div class="relative mx-auto max-w-7xl px-4 pt-36 pb-28 md:pt-44 md:pb-36 lg:px-8">
-      <div v-if="loading" class="animate-pulse space-y-4">
-        <div class="h-16 w-full max-w-2xl rounded bg-white/10" />
-        <div class="h-6 w-96 rounded bg-white/10" />
-      </div>
-      <div v-else>
-        <div class="rise mb-8" style="animation-delay: 0s">
-          <img
-            src="/images/logo-white.png"
-            alt=""
-            aria-hidden="true"
-            class="floaty h-16 w-auto opacity-90 md:h-20"
-          />
-        </div>
-        <h1
-          class="rise font-display text-6xl font-bold uppercase leading-[0.9] tracking-tight md:text-8xl lg:text-9xl"
-          style="animation-delay: 0.12s"
+    <div class="relative w-full px-4 pb-16 pt-28 md:px-8 md:pb-24 md:pt-36">
+      <div class="mx-auto max-w-7xl">
+        <p
+          v-if="!loading"
+          class="rise mb-8 text-xs font-semibold uppercase tracking-[0.35em] text-white/55"
+          style="animation-delay: 0s"
         >
-          {{ event?.heroTitle ?? event?.name }}
+          Marathon caritatif 24h · {{ event?.organizerName ?? 'PDS Records / Ibé' }}
+        </p>
+
+        <h1 class="display-stacked text-[clamp(3.5rem,14vw,11rem)]">
+          <span
+            v-for="(w, i) in titleParts.lead"
+            :key="`lead-${i}`"
+            class="rise mr-4 inline-block md:mr-6"
+            :style="{ animationDelay: `${0.08 + i * 0.07}s` }"
+          >{{ w }}</span>
+          <span
+            class="rise block text-primary-light"
+            style="animation-delay: 0.45s"
+          >{{ titleParts.highlight }}.</span>
         </h1>
-        <p
-          class="rise accent-serif mt-7 max-w-2xl text-xl text-white/85 md:text-3xl"
-          style="animation-delay: 0.26s"
-        >
-          {{ event?.heroSubtitle ?? event?.tagline }}
-        </p>
-        <p
-          v-if="event"
-          class="rise mt-6 flex items-center gap-3 text-sm uppercase tracking-[0.2em] text-white/60"
-          style="animation-delay: 0.38s"
-        >
-          <span v-if="event.isLive" class="blink inline-block h-2 w-2 rounded-full bg-accent-red" />
-          {{ formatDate(event.startDate) }} → {{ formatDate(event.endDate) }}
-        </p>
-        <div class="rise mt-10 flex flex-wrap gap-4" style="animation-delay: 0.5s">
-          <PrimaryButton to="/donate">Faire un don</PrimaryButton>
-          <PrimaryButton
-            v-if="event?.isLive"
-            :href="event.liveUrl"
-            variant="outline"
-            external
-          >
-            ▶ Regarder le live
-          </PrimaryButton>
-          <PrimaryButton v-else to="/planning" variant="outline">
-            Voir le programme
-          </PrimaryButton>
-          <PrimaryButton to="/freestyles" variant="outline">
-            Réserver un freestyle
-          </PrimaryButton>
-        </div>
-        <div v-if="event?.isLive" class="rise mt-6 flex flex-wrap gap-3 text-sm text-white/60" style="animation-delay: 0.62s">
-          <span class="uppercase tracking-wide">En direct :</span>
-          <a v-if="event.liveUrl" :href="event.liveUrl" target="_blank" rel="noopener" class="hover:text-white">Twitch</a>
-          <a v-if="event.youtubeUrl" :href="event.youtubeUrl" target="_blank" rel="noopener" class="hover:text-white">YouTube</a>
-          <a v-if="event.tiktokUrl" :href="event.tiktokUrl" target="_blank" rel="noopener" class="hover:text-white">TikTok</a>
-          <a v-if="event.ebayLiveUrl" :href="event.ebayLiveUrl" target="_blank" rel="noopener" class="hover:text-white">eBay Live</a>
+
+        <div class="mt-12 grid items-end gap-10 md:grid-cols-2 md:gap-16">
+          <p class="rise max-w-lg text-lg text-white/75 md:text-xl" style="animation-delay: 0.55s">
+            {{ event?.heroSubtitle ?? event?.tagline }}
+          </p>
+          <div class="rise flex flex-col items-start gap-5 md:items-end" style="animation-delay: 0.65s">
+            <p v-if="event" class="flex items-center gap-3 text-xs font-semibold uppercase tracking-[0.3em] text-white/50">
+              <span v-if="event.isLive" class="blink inline-block h-2 w-2 rounded-full bg-accent-red" />
+              {{ formatDate(event.startDate) }} → {{ formatDate(event.endDate) }}
+            </p>
+            <div class="flex flex-wrap gap-4 md:justify-end">
+              <PrimaryButton to="/donate">Faire un don</PrimaryButton>
+              <PrimaryButton to="/freestyles" variant="outline">Réserver un freestyle</PrimaryButton>
+            </div>
+          </div>
         </div>
       </div>
     </div>

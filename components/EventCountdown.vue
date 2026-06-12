@@ -17,19 +17,19 @@ watch(() => props.endDate, (d) => {
 </script>
 
 <template>
-  <div class="flex flex-wrap justify-center gap-4 md:gap-6">
+  <div class="flex flex-wrap justify-center gap-8 md:gap-14">
     <div
       v-for="(label, key) in { days: 'Jours', hours: 'Heures', minutes: 'Min', seconds: 'Sec' }"
       :key="key"
-      class="card-glow min-w-[72px] px-4 py-3 text-center"
+      class="min-w-[80px] text-center"
     >
-      <p class="font-display text-3xl font-bold text-ink md:text-4xl">
+      <p class="stat-editorial text-ink">
         {{ String(remaining[key as keyof typeof remaining]).padStart(2, '0') }}
       </p>
-      <p class="text-xs uppercase tracking-wide text-ink/50">{{ label }}</p>
+      <p class="mt-2 text-xs font-semibold uppercase tracking-[0.25em] text-ink/45">{{ label }}</p>
     </div>
   </div>
-  <p v-if="remaining.ended" class="mt-4 text-center text-accent-red">
+  <p v-if="remaining.ended" class="mt-8 text-center text-sm font-semibold uppercase tracking-wide text-accent-red">
     L'événement est terminé — merci pour votre soutien !
   </p>
 </template>

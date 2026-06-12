@@ -27,36 +27,39 @@ watch(
 </script>
 
 <template>
-  <section class="py-24 md:py-32">
+  <section class="border-y border-ink/10 py-24 md:py-32">
     <div class="mx-auto max-w-7xl px-4 lg:px-8">
-      <div class="card-glow overflow-hidden p-8 md:p-12">
-        <div v-if="loading" class="animate-pulse space-y-4">
-          <div class="h-12 w-64 rounded bg-ink/10" />
-          <div class="h-4 w-full rounded bg-ink/10" />
+      <div v-if="loading" class="animate-pulse space-y-8">
+        <div class="h-6 w-48 rounded bg-ink/10" />
+        <div class="grid gap-8 md:grid-cols-3">
+          <div v-for="n in 3" :key="n" class="h-24 rounded bg-ink/10" />
         </div>
-        <div v-else class="animate-slide-up">
-          <p class="text-sm uppercase tracking-[0.2em] text-primary">
-            Objectif de collecte
-          </p>
-          <div class="mt-2 flex flex-wrap items-end gap-4">
-            <span class="font-display text-5xl font-bold text-ink md:text-7xl">
-              {{ formatCurrency(displayAmount) }}
-            </span>
-            <span class="pb-2 text-xl text-ink/50">
-              / {{ formatCurrency(goal) }}
-            </span>
+      </div>
+      <div v-else class="animate-slide-up">
+        <p class="section-label">( Objectif de collecte )</p>
+        <div class="grid gap-12 md:grid-cols-3 md:gap-8">
+          <div>
+            <p class="stat-editorial">{{ formatCurrency(displayAmount) }}</p>
+            <p class="mt-3 text-sm uppercase tracking-[0.2em] text-ink/50">Collecté</p>
           </div>
-          <div class="mt-6 h-4 overflow-hidden rounded-full bg-ink/10">
-            <div
-              class="h-full rounded-full bg-primary transition-all duration-1000 ease-out"
-              :style="{ width: `${progress}%` }"
-            />
+          <div>
+            <p class="stat-editorial">{{ formatCurrency(goal) }}</p>
+            <p class="mt-3 text-sm uppercase tracking-[0.2em] text-ink/50">Objectif</p>
           </div>
-          <div class="mt-4 flex flex-wrap justify-between gap-4 text-sm text-ink/60">
-            <span>{{ progress }}% de l'objectif atteint</span>
-            <span>{{ donorsCount }} donateurs</span>
+          <div>
+            <p class="stat-editorial">{{ donorsCount }}</p>
+            <p class="mt-3 text-sm uppercase tracking-[0.2em] text-ink/50">Donateurs</p>
           </div>
         </div>
+        <div class="mt-12 h-1 overflow-hidden bg-ink/10">
+          <div
+            class="h-full bg-primary transition-all duration-1000 ease-out"
+            :style="{ width: `${progress}%` }"
+          />
+        </div>
+        <p class="mt-4 text-sm uppercase tracking-[0.15em] text-ink/45">
+          {{ progress }}% de l'objectif atteint
+        </p>
       </div>
     </div>
   </section>

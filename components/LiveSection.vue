@@ -48,12 +48,13 @@ const showEmbed = computed(() => props.isLive && !!embedUrl.value)
 <template>
   <section class="py-24 md:py-32">
     <div class="mx-auto max-w-7xl px-4 lg:px-8">
-      <h2 class="section-title">En direct</h2>
-      <p class="accent-serif mt-3 text-lg text-ink/60">
-        Suivez l'événement en temps réel
-      </p>
+      <p class="section-label">( En direct )</p>
+      <h2 class="section-title">
+        Suivez le live
+        <span class="block text-primary">en temps réel.</span>
+      </h2>
 
-      <div class="mt-8 overflow-hidden rounded-2xl border border-ink/10">
+      <div class="mt-10 overflow-hidden border border-ink/10">
         <!-- Lecteur intégré (visible directement, sans clic) -->
         <div v-if="showEmbed" class="relative aspect-video bg-black">
           <div

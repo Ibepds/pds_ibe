@@ -17,6 +17,8 @@ const links = [
 const isActive = (path: string) =>
   path === '/' ? route.path === '/' : route.path.startsWith(path)
 
+const isHomeHero = computed(() => route.path === '/' && !scrolled.value)
+
 // Bascule vers la nav compacte une fois qu'on a scrollé
 const scrolled = ref(false)
 let raf = 0
@@ -42,7 +44,8 @@ onUnmounted(() => {
     <Transition name="nav-top">
       <header
         v-show="!scrolled"
-        class="fixed inset-x-0 top-0 z-50 border-b border-ink/10 bg-paper/85 backdrop-blur-md"
+        class="fixed inset-x-0 top-0 z-50 border-b backdrop-blur-md transition-colors duration-300"
+        :class="isHomeHero ? 'border-white/10 bg-ink/20 text-white' : 'border-ink/10 bg-paper/85 text-ink'"
       >
         <div class="mx-auto flex max-w-7xl items-center justify-between px-4 py-4 lg:px-8">
           <NuxtLink to="/" class="flex items-center gap-3">
@@ -58,13 +61,14 @@ onUnmounted(() => {
             />
             <template v-else>
               <div
-                class="flex h-10 w-10 items-center justify-center rounded-xl bg-ink font-display text-sm font-bold text-white"
+                class="flex h-10 w-10 items-center justify-center font-display text-sm font-bold"
+                :class="isHomeHero ? 'bg-white text-ink' : 'rounded-xl bg-ink text-white'"
               >
                 PDS
               </div>
               <div>
-                <span class="font-display text-lg font-bold uppercase tracking-wide text-ink">{{ event?.name ?? 'PDS Humanity' }}</span>
-                <p class="accent-serif text-xs text-ink/50">Musique &amp; Solidarité</p>
+                <span class="font-display text-lg font-bold uppercase tracking-wide">{{ event?.name ?? 'PDS Humanity' }}</span>
+                <p class="accent-serif text-xs" :class="isHomeHero ? 'text-white/55' : 'text-ink/50'">Musique &amp; Solidarité</p>
               </div>
             </template>
           </NuxtLink>
@@ -74,8 +78,10 @@ onUnmounted(() => {
               v-for="link in links"
               :key="link.to"
               :to="link.to"
-              class="text-sm font-medium uppercase tracking-wide transition hover:text-primary"
-              :class="isActive(link.to) ? 'text-primary' : 'text-ink/70'"
+              class="text-sm font-medium uppercase tracking-wide transition"
+              :class="isHomeHero
+                ? (isActive(link.to) ? 'text-white' : 'text-white/65 hover:text-white')
+                : (isActive(link.to) ? 'text-primary' : 'text-ink/70 hover:text-primary')"
             >
               {{ link.label }}
             </NuxtLink>
@@ -86,7 +92,8 @@ onUnmounted(() => {
               Faire un don
             </PrimaryButton>
             <button
-              class="rounded-lg p-2 text-ink/70 hover:bg-ink/5 xl:hidden"
+              class="rounded-lg p-2 xl:hidden"
+              :class="isHomeHero ? 'text-white/80 hover:bg-white/10' : 'text-ink/70 hover:bg-ink/5'"
               aria-label="Menu"
               @click="mobileOpen = !mobileOpen"
             >
@@ -99,13 +106,15 @@ onUnmounted(() => {
 
         <div
           v-if="mobileOpen"
-          class="border-t border-ink/10 bg-paper px-4 py-4 xl:hidden"
+          class="border-t px-4 py-4 xl:hidden"
+          :class="isHomeHero ? 'border-white/10 bg-ink/95 text-white' : 'border-ink/10 bg-paper text-ink'"
         >
           <NuxtLink
             v-for="link in links"
             :key="link.to"
             :to="link.to"
-            class="block py-2 uppercase tracking-wide text-ink/80"
+            class="block py-2 uppercase tracking-wide"
+            :class="isHomeHero ? 'text-white/85' : 'text-ink/80'"
             @click="mobileOpen = false"
           >
             {{ link.label }}

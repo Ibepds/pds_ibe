@@ -1,9 +1,13 @@
+<script setup lang="ts">
+const route = useRoute()
+</script>
+
 <template>
   <div class="relative min-h-screen overflow-x-hidden">
     <!-- Pictogrammes PERSO discrets (parallax léger) -->
-    <PersoLayer />
+    <PersoLayer v-if="route.path !== '/'" />
     <AppHeader />
-    <main class="pt-20">
+    <main :class="route.path === '/' ? '' : 'pt-20'">
       <slot />
     </main>
     <AppFooter />
