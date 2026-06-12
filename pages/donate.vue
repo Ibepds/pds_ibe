@@ -42,48 +42,48 @@ const startCheckout = async () => {
 <template>
   <div class="py-20 md:py-28">
     <div class="mx-auto max-w-2xl px-4 text-center lg:px-8">
-      <h1 class="section-title gradient-text">Faire un don</h1>
-      <p class="accent-serif mt-4 text-lg text-white/75 md:text-xl">
+      <h1 v-reveal class="section-title gradient-text">Faire un don</h1>
+      <p class="accent-serif mt-4 text-lg text-ink/75 md:text-xl">
         Chaque contribution compte — 100% reversé aux associations partenaires.
       </p>
 
-      <div v-if="loading" class="mt-10 card-glow h-48 animate-pulse" />
-      <div v-else class="mt-10 card-glow p-8 text-left">
+      <div v-if="loading" v-reveal class="mt-10 card-glow h-48 animate-pulse" />
+      <div v-else v-reveal class="mt-10 card-glow p-8 text-left">
         <div class="text-center">
-          <p class="text-sm uppercase tracking-wide text-white/60">Montant collecté</p>
+          <p class="text-sm uppercase tracking-wide text-ink/60">Montant collecté</p>
           <p class="mt-2 font-display text-4xl font-bold text-accent-green">
             {{ formatCurrency(event?.currentAmount ?? MOCK_EVENT.currentAmount) }}
           </p>
-          <p class="mt-1 text-sm text-white/60">
+          <p class="mt-1 text-sm text-ink/60">
             Objectif : {{ formatCurrency(event?.donationGoal ?? MOCK_EVENT.donationGoal) }}
           </p>
         </div>
 
         <form class="mt-8 space-y-4" @submit.prevent="startCheckout">
           <div>
-            <label class="mb-1 block text-sm font-medium text-white/80">
-              Votre e-mail <span class="text-accent-rose">*</span>
+            <label class="mb-1 block text-sm font-medium text-ink/80">
+              Votre e-mail <span class="text-accent-red">*</span>
             </label>
             <input
               v-model="email"
               type="email"
               required
               placeholder="vous@email.com"
-              class="w-full rounded-lg border border-white/15 bg-white/5 px-4 py-2.5 text-white placeholder-white/40 focus:border-primary-light focus:outline-none focus:ring-1 focus:ring-primary-light"
+              class="w-full rounded-lg border border-ink/15 bg-white px-4 py-2.5 text-ink placeholder-ink/40 focus:border-primary-light focus:outline-none focus:ring-1 focus:ring-primary-light"
             />
-            <p class="mt-1 text-xs text-white/50">
+            <p class="mt-1 text-xs text-ink/50">
               Vous choisirez le montant de votre don sur la page de paiement sécurisée.
             </p>
           </div>
 
-          <p v-if="error" class="text-sm text-accent-rose">{{ error }}</p>
+          <p v-if="error" class="text-sm text-accent-red">{{ error }}</p>
 
           <PrimaryButton type="submit" :disabled="submitting" class="w-full">
             {{ submitting ? 'Redirection…' : 'Continuer vers le paiement' }}
           </PrimaryButton>
         </form>
 
-        <p class="mt-4 text-center text-xs text-white/50">
+        <p class="mt-4 text-center text-xs text-ink/50">
           Paiement sécurisé par Stripe. Vous reviendrez ensuite sur le site.
         </p>
       </div>

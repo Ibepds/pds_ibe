@@ -18,13 +18,13 @@ const { data: associations, loading, error } = useFirestoreCollection(
 <template>
   <div class="py-20 md:py-28">
     <div class="mx-auto max-w-7xl px-4 lg:px-8">
-      <h1 class="section-title gradient-text">Associations soutenues</h1>
-      <p class="accent-serif mt-4 max-w-2xl text-lg text-white/75 md:text-xl">
+      <h1 v-reveal class="section-title gradient-text">Associations soutenues</h1>
+      <p class="accent-serif mt-4 max-w-2xl text-lg text-ink/75 md:text-xl">
         L'ensemble des fonds récoltés lors de PDS Humanity est reversé à ces associations partenaires.
       </p>
 
       <div v-if="loading" class="mt-10 space-y-8">
-        <div v-for="n in 2" :key="n" class="card-glow h-64 animate-pulse" />
+        <div v-for="n in 2" :key="n" v-reveal class="card-glow h-64 animate-pulse" />
       </div>
 
       <div v-else-if="error" class="mt-10 text-center text-accent-rose">{{ error }}</div>
@@ -33,7 +33,7 @@ const { data: associations, loading, error } = useFirestoreCollection(
         <div
           v-for="asso in associations"
           :key="asso.id ?? asso.name"
-          class="card-glow p-8"
+          v-reveal class="card-glow p-8"
         >
           <div class="grid gap-8 lg:grid-cols-3">
             <div class="lg:col-span-2">
@@ -59,10 +59,10 @@ const { data: associations, loading, error } = useFirestoreCollection(
                   {{ asso.name.charAt(0) }}
                 </div>
                 <div>
-                  <h2 class="font-display text-2xl font-bold text-white">{{ asso.name }}</h2>
-                  <p class="mt-3 text-gray-300 leading-relaxed">{{ asso.description }}</p>
-                  <p class="mt-3 text-sm text-gray-400">
-                    <strong class="text-white">Mission :</strong> {{ asso.mission }}
+                  <h2 class="font-display text-2xl font-bold text-ink">{{ asso.name }}</h2>
+                  <p class="mt-3 text-ink/70 leading-relaxed">{{ asso.description }}</p>
+                  <p class="mt-3 text-sm text-ink/60">
+                    <strong class="text-ink">Mission :</strong> {{ asso.mission }}
                   </p>
                   <PrimaryButton
                     v-if="asso.websiteUrl"

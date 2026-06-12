@@ -31,28 +31,28 @@ watch(
     <div class="mx-auto max-w-7xl px-4 lg:px-8">
       <div class="card-glow overflow-hidden p-8 md:p-12">
         <div v-if="loading" class="animate-pulse space-y-4">
-          <div class="h-12 w-64 rounded bg-white/10" />
-          <div class="h-4 w-full rounded bg-white/10" />
+          <div class="h-12 w-64 rounded bg-ink/10" />
+          <div class="h-4 w-full rounded bg-ink/10" />
         </div>
         <div v-else class="animate-slide-up">
-          <p class="text-sm uppercase tracking-wider text-accent-cyan">
+          <p class="text-sm uppercase tracking-[0.2em] text-primary">
             Objectif de collecte
           </p>
           <div class="mt-2 flex flex-wrap items-end gap-4">
-            <span class="font-display text-5xl font-bold text-white md:text-6xl">
+            <span class="font-display text-5xl font-bold text-ink md:text-7xl">
               {{ formatCurrency(displayAmount) }}
             </span>
-            <span class="pb-2 text-xl text-gray-400">
+            <span class="pb-2 text-xl text-ink/50">
               / {{ formatCurrency(goal) }}
             </span>
           </div>
-          <div class="mt-6 h-4 overflow-hidden rounded-full bg-surface">
+          <div class="mt-6 h-4 overflow-hidden rounded-full bg-ink/10">
             <div
-              class="h-full rounded-full bg-gradient-to-r from-primary via-accent-cyan to-accent-green transition-all duration-1000 ease-out"
+              class="h-full rounded-full bg-primary transition-all duration-1000 ease-out"
               :style="{ width: `${progress}%` }"
             />
           </div>
-          <div class="mt-4 flex flex-wrap justify-between gap-4 text-sm text-gray-400">
+          <div class="mt-4 flex flex-wrap justify-between gap-4 text-sm text-ink/60">
             <span>{{ progress }}% de l'objectif atteint</span>
             <span>{{ donorsCount }} donateurs</span>
           </div>

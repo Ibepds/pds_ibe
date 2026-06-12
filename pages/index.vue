@@ -71,14 +71,15 @@ usePageSeo({
     <BrandTicker :items="event?.tickerItems" />
 
     <section v-if="event" class="py-24 md:py-32">
-      <div class="mx-auto max-w-7xl px-4 text-center lg:px-8">
-        <p class="accent-serif mb-8 text-xl text-white/80">L'événement commence dans</p>
+      <div v-reveal class="mx-auto max-w-7xl px-4 text-center lg:px-8">
+        <p class="accent-serif mb-8 text-xl text-ink/60">L'événement commence dans</p>
         <EventCountdown :end-date="event.startDate" />
       </div>
     </section>
 
     <DonationCounter
       v-if="event"
+      v-reveal
       :current="event.currentAmount"
       :goal="event.donationGoal"
       :donors-count="event.donorsCount"
@@ -87,34 +88,35 @@ usePageSeo({
 
     <LiveSection
       v-if="event"
+      v-reveal
       :is-live="event.isLive"
       :live-url="event.liveUrl"
     />
 
     <!-- Associations soutenues -->
-    <section class="py-24 md:py-32 bg-surface-elevated/40">
+    <section class="py-24 md:py-32 bg-paper-alt">
       <div class="mx-auto max-w-7xl px-4 lg:px-8">
-        <h2 class="section-title gradient-text">Associations soutenues</h2>
-        <p class="accent-serif mt-4 text-xl text-white/80">L'ensemble des fonds reversés à ces organisations</p>
+        <h2 v-reveal class="section-title">Associations soutenues</h2>
+        <p v-reveal="80" class="accent-serif mt-4 text-xl text-ink/60">L'ensemble des fonds reversés à ces organisations</p>
         <div v-if="aLoading" class="mt-12 grid gap-8 md:grid-cols-2">
           <div v-for="n in 2" :key="n" class="card-glow h-32 animate-pulse" />
         </div>
         <div v-else class="mt-12 grid gap-8 md:grid-cols-2">
-          <div v-for="asso in associations" :key="asso.id ?? asso.name" class="card-glow p-8">
+          <div v-for="(asso, i) in associations" :key="asso.id ?? asso.name" v-reveal="i * 120" class="card-glow p-8">
             <div class="flex items-center gap-4">
               <div
-                class="flex h-12 w-12 flex-shrink-0 items-center justify-center rounded-xl bg-gradient-to-br from-accent-green/30 to-primary/30 font-display text-xl font-bold"
+                class="flex h-12 w-12 flex-shrink-0 items-center justify-center rounded-xl bg-ink font-display text-xl font-bold text-white"
               >
                 {{ asso.name.charAt(0) }}
               </div>
               <div>
-                <h3 class="font-semibold text-white">{{ asso.name }}</h3>
-                <p class="text-sm text-gray-400 line-clamp-2">{{ asso.mission }}</p>
+                <h3 class="font-semibold text-ink">{{ asso.name }}</h3>
+                <p class="text-sm text-ink/60 line-clamp-2">{{ asso.mission }}</p>
               </div>
             </div>
           </div>
         </div>
-        <div class="mt-12 text-center">
+        <div v-reveal class="mt-12 text-center">
           <PrimaryButton to="/associations" variant="outline">Découvrir les associations</PrimaryButton>
         </div>
       </div>
@@ -123,10 +125,12 @@ usePageSeo({
     <!-- Programme -->
     <section class="py-24 md:py-32">
       <div class="mx-auto max-w-7xl px-4 lg:px-8">
-        <h2 class="section-title gradient-text">Programme</h2>
-        <p class="accent-serif mt-4 text-xl text-white/80">Les temps forts du marathon de 24h</p>
-        <ScheduleTimeline :items="schedule" :loading="sLoading" :limit="4" />
-        <div class="mt-12 text-center">
+        <h2 v-reveal class="section-title">Programme</h2>
+        <p v-reveal="80" class="accent-serif mt-4 text-xl text-ink/60">Les temps forts du marathon de 24h</p>
+        <div v-reveal="160">
+          <ScheduleTimeline :items="schedule" :loading="sLoading" :limit="4" />
+        </div>
+        <div v-reveal class="mt-12 text-center">
           <PrimaryButton to="/planning" variant="outline">Programme complet</PrimaryButton>
         </div>
       </div>
@@ -135,10 +139,10 @@ usePageSeo({
     <BrandTicker :items="event?.tickerItems" variant="outline" />
 
     <!-- Freestyles CTA -->
-    <section class="py-24 md:py-32 bg-surface-elevated/40">
-      <div class="mx-auto max-w-7xl px-4 lg:px-8 text-center">
-        <h2 class="section-title gradient-text">Freestyles nocturnes</h2>
-        <p class="accent-serif mx-auto mt-4 max-w-2xl text-xl text-white/80">
+    <section class="section-dark py-24 md:py-32">
+      <div v-reveal class="mx-auto max-w-7xl px-4 lg:px-8 text-center">
+        <h2 class="section-title">Freestyles nocturnes</h2>
+        <p class="accent-serif mx-auto mt-4 max-w-2xl text-xl text-white/75">
           56 créneaux de 8 minutes ouverts au public dans la nuit du 27 au 28 juin (03h00 → 10h29).
           Réservez le vôtre dès maintenant.
         </p>
@@ -149,7 +153,7 @@ usePageSeo({
       </div>
     </section>
 
-    <RecentDonations :donations="donations" :loading="dLoading" :limit="5" />
-    <FaqSection :items="faq" :loading="fLoading" :limit="4" />
+    <RecentDonations v-reveal :donations="donations" :loading="dLoading" :limit="5" />
+    <FaqSection v-reveal :items="faq" :loading="fLoading" :limit="4" />
   </div>
 </template>

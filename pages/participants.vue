@@ -25,8 +25,8 @@ const filtered = computed(() => {
 <template>
   <div class="py-20 md:py-28">
     <div class="mx-auto max-w-7xl px-4 lg:px-8">
-      <h1 class="section-title gradient-text">Participants</h1>
-      <p class="accent-serif mt-4 text-lg text-white/75 md:text-xl">
+      <h1 v-reveal class="section-title gradient-text">Participants</h1>
+      <p class="accent-serif mt-4 text-lg text-ink/70 md:text-xl">
         Streamers, artistes et invités — organisé par PDS Records / Ibé
       </p>
 
@@ -38,7 +38,7 @@ const filtered = computed(() => {
           :class="
             activeFilter === opt.value
               ? 'bg-primary text-white shadow-glow'
-              : 'bg-white/5 text-gray-300 hover:bg-white/10'
+              : 'bg-ink/5 text-ink/70 hover:bg-ink/10'
           "
           @click="activeFilter = opt.value"
         >
@@ -48,7 +48,7 @@ const filtered = computed(() => {
 
       <p v-if="error" class="mt-6 text-accent-rose">{{ error }}</p>
 
-      <div class="mt-8">
+      <div v-reveal class="mt-8">
         <ParticipantsGrid
           :participants="filtered"
           :loading="loading"

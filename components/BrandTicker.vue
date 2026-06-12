@@ -22,16 +22,16 @@ const tickerItems = computed(() =>
 
 <template>
   <div
-    class="relative overflow-hidden border-y border-white/10"
-    :class="props.variant === 'solid' ? 'bg-primary' : 'bg-white/5 backdrop-blur'"
+    class="relative overflow-hidden"
+    :class="props.variant === 'solid' ? 'bg-ink text-white' : 'border-y border-ink/15 bg-paper-alt text-ink'"
   >
     <div class="flex w-max animate-marquee whitespace-nowrap py-3">
       <div v-for="copy in 2" :key="copy" class="flex items-center">
         <template v-for="(item, i) in tickerItems" :key="`${copy}-${i}`">
-          <span class="px-6 font-display text-lg font-bold uppercase tracking-wide text-white md:text-xl">
+          <span class="px-6 font-display text-lg font-bold uppercase tracking-wide md:text-xl">
             {{ item }}
           </span>
-          <span class="text-base text-white/40">●</span>
+          <span class="text-base opacity-40">●</span>
         </template>
       </div>
     </div>

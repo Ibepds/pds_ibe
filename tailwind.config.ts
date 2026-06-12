@@ -11,22 +11,33 @@ export default {
   theme: {
     extend: {
       colors: {
-        // Fond sombre teinté bleu nuit (identité PDS Humanity)
+        // Base éditoriale claire
+        paper: {
+          DEFAULT: '#F5F3EE', // crème
+          alt: '#EDEAE2', // crème un peu plus soutenu
+        },
+        // Encre (texte + sections sombres)
+        ink: {
+          DEFAULT: '#0E0E10',
+          soft: '#1A1A1E',
+        },
+        // Surfaces sombres (sections sombres)
         surface: {
-          DEFAULT: '#040814',
-          elevated: '#081226',
-          card: '#0C1B38',
+          DEFAULT: '#0E0E10',
+          elevated: '#16161A',
+          card: '#1C1C22',
         },
         // Bleu PDS Humanity : R5 G70 B160 = #0546A0
         primary: {
           DEFAULT: '#0546A0',
-          light: '#5B9BE8',
+          light: '#3E78D6',
           dark: '#033576',
         },
         accent: {
+          red: '#E1352B',
           rose: '#F472B6',
-          cyan: '#6AB3FF',
-          green: '#4ADE80',
+          cyan: '#3E78D6',
+          green: '#1F9D57',
         },
       },
       fontFamily: {

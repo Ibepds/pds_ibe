@@ -17,23 +17,19 @@ const platforms = computed(() =>
 </script>
 
 <template>
-  <footer class="border-t border-white/10 bg-surface-elevated">
-    <div class="mx-auto max-w-7xl px-4 py-12 lg:px-8">
-      <div class="grid gap-8 md:grid-cols-3">
+  <footer class="section-dark border-t border-white/10">
+    <div class="mx-auto max-w-7xl px-4 py-16 lg:px-8">
+      <div class="grid gap-10 md:grid-cols-3">
         <div>
           <img
-            v-if="event?.logoUrl"
-            :src="event.logoUrl"
+            :src="event?.logoUrl || '/images/logo-white.png'"
             :alt="event?.name ?? 'PDS Humanity'"
-            height="32"
-            width="140"
+            height="40"
+            width="160"
             loading="lazy"
             decoding="async"
-            class="h-8 w-auto max-w-[140px] object-contain"
+            class="h-12 w-auto max-w-[170px] object-contain"
           />
-          <h3 v-else class="font-display text-xl font-bold gradient-text">
-            {{ event?.name ?? 'PDS Humanity' }}
-          </h3>
           <p class="mt-2 text-sm text-gray-400">
             {{ event?.tagline ?? 'Marathon caritatif de 24h — musique, solidarité et engagement.' }}
           </p>

@@ -11,26 +11,27 @@ interface Perso {
   op: number
 }
 
-const SRCS = ['/images/perso-blanc.png', '/images/perso-bleu.png', '/images/perso-rouge.png']
+// Sur fond clair : uniquement bleu / rouge (le blanc serait invisible)
+const SRCS = ['/images/perso-bleu.png', '/images/perso-rouge.png']
 
 const rand = (min: number, max: number) => min + Math.random() * (max - min)
 const pick = <T,>(arr: T[]) => arr[Math.floor(Math.random() * arr.length)]
 
 const makePerso = (): Perso => ({
   src: pick(SRCS),
-  top: `${rand(2, 88).toFixed(1)}%`,
-  left: `${rand(-5, 82).toFixed(1)}%`,
-  w: `${Math.round(rand(200, 420))}px`,
-  rot: Math.round(rand(-15, 15)),
-  op: Number(rand(0.08, 0.18).toFixed(2)),
+  top: `${rand(4, 86).toFixed(1)}%`,
+  left: `${rand(-4, 80).toFixed(1)}%`,
+  w: `${Math.round(rand(150, 280))}px`,
+  rot: Math.round(rand(-12, 12)),
+  op: Number(rand(0.05, 0.1).toFixed(2)),
 })
 
 const farPerso = ref<Perso[]>([])
 const nearPerso = ref<Perso[]>([])
 
 const regenerate = () => {
-  farPerso.value = Array.from({ length: 4 }, makePerso)
-  nearPerso.value = Array.from({ length: 4 }, makePerso)
+  farPerso.value = Array.from({ length: 2 }, makePerso)
+  nearPerso.value = Array.from({ length: 2 }, makePerso)
 }
 
 // Parallax

@@ -38,42 +38,135 @@
   }
 
   body {
-    @apply bg-black text-white antialiased;
+    @apply bg-paper text-ink antialiased;
   }
 }
 
 @layer components {
-  /* Titres marquants : blanc plein (fort contraste sur le noir) */
+  /* Titre : hérite de la couleur du contexte (encre sur clair, blanc sur sombre) */
   .gradient-text {
-    @apply text-white;
+    color: inherit;
   }
 
-  /* Accent serif élégant (IM Fell DW Pica italique) */
+  /* Sous-titres / messages : style normal (non italique) cohérent avec la page */
   .accent-serif {
-    @apply font-serif italic;
+    @apply font-sans font-normal not-italic;
   }
 
-  /* Panneau translucide clair (se détache du fond noir, sans néon) */
+  /* Section sombre (hero, bandeaux, footer) : encre + texte blanc */
+  .section-dark {
+    @apply bg-ink text-white;
+  }
+
+  /* Carte claire éditoriale (sur fond clair) — léger relief au survol */
   .card-glow {
-    @apply rounded-xl border border-white/10 bg-white/[0.05] backdrop-blur-md;
+    @apply rounded-2xl border border-ink/10 bg-white shadow-[0_1px_3px_rgba(0,0,0,0.06)] transition duration-300 hover:-translate-y-1 hover:shadow-[0_12px_30px_rgba(0,0,0,0.10)];
+  }
+
+  /* Carte sur fond sombre */
+  .card-dark {
+    @apply rounded-2xl border border-white/10 bg-white/[0.04] backdrop-blur-md;
   }
 
   .section-title {
     @apply font-display text-4xl font-bold uppercase leading-[0.95] tracking-tight md:text-6xl;
   }
 
-  /* CTA fort : bleu PDS Humanity (accent sur le noir) */
+  /* CTA principal : noir plein (éditorial) */
   .btn-primary {
-    @apply inline-flex items-center justify-center rounded-lg bg-primary px-6 py-3 font-semibold uppercase tracking-wide text-white transition-all hover:bg-primary-dark active:scale-[0.98];
+    @apply inline-flex items-center justify-center rounded-full bg-ink px-6 py-3 font-semibold uppercase tracking-wide text-white transition-all hover:bg-ink-soft active:scale-[0.98];
   }
 
+  /* CTA secondaire : contour encre */
   .btn-outline {
-    @apply inline-flex items-center justify-center rounded-lg border border-white/60 bg-white/5 px-6 py-3 font-semibold uppercase tracking-wide text-white transition-all hover:bg-white hover:text-black;
+    @apply inline-flex items-center justify-center rounded-full border border-ink px-6 py-3 font-semibold uppercase tracking-wide text-ink transition-all hover:bg-ink hover:text-white;
+  }
+
+  /* Variante des boutons quand ils sont dans une section sombre */
+  .section-dark .btn-primary {
+    @apply bg-white text-ink hover:bg-white/80;
+  }
+  .section-dark .btn-outline {
+    @apply border-white text-white hover:bg-white hover:text-ink;
   }
 
   /* Champs de formulaire de l'espace admin (fond clair) */
   .input-field {
     @apply w-full rounded-xl border border-gray-300 bg-white px-4 py-3 text-gray-900 placeholder-gray-400 outline-none transition focus:border-primary focus:ring-2 focus:ring-primary/20;
+  }
+}
+
+/* ─── Apparition au défilement (directive v-reveal) ─── */
+.reveal {
+  opacity: 0;
+  transform: translateY(32px);
+  transition:
+    opacity 0.7s ease,
+    transform 0.7s cubic-bezier(0.2, 0.7, 0.2, 1);
+  will-change: opacity, transform;
+}
+.reveal.is-visible {
+  opacity: 1;
+  transform: none;
+}
+@media (prefers-reduced-motion: reduce) {
+  .reveal {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+}
+
+/* ─── Animations hero (apparition échelonnée + flottement) ─── */
+@keyframes rise {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+.rise {
+  opacity: 0;
+  animation: rise 0.8s cubic-bezier(0.2, 0.7, 0.2, 1) forwards;
+}
+
+@keyframes floaty {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+}
+.floaty {
+  animation: floaty 4.5s ease-in-out infinite;
+}
+
+@keyframes blink {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.3;
+  }
+}
+.blink {
+  animation: blink 1.4s ease-in-out infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .rise {
+    opacity: 1;
+    animation: none;
+  }
+  .floaty,
+  .blink {
+    animation: none;
   }
 }
 

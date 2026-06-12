@@ -48,12 +48,12 @@ const showEmbed = computed(() => props.isLive && !!embedUrl.value)
 <template>
   <section class="py-24 md:py-32">
     <div class="mx-auto max-w-7xl px-4 lg:px-8">
-      <h2 class="section-title gradient-text">En direct</h2>
-      <p class="mt-2 text-gray-400">
+      <h2 class="section-title">En direct</h2>
+      <p class="accent-serif mt-3 text-lg text-ink/60">
         Suivez l'événement en temps réel
       </p>
 
-      <div class="mt-8 card-glow overflow-hidden">
+      <div class="mt-8 overflow-hidden rounded-2xl border border-ink/10">
         <!-- Lecteur intégré (visible directement, sans clic) -->
         <div v-if="showEmbed" class="relative aspect-video bg-black">
           <div
@@ -120,7 +120,7 @@ const showEmbed = computed(() => props.isLive && !!embedUrl.value)
           :href="liveUrl"
           target="_blank"
           rel="noopener"
-          class="text-sm text-primary-light hover:underline"
+          class="text-sm font-semibold text-primary hover:underline"
         >
           Ouvrir sur la plateforme ↗
         </a>

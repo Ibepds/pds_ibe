@@ -72,56 +72,56 @@ const finalize = async () => {
 <template>
   <div class="py-20 md:py-28">
     <div class="mx-auto max-w-xl px-4 lg:px-8">
-      <div v-if="loading" class="card-glow h-64 animate-pulse" />
+      <div v-if="loading" v-reveal class="card-glow h-64 animate-pulse" />
 
-      <div v-else class="card-glow p-8 text-center">
+      <div v-else v-reveal class="card-glow p-8 text-center">
         <div class="text-5xl">💙</div>
         <h1 class="section-title gradient-text mt-4">Merci !</h1>
-        <p class="accent-serif mt-3 text-lg text-white/80">
+        <p class="accent-serif mt-3 text-lg text-ink/80">
           Votre don de
           <strong class="text-accent-green">{{ formatCurrency(amount) }}</strong>
           a bien été reçu.
         </p>
 
         <div v-if="alreadyRecorded" class="mt-8">
-          <p class="text-white/70">Votre don a déjà été enregistré. Merci pour votre soutien !</p>
+          <p class="text-ink/70">Votre don a déjà été enregistré. Merci pour votre soutien !</p>
           <PrimaryButton to="/" class="mt-6">Retour à l'accueil</PrimaryButton>
         </div>
 
         <form v-else class="mt-8 space-y-4 text-left" @submit.prevent="finalize">
-          <p class="text-center text-sm text-white/70">
+          <p class="text-center text-sm text-ink/70">
             Souhaitez-vous laisser un message qui s'affichera lors de l'événement ?
           </p>
 
-          <label class="flex items-center justify-center gap-2 text-sm text-white/80">
+          <label class="flex items-center justify-center gap-2 text-sm text-ink/80">
             <input v-model="anonymous" type="checkbox" class="rounded" />
             Rester anonyme (sans message)
           </label>
 
           <div v-if="!anonymous" class="space-y-4">
             <div>
-              <label class="mb-1 block text-sm font-medium text-white/80">Pseudo</label>
+              <label class="mb-1 block text-sm font-medium text-ink/80">Pseudo</label>
               <input
                 v-model="username"
                 type="text"
                 maxlength="40"
                 placeholder="Votre pseudo (laisser vide = Anonyme)"
-                class="w-full rounded-lg border border-white/15 bg-white/5 px-4 py-2.5 text-white placeholder-white/40 focus:border-primary-light focus:outline-none focus:ring-1 focus:ring-primary-light"
+                class="w-full rounded-lg border border-ink/15 bg-white px-4 py-2.5 text-ink placeholder-ink/40 focus:border-primary-light focus:outline-none focus:ring-1 focus:ring-primary-light"
               />
             </div>
             <div>
-              <label class="mb-1 block text-sm font-medium text-white/80">Message (optionnel)</label>
+              <label class="mb-1 block text-sm font-medium text-ink/80">Message (optionnel)</label>
               <textarea
                 v-model="message"
                 rows="3"
                 maxlength="300"
                 placeholder="Un mot d'encouragement…"
-                class="w-full rounded-lg border border-white/15 bg-white/5 px-4 py-2.5 text-white placeholder-white/40 focus:border-primary-light focus:outline-none focus:ring-1 focus:ring-primary-light"
+                class="w-full rounded-lg border border-ink/15 bg-white px-4 py-2.5 text-ink placeholder-ink/40 focus:border-primary-light focus:outline-none focus:ring-1 focus:ring-primary-light"
               />
             </div>
           </div>
 
-          <p v-if="error" class="text-sm text-accent-rose">{{ error }}</p>
+          <p v-if="error" class="text-sm text-accent-red">{{ error }}</p>
 
           <PrimaryButton type="submit" :disabled="submitting" class="w-full">
             {{ submitting ? 'Validation…' : 'Valider et revenir à l\'accueil' }}

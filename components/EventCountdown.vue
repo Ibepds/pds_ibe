@@ -23,13 +23,13 @@ watch(() => props.endDate, (d) => {
       :key="key"
       class="card-glow min-w-[72px] px-4 py-3 text-center"
     >
-      <p class="font-display text-2xl font-bold text-primary-light md:text-3xl">
+      <p class="font-display text-3xl font-bold text-ink md:text-4xl">
         {{ String(remaining[key as keyof typeof remaining]).padStart(2, '0') }}
       </p>
-      <p class="text-xs uppercase text-gray-400">{{ label }}</p>
+      <p class="text-xs uppercase tracking-wide text-ink/50">{{ label }}</p>
     </div>
   </div>
-  <p v-if="remaining.ended" class="mt-4 text-center text-accent-rose">
+  <p v-if="remaining.ended" class="mt-4 text-center text-accent-red">
     L'événement est terminé — merci pour votre soutien !
   </p>
 </template>

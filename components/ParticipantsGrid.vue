@@ -22,7 +22,7 @@ defineProps<{
       :participant="p"
     />
   </div>
-  <p v-else class="rounded-xl border border-white/10 bg-surface-card p-8 text-center text-gray-400">
+  <p v-else class="rounded-xl border border-ink/10 bg-paper-alt p-8 text-center text-ink/60">
     {{ emptyMessage ?? 'Aucun participant pour le moment.' }}
   </p>
 </template>

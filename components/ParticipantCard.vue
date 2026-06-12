@@ -9,7 +9,7 @@ defineProps<{ participant: Participant }>()
 <template>
   <article class="card-glow group overflow-hidden transition hover:scale-[1.02]">
     <div
-      class="relative flex h-40 items-center justify-center bg-gradient-to-br from-primary/30 via-surface-elevated to-accent-cyan/20"
+      class="relative flex h-40 items-center justify-center bg-ink"
     >
       <img
         v-if="participant.avatarUrl"
@@ -34,25 +34,25 @@ defineProps<{ participant: Participant }>()
       </span>
     </div>
     <div class="p-5">
-      <h3 class="font-display text-lg font-bold">{{ participant.pseudo }}</h3>
-      <p class="text-sm text-gray-400">{{ participant.category }}</p>
-      <p class="mt-2 text-sm text-accent-green">
+      <h3 class="font-display text-lg font-bold uppercase tracking-wide text-ink">{{ participant.pseudo }}</h3>
+      <p class="text-sm text-ink/60">{{ participant.category }}</p>
+      <p class="mt-2 text-sm font-semibold text-primary">
         {{ formatCurrency(participant.amountRaised) }} collectés
       </p>
-      <div class="mt-3 flex gap-2">
+      <div class="mt-3 flex gap-3">
         <a
           v-if="participant.twitchUrl"
           :href="participant.twitchUrl"
           target="_blank"
           rel="noopener"
-          class="text-xs text-primary-light hover:underline"
+          class="text-xs font-semibold uppercase text-primary hover:underline"
         >Twitch</a>
         <a
           v-if="participant.instagramUrl"
           :href="participant.instagramUrl"
           target="_blank"
           rel="noopener"
-          class="text-xs text-accent-rose hover:underline"
+          class="text-xs font-semibold uppercase text-accent-red hover:underline"
         >Instagram</a>
       </div>
     </div>
