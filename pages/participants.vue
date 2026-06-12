@@ -8,7 +8,7 @@ const { data: participants, loading, error } = useFirestoreCollection(
   MOCK_PARTICIPANTS,
 )
 
-usePageBackground('dark')
+definePageMeta({ pageBackground: 'dark' })
 
 usePageSeo({
   title: 'Participants — PDS Humanity',
@@ -23,11 +23,11 @@ const filtered = computed(() => {
 </script>
 
 <template>
-  <div class="py-12">
+  <div class="py-20 md:py-28">
     <div class="mx-auto max-w-7xl px-4 lg:px-8">
       <h1 class="section-title gradient-text">Participants</h1>
-      <p class="mt-2 text-gray-400">
-        Streamers, artistes et invités — organisé par Ibé PDS
+      <p class="accent-serif mt-4 text-lg text-white/75 md:text-xl">
+        Streamers, artistes et invités — organisé par PDS Records / Ibé
       </p>
 
       <div class="mt-8 flex flex-wrap gap-2">

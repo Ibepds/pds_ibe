@@ -1,5 +1,5 @@
 <script setup lang="ts">
-usePageBackground('cyan')
+definePageMeta({ pageBackground: 'cyan' })
 
 usePageSeo({
   title: 'Contact — PDS Humanity',
@@ -92,10 +92,10 @@ const send = async () => {
 </script>
 
 <template>
-  <div class="py-12">
+  <div class="py-20 md:py-28">
     <div class="mx-auto max-w-3xl px-4 lg:px-8">
       <h1 class="section-title gradient-text">Contact</h1>
-      <p class="mt-2 text-gray-400">Une question, une demande presse ou un projet de partenariat ?</p>
+      <p class="accent-serif mt-4 text-lg text-white/75 md:text-xl">Une question, une demande presse ou un projet de partenariat ?</p>
 
       <div class="mt-10 grid gap-8 lg:grid-cols-3">
         <div class="space-y-4 lg:col-span-1">

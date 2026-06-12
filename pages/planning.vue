@@ -13,7 +13,7 @@ const { single: programme } = useFirestoreCollection(
   { docId: 'programme' },
 )
 
-usePageBackground('cyan')
+definePageMeta({ pageBackground: 'cyan' })
 
 usePageSeo({
   title: 'Programme — PDS Humanity',
@@ -23,10 +23,10 @@ usePageSeo({
 </script>
 
 <template>
-  <div class="py-12">
+  <div class="py-20 md:py-28">
     <div class="mx-auto max-w-4xl px-4 lg:px-8">
       <h1 class="section-title gradient-text">Programme</h1>
-      <p class="mt-2 text-gray-400">{{ programme?.subtitle }}</p>
+      <p class="accent-serif mt-4 text-lg text-white/75 md:text-xl">{{ programme?.subtitle }}</p>
       <p v-if="error" class="mt-4 text-accent-rose">{{ error }}</p>
       <div class="mt-10">
         <ScheduleTimeline :items="schedule" :loading="loading" />

@@ -18,7 +18,7 @@ const formatTime = (iso: string) => {
 </script>
 
 <template>
-  <section class="py-16">
+  <section class="py-24 md:py-32">
     <div class="mx-auto max-w-7xl px-4 lg:px-8">
       <h2 class="section-title">Derniers dons</h2>
       <div v-if="loading" class="mt-6 space-y-3">

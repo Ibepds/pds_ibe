@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { MOCK_ENCHERES } from '~/utils/mockData'
 
-usePageBackground('blue')
+definePageMeta({ pageBackground: 'blue' })
 
 usePageSeo({
   title: 'Enchères solidaires — PDS Humanity',
@@ -19,10 +19,10 @@ const { single: encheres } = useFirestoreCollection(
 </script>
 
 <template>
-  <div class="py-12">
+  <div class="py-20 md:py-28">
     <div class="mx-auto max-w-4xl px-4 lg:px-8">
       <h1 class="section-title gradient-text">Enchères solidaires</h1>
-      <p class="mt-2 text-gray-400">Des lots exclusifs pour soutenir nos associations partenaires</p>
+      <p class="accent-serif mt-4 text-lg text-white/75 md:text-xl">Des lots exclusifs pour soutenir nos associations partenaires</p>
 
       <div class="mt-10 space-y-8">
         <div class="card-glow p-8">

@@ -5,6 +5,9 @@ export default defineNuxtConfig({
   modules: ['@nuxtjs/tailwindcss'],
   css: ['~/assets/css/main.css'],
   runtimeConfig: {
+    // Privé (serveur uniquement) — surchargé par NUXT_STRIPE_SECRET_KEY etc.
+    stripeSecretKey: '',
+    firebaseServiceAccount: '', // JSON du compte de service Firebase (une ligne)
     public: {
       siteUrl: 'https://pdshumanity.com',
       firebaseApiKey: '',

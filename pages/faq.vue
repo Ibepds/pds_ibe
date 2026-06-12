@@ -6,7 +6,7 @@ const { data: faq, loading, error } = useFirestoreCollection('faq', MOCK_FAQ, {
   orderDirection: 'asc',
 })
 
-usePageBackground('white')
+definePageMeta({ pageBackground: 'white' })
 
 usePageSeo({
   title: 'FAQ — PDS Humanity',
@@ -16,7 +16,7 @@ usePageSeo({
 </script>
 
 <template>
-  <div class="py-12">
+  <div class="py-20 md:py-28">
     <FaqSection :items="faq" :loading="loading" />
     <p v-if="error" class="text-center text-accent-rose">{{ error }}</p>
   </div>

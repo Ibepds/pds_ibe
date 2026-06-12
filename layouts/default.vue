@@ -1,18 +1,25 @@
 <script setup lang="ts">
-import type { BgVariant } from '~/composables/usePageBackground'
+type BgVariant = 'blue' | 'dark' | 'white' | 'cyan'
 
-const pageBg = useState<BgVariant>('page-bg', () => 'dark')
+const route = useRoute()
 
 // Mapping variante -> image + voile(s). Les fonds clairs (cyan, blanc) reçoivent
 // un voile bleu + sombre pour garantir la lisibilité du texte blanc.
 // (Classes en dur ici pour être détectées par Tailwind.)
 const BG: Record<BgVariant, { img: string; overlays: string[] }> = {
   blue: { img: 'bg-pds-texture', overlays: ['bg-black/30'] },
-  dark: { img: 'bg-pds-logo', overlays: ['bg-black/40'] },
+  dark: { img: 'bg-pds-texture', overlays: ['bg-black/25'] },
   cyan: { img: 'bg-pds-cyan', overlays: ['bg-primary/55', 'bg-black/35'] },
   white: { img: 'bg-pds-white', overlays: ['bg-primary/45', 'bg-black/50'] },
 }
-const bg = computed(() => BG[pageBg.value] ?? BG.dark)
+
+// Variante définie par page via definePageMeta({ pageBackground }) -> route.meta
+// (cohérent serveur/client, pas de mismatch d'hydratation).
+const variant = computed<BgVariant>(() => (route.meta.pageBackground as BgVariant) ?? 'dark')
+const bg = computed(() => BG[variant.value] ?? BG.dark)
+
+// Petit logo PDS Humanity en haut de page (variante "dark")
+const showLogo = computed(() => variant.value === 'dark')
 </script>
 
 <template>
@@ -31,6 +38,14 @@ const bg = computed(() => BG[pageBg.value] ?? BG.dark)
       :class="o"
       aria-hidden="true"
     />
+    <!-- Petit logo PDS Humanity en haut de page -->
+    <img
+      v-if="showLogo"
+      src="/images/logo-white.png"
+      alt=""
+      aria-hidden="true"
+      class="pointer-events-none absolute left-1/2 top-24 -z-[3] w-40 -translate-x-1/2 opacity-90 md:w-52"
+    />
     <!-- Pictogrammes PERSO (blanc/bleu/rouge) en parallax, derrière les graffitis -->
     <PersoLayer />
     <!-- Graffitis avec parallax (dérivent au scroll, fond fixe) -->
@@ -41,5 +56,6 @@ const bg = computed(() => BG[pageBg.value] ?? BG.dark)
     </main>
     <AppFooter />
     <CookieBanner />
+    <DonationToast />
   </div>
 </template>

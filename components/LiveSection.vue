@@ -46,7 +46,7 @@ const showEmbed = computed(() => props.isLive && !!embedUrl.value)
 </script>
 
 <template>
-  <section class="py-16">
+  <section class="py-24 md:py-32">
     <div class="mx-auto max-w-7xl px-4 lg:px-8">
       <h2 class="section-title gradient-text">En direct</h2>
       <p class="mt-2 text-gray-400">

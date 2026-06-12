@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { MOCK_LEGAL } from '~/utils/mockData'
 
-usePageBackground('dark')
+definePageMeta({ pageBackground: 'dark' })
 
 usePageSeo({
   title: 'Politique de confidentialité — PDS Humanity',
@@ -19,7 +19,7 @@ const val = (v?: string) => (v && v.trim() ? v : 'À préciser')
 </script>
 
 <template>
-  <div class="py-12">
+  <div class="py-20 md:py-28">
     <div class="mx-auto max-w-3xl px-4 lg:px-8">
       <h1 class="section-title gradient-text">Politique de confidentialité</h1>
       <p class="mt-2 text-sm text-gray-400">Dernière mise à jour : {{ val(legal?.privacyUpdatedAt) }}</p>

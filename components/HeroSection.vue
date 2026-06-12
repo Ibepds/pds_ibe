@@ -9,7 +9,7 @@ const props = defineProps<{
 </script>
 
 <template>
-  <section class="relative overflow-hidden pt-28 pb-20">
+  <section class="relative overflow-hidden pt-40 pb-32 md:pt-48 md:pb-40">
     <!-- Léger assombrissement en bas pour la lisibilité du texte -->
     <div
       class="pointer-events-none absolute inset-x-0 bottom-0 h-1/2 bg-gradient-to-t from-black/30 to-transparent"
@@ -28,16 +28,16 @@ const props = defineProps<{
           <span class="h-2 w-2 rounded-full bg-accent-green animate-pulse" />
           Organisé par {{ event?.organizerName ?? 'PDS Records / Ibé' }}
         </p>
-        <h1 class="mt-6 font-display text-5xl font-bold uppercase leading-[0.95] tracking-tight text-white drop-shadow-[0_2px_12px_rgba(0,0,0,0.4)] md:text-7xl lg:text-8xl">
+        <h1 class="mt-8 font-display text-6xl font-bold uppercase leading-[0.92] tracking-tight text-white drop-shadow-[0_2px_12px_rgba(0,0,0,0.4)] md:text-8xl lg:text-9xl">
           {{ event?.heroTitle ?? event?.name }}
         </h1>
-        <p class="accent-serif mt-5 max-w-2xl text-xl text-white/90 md:text-2xl">
+        <p class="accent-serif mt-7 max-w-2xl text-xl text-white/90 md:text-3xl">
           {{ event?.heroSubtitle ?? event?.tagline }}
         </p>
-        <p v-if="event" class="mt-4 text-sm text-white/70">
+        <p v-if="event" class="mt-6 text-sm uppercase tracking-widest text-white/70">
           {{ formatDate(event.startDate) }} → {{ formatDate(event.endDate) }}
         </p>
-        <div class="mt-8 flex flex-wrap gap-4">
+        <div class="mt-10 flex flex-wrap gap-4">
           <PrimaryButton :href="event?.donationUrl" external>
             Faire un don
           </PrimaryButton>

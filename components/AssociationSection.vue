@@ -8,7 +8,7 @@ defineProps<{
 </script>
 
 <template>
-  <section class="py-16">
+  <section class="py-24 md:py-32">
     <div class="mx-auto max-w-7xl px-4 lg:px-8">
       <h2 class="section-title">L'association</h2>
       <p class="mt-2 text-gray-400">Découvrez la cause que nous soutenons</p>

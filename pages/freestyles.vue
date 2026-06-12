@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { MOCK_FREESTYLE_SLOTS, MOCK_FREESTYLE_BOOKINGS } from '~/utils/mockData'
 
-usePageBackground('dark')
+definePageMeta({ pageBackground: 'dark' })
 
 usePageSeo({
   title: 'Réservation freestyles — PDS Humanity',
@@ -85,10 +85,10 @@ const submit = async () => {
 </script>
 
 <template>
-  <div class="py-12">
+  <div class="py-20 md:py-28">
     <div class="mx-auto max-w-5xl px-4 lg:px-8">
       <h1 class="section-title gradient-text">Réservation freestyles</h1>
-      <p class="mt-2 text-gray-400">
+      <p class="accent-serif mt-4 max-w-2xl text-lg text-white/75 md:text-xl">
         Réservez votre créneau pour performer en direct lors des freestyles nocturnes du 28 juin.
       </p>
 

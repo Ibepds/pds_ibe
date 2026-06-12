@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { MOCK_ASSOCIATIONS } from '~/utils/mockData'
 
-usePageBackground('white')
+definePageMeta({ pageBackground: 'white' })
 
 usePageSeo({
   title: 'Associations soutenues — PDS Humanity',
@@ -16,10 +16,10 @@ const { data: associations, loading, error } = useFirestoreCollection(
 </script>
 
 <template>
-  <div class="py-12">
+  <div class="py-20 md:py-28">
     <div class="mx-auto max-w-7xl px-4 lg:px-8">
       <h1 class="section-title gradient-text">Associations soutenues</h1>
-      <p class="mt-2 text-gray-400">
+      <p class="accent-serif mt-4 max-w-2xl text-lg text-white/75 md:text-xl">
         L'ensemble des fonds récoltés lors de PDS Humanity est reversé à ces associations partenaires.
       </p>
 

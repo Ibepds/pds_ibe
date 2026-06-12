@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { MOCK_PRESENTATION } from '~/utils/mockData'
 
-usePageBackground('blue')
+definePageMeta({ pageBackground: 'blue' })
 
 usePageSeo({
   title: 'Présentation — PDS Humanity',
@@ -17,10 +17,10 @@ const { single: content } = useFirestoreCollection(
 </script>
 
 <template>
-  <div class="py-12">
+  <div class="py-20 md:py-28">
     <div class="mx-auto max-w-4xl px-4 lg:px-8">
       <h1 class="section-title gradient-text">Présentation</h1>
-      <p class="mt-2 text-gray-400">PDS Humanity — Musique & Solidarité</p>
+      <p class="accent-serif mt-4 text-lg text-white/75 md:text-xl">PDS Humanity — Musique & Solidarité</p>
 
       <div class="mt-10 space-y-10">
         <div class="card-glow p-8">
