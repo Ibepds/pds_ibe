@@ -24,7 +24,7 @@ const pictos = [
       </div>
 
       <p
-        class="mt-10 font-display font-bold uppercase leading-tight tracking-wide sm:mt-12 sm:text-3xl md:mt-14 md:text-4xl lg:text-5xl xl:text-6xl 2xl:text-7xl"
+        class="mt-10 font-display text-xl font-bold uppercase leading-tight tracking-wide sm:mt-12 sm:text-3xl md:mt-14 md:text-4xl lg:text-5xl xl:text-6xl 2xl:text-7xl"
       >
         Merci de faire la différence
       </p>

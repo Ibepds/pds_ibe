@@ -46,7 +46,7 @@ const { single: encheres } = useFirestoreCollection(
           </p>
         </div>
         <div v-reveal class="text-center">
-          <ChalkImage :src="DA.picto.plane" class="mx-auto h-14 w-14" />
+          <ChalkImage :src="DA.cgpt.sparkles" class="mx-auto h-14 w-14" />
           <h3 class="mt-4 font-display text-sm font-bold uppercase text-white">eBay Live</h3>
           <p class="mt-2 text-sm text-white/60">
             Les enchères se déroulent en direct sur eBay Live.

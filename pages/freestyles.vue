@@ -46,6 +46,12 @@ const availableCount = computed(
   () => slots.value.length - slots.value.filter((s) => isSlotTaken(s.label)).length,
 )
 
+const infosPratiques = [
+  { icon: 'cgpt.ticket', text: 'Nuit du 27 au 28 juin' },
+  { icon: 'cgpt.sparkles', text: 'De 03h00 à 10h29' },
+  { icon: 'picto.heartSm', text: '~8 minutes par passage' },
+] as const
+
 const selectSlot = (label: string) => {
   if (isSlotTaken(label)) return
   form.slot = form.slot === label ? '' : label
@@ -95,10 +101,11 @@ const submit = async () => {
       <div class="grid gap-8 sm:grid-cols-3">
         <div v-reveal>
           <h2 class="font-display text-sm font-bold uppercase text-white">Infos pratiques</h2>
-          <ul class="mt-3 space-y-1.5 text-sm text-white/60">
-            <li>📅 Nuit du 27 au 28 juin</li>
-            <li>⏰ De 03h00 à 10h29</li>
-            <li>⏱️ ~8 minutes par passage</li>
+          <ul class="mt-3 space-y-2 text-sm text-white/60">
+            <li v-for="info in infosPratiques" :key="info.text" class="flex items-start gap-2">
+              <DaIcon :icon="info.icon" class="mt-0.5 h-5 w-5 shrink-0" />
+              <span>{{ info.text }}</span>
+            </li>
           </ul>
         </div>
         <div v-reveal>
@@ -136,7 +143,7 @@ const submit = async () => {
               :key="slot.id"
               type="button"
               :disabled="isSlotTaken(slot.label)"
-              class="px-1 py-1.5 text-center text-xs font-bold uppercase transition"
+              class="min-w-0 px-1 py-1.5 text-center text-[0.65rem] font-bold uppercase leading-tight transition sm:text-xs md:text-sm"
               :class="[
                 isSlotTaken(slot.label)
                   ? 'cursor-not-allowed border border-accent-red/40 bg-accent-red/15 text-accent-red line-through'

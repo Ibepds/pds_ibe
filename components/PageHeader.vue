@@ -10,8 +10,8 @@ defineProps<{
 <template>
   <header v-reveal :class="align === 'center' ? 'text-center' : ''">
     <div
-      class="flex items-center gap-3"
-      :class="align === 'center' ? 'justify-center' : ''"
+      class="flex flex-wrap items-center justify-center gap-2"
+      :class="align === 'center' ? '' : ''"
     >
       <ChalkSparkles v-if="align === 'center'" />
       <h1

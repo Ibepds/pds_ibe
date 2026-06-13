@@ -72,20 +72,27 @@ const programmeItems = computed(() => {
             Réservez votre créneau
           </p>
         </div>
-        <span
+        <svg
           class="shrink-0 text-white/70"
-          :class="large ? 'text-2xl md:text-3xl' : 'text-xl'"
+          :class="large ? 'h-6 w-6 md:h-7 md:w-7' : 'h-5 w-5'"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          viewBox="0 0 24 24"
           aria-hidden="true"
-        >→</span>
+        >
+          <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7" />
+        </svg>
       </NuxtLink>
 
       <div v-reveal class="text-center" :class="large ? 'mt-10 md:mt-12' : 'mt-8'">
         <NuxtLink
           to="/planning"
-          class="font-semibold uppercase tracking-wide text-primary-light hover:underline"
+          class="inline-flex items-center justify-center gap-2 font-semibold uppercase tracking-wide text-primary-light hover:underline"
           :class="large ? 'text-base md:text-lg lg:text-xl' : 'text-sm'"
         >
-          → Programme complet
+          <ChalkSparkles class="!h-4 !w-3" />
+          Programme complet
         </NuxtLink>
       </div>
     </div>

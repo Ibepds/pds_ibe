@@ -62,17 +62,17 @@ function getRowStyle(item: ScheduleItem): RowStyle {
     <li
       v-for="item in displayed"
       :key="item.id"
-      class="grid items-center gap-2 md:gap-3"
+      class="grid items-center gap-2 py-4 md:gap-3 md:py-5"
       :class="
         large
-          ? 'grid-cols-[4.5rem_4rem_1fr_auto] py-5 md:grid-cols-[5.5rem_4.5rem_1fr_auto] md:py-6 lg:py-7'
-          : 'grid-cols-[3.5rem_3rem_1fr_auto] py-4 md:grid-cols-[4.5rem_3.5rem_1fr_auto]'
+          ? 'grid-cols-[2.75rem_2.5rem_1fr] sm:grid-cols-[4rem_3.25rem_1fr_auto] md:grid-cols-[5.5rem_4.5rem_1fr_auto] md:py-6 lg:py-7'
+          : 'grid-cols-[2.75rem_2.5rem_1fr] sm:grid-cols-[4.5rem_3.5rem_1fr_auto]'
       "
     >
       <!-- Heure -->
       <span
         class="font-display font-bold uppercase"
-        :class="large ? 'text-base md:text-xl lg:text-2xl' : 'text-sm md:text-base'"
+        :class="large ? 'text-sm sm:text-base md:text-xl lg:text-2xl' : 'text-sm md:text-base'"
       >
         {{ item.time ? formatTimeChalk(item.time) : '—' }}
       </span>
@@ -81,7 +81,7 @@ function getRowStyle(item: ScheduleItem): RowStyle {
       <div
         class="flex items-center justify-center rounded-full border-2"
         :class="[
-          large ? 'h-12 w-12 md:h-14 md:w-14 lg:h-16 lg:w-16' : 'h-10 w-10 md:h-11 md:w-11',
+          large ? 'h-10 w-10 sm:h-12 sm:w-12 md:h-14 md:w-14 lg:h-16 lg:w-16' : 'h-10 w-10 md:h-11 md:w-11',
           getRowStyle(item).color,
         ]"
       >
@@ -123,7 +123,7 @@ function getRowStyle(item: ScheduleItem): RowStyle {
         <p
           class="font-display font-bold uppercase leading-tight"
           :class="[
-            large ? 'text-base md:text-lg lg:text-xl' : 'text-sm md:text-base',
+            large ? 'text-sm sm:text-base md:text-lg lg:text-xl' : 'text-sm md:text-base',
             getRowStyle(item).titleColor,
           ]"
         >
@@ -148,7 +148,7 @@ function getRowStyle(item: ScheduleItem): RowStyle {
       </div>
 
       <!-- Cœur enchères -->
-      <div class="flex justify-center" :class="large ? 'w-8' : 'w-6'">
+      <div class="hidden justify-center sm:flex" :class="large ? 'w-8' : 'w-6'">
         <ChalkHeart
           v-if="getRowStyle(item).showHeart"
           class="opacity-90"

@@ -66,7 +66,7 @@ const scroll = (dir: -1 | 1) => {
             v-for="(lot, i) in items"
             :key="i"
             class="flex shrink-0 snap-center flex-col items-center border-2 border-white/35 bg-white/5 text-center"
-            :class="large ? 'w-60 p-6 md:w-72 md:p-7 lg:w-80' : 'w-52 p-5 md:w-56'"
+            :class="large ? 'w-[min(85vw,15rem)] p-6 md:w-72 md:p-7 lg:w-80' : 'w-[min(85vw,13rem)] p-5 md:w-56'"
           >
             <div
               class="relative flex w-full items-center justify-center"

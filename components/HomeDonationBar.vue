@@ -35,7 +35,7 @@ watch(
     <div v-else v-reveal class="text-center">
       <p
         class="font-display font-bold uppercase leading-tight"
-        :class="large ? 'text-4xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl' : 'text-2xl md:text-3xl'"
+        :class="large ? 'text-2xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl' : 'text-xl sm:text-2xl md:text-3xl'"
       >
         {{ formatCurrency(displayAmount) }}
         <span class="text-white/45"> / {{ formatCurrency(goal) }}</span>

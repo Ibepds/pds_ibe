@@ -47,19 +47,25 @@ const formatTime = (iso: string) => {
         <li
           v-for="(d, i) in (limit ? donations.slice(0, limit) : donations)"
           :key="d.id"
-          class="flex items-center justify-between gap-4 border-b border-white/15"
-          :class="large ? 'pb-3 md:pb-4' : 'gap-3 pb-2'"
+          class="flex gap-3 border-b border-white/15"
+          :class="large ? 'flex-col items-start py-3 sm:flex-row sm:items-center sm:justify-between sm:py-4' : 'items-center justify-between pb-2'"
         >
-          <span class="flex items-center gap-3 font-semibold" :class="large ? 'text-base md:text-xl lg:text-2xl' : ''">
+          <span
+            class="flex min-w-0 items-center gap-2 font-semibold"
+            :class="large ? 'text-base md:text-xl lg:text-2xl' : ''"
+          >
             <ChalkHeart
               :class="[
                 heartOpacities[i % heartOpacities.length],
                 large ? '!h-5 !w-5 md:!h-6 md:!w-6' : '!h-3.5 !w-3.5',
               ]"
             />
-            {{ d.username }}
+            <span class="truncate">{{ d.username }}</span>
           </span>
-          <span class="shrink-0 text-right" :class="large ? 'text-base md:text-lg' : 'text-sm'">
+          <span
+            class="shrink-0 text-left sm:text-right"
+            :class="large ? 'text-base md:text-lg' : 'text-sm'"
+          >
             <span
               class="font-display font-bold text-primary-light"
               :class="large ? 'text-xl md:text-2xl lg:text-3xl' : ''"

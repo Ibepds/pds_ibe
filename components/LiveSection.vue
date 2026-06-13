@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import { DA } from '~/utils/daAssets'
+
 const props = defineProps<{
   isLive: boolean
   liveUrl: string
@@ -85,7 +87,7 @@ const showEmbed = computed(() => props.isLive && !!embedUrl.value)
             LIVE
           </div>
           <div class="text-center p-8">
-            <div class="mx-auto mb-4 flex h-20 w-20 items-center justify-center rounded-2xl bg-primary/20 text-4xl">▶</div>
+            <ChalkImage :src="DA.cgpt.sparkles" class="mx-auto mb-4 h-16 w-16 opacity-90" />
             <p class="text-lg text-gray-300">Le live est en cours — rejoignez-nous !</p>
             <PrimaryButton v-if="liveUrl" :href="liveUrl" external class="mt-6">
               Ouvrir le stream
@@ -102,7 +104,7 @@ const showEmbed = computed(() => props.isLive && !!embedUrl.value)
           <div class="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_center,_rgba(5,70,160,0.35),_transparent_60%)]" />
           <div class="relative px-6 text-center">
             <p class="font-display text-5xl font-bold uppercase leading-none tracking-tight text-white md:text-7xl">
-              Patientez <span class="text-primary-light">♥</span>
+              Patientez <ChalkHeart class="!inline-block !h-8 !w-8 align-middle md:!h-10 md:!w-10" />
             </p>
             <p class="accent-serif -mt-1 text-3xl text-white/90 md:text-5xl">le stream va</p>
             <p class="font-display text-5xl font-bold uppercase leading-none tracking-tight text-white md:text-7xl">

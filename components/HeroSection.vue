@@ -12,28 +12,28 @@ defineProps<{
 
 <template>
   <section class="w-full text-center">
-    <!-- Logo + décorations -->
+    <!-- Logo + décorations (pictos latéraux à partir de md pour éviter le chevauchement mobile) -->
     <div
       class="rise relative mx-auto w-full"
       :class="large ? 'max-w-lg md:max-w-2xl lg:max-w-3xl' : 'max-w-md md:max-w-lg'"
       style="animation-delay: 0.05s"
     >
       <div
-        class="pointer-events-none absolute top-8"
-        :class="large ? '-left-4 md:-left-12' : '-left-2 md:-left-8'"
+        class="pointer-events-none absolute top-8 hidden md:block"
+        :class="large ? '-left-12 lg:-left-16' : '-left-8'"
       >
         <ChalkImage
           :src="DA.cgpt.heartOutline"
-          :class="large ? 'h-14 w-14 md:h-20 md:w-20 lg:h-24 lg:w-24' : 'h-10 w-10 md:h-12 md:w-12'"
+          :class="large ? 'h-20 w-20 lg:h-24 lg:w-24' : 'h-12 w-12'"
         />
       </div>
       <div
-        class="pointer-events-none absolute top-6"
-        :class="large ? '-right-4 md:-right-10' : '-right-2 md:-right-6'"
+        class="pointer-events-none absolute top-6 hidden md:block"
+        :class="large ? '-right-10 lg:-right-14' : '-right-6'"
       >
         <ChalkImage
           :src="DA.cgpt.dove"
-          :class="large ? 'h-20 w-20 md:h-28 md:w-28 lg:h-36 lg:w-36' : 'h-14 w-14 md:h-20 md:w-20'"
+          :class="large ? 'h-28 w-28 lg:h-36 lg:w-36' : 'h-20 w-20'"
         />
       </div>
       <img
@@ -44,7 +44,7 @@ defineProps<{
         fetchpriority="high"
         decoding="async"
         class="relative mx-auto w-full object-contain"
-        :class="large ? 'max-w-[320px] md:max-w-[440px] lg:max-w-[520px]' : 'max-w-[280px] md:max-w-[360px]'"
+        :class="large ? 'max-w-[280px] sm:max-w-[320px] md:max-w-[440px] lg:max-w-[520px]' : 'max-w-[260px] sm:max-w-[280px] md:max-w-[360px]'"
       />
     </div>
 
@@ -55,11 +55,11 @@ defineProps<{
       :class="large ? 'mt-10 md:mt-12' : 'mt-8'"
       style="animation-delay: 0.15s"
     >
-      <div class="flex items-center justify-center gap-3 md:gap-5">
-        <ChalkSparkles :class="large ? '!h-12 !w-8 md:!h-16 md:!w-10 lg:!h-20 lg:!w-12' : ''" />
+      <div class="flex flex-wrap items-center justify-center gap-2 px-2 sm:gap-3 md:gap-5">
+        <ChalkSparkles :class="large ? '!h-10 !w-7 sm:!h-12 sm:!w-8 md:!h-16 md:!w-10 lg:!h-20 lg:!w-12' : ''" />
         <p
-          class="font-display font-bold uppercase tracking-wide"
-          :class="large ? 'text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl' : 'text-2xl md:text-4xl lg:text-5xl'"
+          class="min-w-0 max-w-full font-display font-bold uppercase tracking-wide"
+          :class="large ? 'text-2xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl' : 'text-2xl md:text-4xl lg:text-5xl'"
         >
           {{ formatHeroDate(event.startDate) }}
         </p>
@@ -68,11 +68,13 @@ defineProps<{
           :class="large ? '!h-12 !w-8 md:!h-16 md:!w-10 lg:!h-20 lg:!w-12' : ''"
         />
       </div>
-      <div class="mt-5 flex items-center justify-center gap-3 md:mt-6">
+      <div
+        class="mt-5 flex flex-col items-center gap-2 sm:flex-row sm:justify-center sm:gap-3 md:mt-6"
+      >
         <ChalkHeart :class="large ? '!h-5 !w-5 md:!h-7 md:!w-7' : ''" />
         <p
-          class="font-semibold uppercase text-white/90"
-          :class="large ? 'text-sm tracking-[0.25em] md:text-base lg:text-lg' : 'text-xs tracking-[0.2em] md:text-sm'"
+          class="max-w-[18rem] text-center font-semibold uppercase text-white/90 sm:max-w-none"
+          :class="large ? 'text-sm tracking-[0.2em] md:text-base md:tracking-[0.25em] lg:text-lg' : 'text-xs tracking-[0.15em] md:text-sm md:tracking-[0.2em]'"
         >
           Live caritatif de 24h non-stop
         </p>
@@ -82,20 +84,20 @@ defineProps<{
     <!-- CTAs -->
     <div
       class="rise mx-auto flex w-full flex-col items-center gap-4 sm:flex-row sm:justify-center"
-      :class="large ? 'mt-10 max-w-3xl md:mt-12 md:max-w-4xl lg:max-w-5xl' : 'mt-8 max-w-2xl md:max-w-3xl'"
+      :class="large ? 'mt-10 max-w-3xl px-2 md:mt-12 md:max-w-4xl md:px-0 lg:max-w-5xl' : 'mt-8 max-w-2xl px-2 md:max-w-3xl md:px-0'"
       style="animation-delay: 0.28s"
     >
       <ChalkButton
         preset="donate"
         to="/donate"
-        class="w-full sm:w-auto sm:flex-1"
-        :class="large ? '!max-w-none md:!max-w-[480px] lg:!max-w-[540px]' : ''"
+        class="w-full max-w-[300px] sm:max-w-[360px] sm:flex-1"
+        :class="large ? 'md:!max-w-[480px] lg:!max-w-[540px]' : ''"
       />
       <ChalkButton
         preset="auctions"
         to="/encheres"
-        class="w-full sm:w-auto sm:flex-1"
-        :class="large ? '!max-w-none md:!max-w-[480px] lg:!max-w-[540px]' : ''"
+        class="w-full max-w-[300px] sm:max-w-[360px] sm:flex-1"
+        :class="large ? 'md:!max-w-[480px] lg:!max-w-[540px]' : ''"
       />
     </div>
 

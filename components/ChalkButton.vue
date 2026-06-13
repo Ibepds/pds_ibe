@@ -23,13 +23,13 @@ const label = computed(() => CHALK_BUTTON_LABEL[props.preset])
   <NuxtLink
     v-if="to"
     :to="to"
-    class="chalk-btn inline-block transition hover:opacity-90 active:scale-[0.98]"
+    class="chalk-btn mx-auto flex w-full max-w-[min(100%,20rem)] justify-center transition hover:opacity-90 active:scale-[0.98] sm:max-w-[22.5rem]"
     :class="props.class"
   >
     <img
       :src="src"
       :alt="label"
-      class="h-auto w-full max-w-[320px] object-contain md:max-w-[360px]"
+      class="mx-auto h-auto w-full max-w-[320px] object-contain md:max-w-[360px]"
       decoding="async"
     />
   </NuxtLink>
@@ -38,13 +38,13 @@ const label = computed(() => CHALK_BUTTON_LABEL[props.preset])
     :href="href"
     :target="external ? '_blank' : undefined"
     :rel="external ? 'noopener noreferrer' : undefined"
-    class="chalk-btn inline-block transition hover:opacity-90 active:scale-[0.98]"
+    class="chalk-btn mx-auto flex w-full max-w-[min(100%,20rem)] justify-center transition hover:opacity-90 active:scale-[0.98] sm:max-w-[22.5rem]"
     :class="props.class"
   >
     <img
       :src="src"
       :alt="label"
-      class="h-auto w-full max-w-[320px] object-contain md:max-w-[360px]"
+      class="mx-auto h-auto w-full max-w-[320px] object-contain md:max-w-[360px]"
       decoding="async"
     />
   </a>
@@ -52,13 +52,13 @@ const label = computed(() => CHALK_BUTTON_LABEL[props.preset])
     v-else
     :type="type ?? 'button'"
     :disabled="disabled"
-    class="chalk-btn inline-block transition hover:opacity-90 active:scale-[0.98] disabled:cursor-not-allowed disabled:opacity-50"
+    class="chalk-btn mx-auto flex w-full justify-center transition hover:opacity-90 active:scale-[0.98] disabled:cursor-not-allowed disabled:opacity-50"
     :class="props.class"
   >
     <img
       :src="src"
       :alt="label"
-      class="h-auto w-full max-w-[320px] object-contain md:max-w-[360px]"
+      class="mx-auto h-auto w-full max-w-[320px] object-contain md:max-w-[360px]"
       decoding="async"
     />
   </button>

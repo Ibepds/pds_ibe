@@ -96,17 +96,17 @@ const send = async () => {
       <div class="grid gap-12 lg:grid-cols-3">
         <ul class="space-y-8 lg:col-span-1">
           <li v-reveal>
-            <p class="text-2xl">📰</p>
+            <DaIcon icon="cgpt.sparkles" class="h-10 w-10" />
             <h3 class="mt-2 font-display text-sm font-bold uppercase text-white">Presse</h3>
             <p class="mt-1 text-sm text-white/60">Demandes d'accréditation, interviews, visuels.</p>
           </li>
           <li v-reveal>
-            <p class="text-2xl">🤝</p>
+            <DaIcon icon="picto.highFive" class="h-10 w-10" />
             <h3 class="mt-2 font-display text-sm font-bold uppercase text-white">Partenariats</h3>
             <p class="mt-1 text-sm text-white/60">Collaboration, sponsoring, mise en avant.</p>
           </li>
           <li v-reveal>
-            <p class="text-2xl">💬</p>
+            <DaIcon icon="picto.heartSm" class="h-10 w-10" />
             <h3 class="mt-2 font-display text-sm font-bold uppercase text-white">Général</h3>
             <p class="mt-1 text-sm text-white/60">Toute autre question sur l'événement.</p>
           </li>

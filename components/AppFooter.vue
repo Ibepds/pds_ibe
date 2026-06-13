@@ -66,7 +66,7 @@ const platforms = computed(() =>
             Organisé par
             <strong class="text-primary-light">{{ event?.organizerName ?? 'PDS Records / Ibé' }}</strong>
           </p>
-          <ChalkButton preset="donate" to="/donate" class="mt-4 w-full !max-w-none" />
+          <ChalkButton preset="donate" to="/donate" class="mt-4 w-full max-w-[20rem]" />
           <p class="mt-4 text-xs text-gray-500">
             © {{ year }} {{ event?.name ?? 'PDS Humanity' }}. Tous droits réservés.
           </p>

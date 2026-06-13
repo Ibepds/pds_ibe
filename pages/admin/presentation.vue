@@ -3,6 +3,7 @@ definePageMeta({ layout: 'admin', middleware: 'admin' })
 
 import type { PresentationDoc } from '~/types'
 import { MOCK_PRESENTATION } from '~/utils/mockData'
+import { DA_ICON_OPTIONS } from '~/utils/daIcons'
 
 const { single: content, refresh } = useFirestoreCollection(
   'content',
@@ -28,9 +29,9 @@ watch(content, (c) => {
   }
 }, { immediate: true })
 
-const addCard = () => form.conceptCards.push({ icon: '✨', title: '', text: '' })
+const addCard = () => form.conceptCards.push({ icon: 'picto.highFive', title: '', text: '' })
 const removeCard = (i: number) => form.conceptCards.splice(i, 1)
-const addPlatform = () => form.platforms.push({ icon: '🔗', name: '' })
+const addPlatform = () => form.platforms.push({ icon: 'cgpt.sparkles', name: '' })
 const removePlatform = (i: number) => form.platforms.splice(i, 1)
 
 const save = async () => {
@@ -89,11 +90,17 @@ const save = async () => {
         </div>
         <div v-for="(card, i) in form.conceptCards" :key="i" class="mb-3 rounded-lg border border-gray-200 p-3">
           <div class="flex items-start gap-2">
-            <input
-              v-model="card.icon"
-              class="w-16 rounded-lg border border-gray-300 px-2 py-2 text-center text-lg"
-              placeholder="🎵"
-            />
+            <div class="flex flex-col items-center gap-1">
+              <DaIcon :icon="card.icon" class="h-8 w-8" />
+              <select
+                v-model="card.icon"
+                class="w-28 rounded-lg border border-gray-300 px-1 py-1 text-xs text-gray-700"
+              >
+                <option v-for="opt in DA_ICON_OPTIONS" :key="opt.key" :value="opt.key">
+                  {{ opt.label }}
+                </option>
+              </select>
+            </div>
             <div class="flex-1 space-y-2">
               <input
                 v-model="card.title"
@@ -107,7 +114,9 @@ const save = async () => {
                 placeholder="Description"
               />
             </div>
-            <button type="button" class="rounded p-2 text-red-600 hover:bg-red-50" @click="removeCard(i)">✕</button>
+            <button type="button" class="rounded p-2 text-red-600 hover:bg-red-50" aria-label="Supprimer" @click="removeCard(i)">
+              <span aria-hidden="true">×</span>
+            </button>
           </div>
         </div>
       </div>
@@ -119,17 +128,25 @@ const save = async () => {
           <button type="button" class="text-sm text-primary" @click="addPlatform">+ Ajouter une plateforme</button>
         </div>
         <div v-for="(p, i) in form.platforms" :key="i" class="mb-2 flex items-center gap-2">
-          <input
-            v-model="p.icon"
-            class="w-16 rounded-lg border border-gray-300 px-2 py-2 text-center text-lg"
-            placeholder="📺"
-          />
+          <div class="flex flex-col items-center gap-1">
+            <DaIcon :icon="p.icon" class="h-7 w-7" />
+            <select
+              v-model="p.icon"
+              class="w-28 rounded-lg border border-gray-300 px-1 py-1 text-xs text-gray-700"
+            >
+              <option v-for="opt in DA_ICON_OPTIONS" :key="opt.key" :value="opt.key">
+                {{ opt.label }}
+              </option>
+            </select>
+          </div>
           <input
             v-model="p.name"
             class="flex-1 rounded-lg border border-gray-300 px-3 py-2 text-sm"
             placeholder="Nom de la plateforme"
           />
-          <button type="button" class="rounded p-2 text-red-600 hover:bg-red-50" @click="removePlatform(i)">✕</button>
+          <button type="button" class="rounded p-2 text-red-600 hover:bg-red-50" aria-label="Supprimer" @click="removePlatform(i)">
+            <span aria-hidden="true">×</span>
+          </button>
         </div>
       </div>
 

@@ -54,7 +54,7 @@ onUnmounted(() => {
           </svg>
         </button>
 
-        <ChalkButton preset="donate" to="/donate" class="!max-w-[140px] md:!max-w-[160px]" />
+        <ChalkButton preset="donate" to="/donate" class="shrink-0 !max-w-[9.5rem] sm:!max-w-[10rem] md:!max-w-[160px]" />
       </div>
 
       <Transition name="menu-slide">

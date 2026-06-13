@@ -44,7 +44,9 @@ const { single: content } = useFirestoreCollection(
           :key="i"
           class="py-6 md:py-0 md:text-center"
         >
-          <div class="text-3xl">{{ card.icon }}</div>
+          <div class="mx-auto flex h-14 w-14 items-center justify-center">
+            <DaIcon :icon="card.icon" class="h-12 w-12" />
+          </div>
           <h3 class="mt-3 font-display text-sm font-bold uppercase text-white">{{ card.title }}</h3>
           <p class="mt-2 text-sm text-white/60">{{ card.text }}</p>
         </li>
@@ -72,17 +74,23 @@ const { single: content } = useFirestoreCollection(
           :key="i"
           class="text-center"
         >
-          <div class="text-2xl">{{ p.icon }}</div>
+          <div class="mx-auto flex h-12 w-12 items-center justify-center">
+            <DaIcon :icon="p.icon" class="h-10 w-10" />
+          </div>
           <p class="mt-2 font-display text-sm font-bold uppercase text-white">{{ p.name }}</p>
         </div>
       </div>
     </section>
 
     <section class="section-divider py-12 md:py-16">
-      <div v-reveal class="flex flex-wrap justify-center gap-6">
-        <ChalkButton preset="donate" to="/donate" />
-        <PrimaryButton to="/freestyles" variant="outline">Réserver un freestyle</PrimaryButton>
-        <PrimaryButton to="/planning" variant="outline">Voir le programme</PrimaryButton>
+      <div v-reveal class="flex flex-col items-center gap-4 sm:flex-row sm:flex-wrap sm:justify-center sm:gap-6">
+        <ChalkButton preset="donate" to="/donate" class="w-full max-w-[300px] sm:w-auto" />
+        <PrimaryButton to="/freestyles" variant="outline" class="w-full max-w-[300px] sm:w-auto">
+          Réserver un freestyle
+        </PrimaryButton>
+        <PrimaryButton to="/planning" variant="outline" class="w-full max-w-[300px] sm:w-auto">
+          Voir le programme
+        </PrimaryButton>
       </div>
     </section>
   </div>

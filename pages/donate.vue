@@ -54,7 +54,7 @@ const startCheckout = async () => {
     <section class="section-divider mx-auto max-w-xl py-12 md:py-16">
       <div v-if="loading" class="h-48 animate-pulse bg-white/10" />
       <div v-else v-reveal>
-        <p class="font-display text-3xl font-bold uppercase md:text-4xl">
+        <p class="font-display text-2xl font-bold uppercase sm:text-3xl md:text-4xl">
           {{ formatCurrency(current) }}
           <span class="text-white/45"> / {{ formatCurrency(goal) }}</span>
         </p>

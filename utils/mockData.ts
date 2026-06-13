@@ -111,7 +111,7 @@ export const MOCK_DONATIONS: Donation[] = [
     username: 'MaxDu93',
     email: 'max@example.com',
     amount: 25,
-    message: 'On est avec vous 💜',
+    message: 'On est avec vous',
     createdAt: new Date(Date.now() - 7200000).toISOString(),
   },
   {
@@ -119,7 +119,7 @@ export const MOCK_DONATIONS: Donation[] = [
     username: 'Anonyme',
     email: 'donateur.anonyme@example.com',
     amount: 100,
-    message: 'Pour une bonne cause ❤️',
+    message: 'Pour une bonne cause',
     createdAt: new Date(Date.now() - 10800000).toISOString(),
   },
   {
@@ -213,15 +213,15 @@ export const MOCK_PRESENTATION: PresentationDoc = {
   porteurText:
     "PDS Records est un label indépendant fondé par Ibé, artiste engagé et producteur. PDS Humanity est produit et organisé en interne par PDS Records / Ibé, avec la conviction que la musique peut être un puissant vecteur de solidarité.",
   conceptCards: [
-    { icon: '🎵', title: 'Musique live', text: 'Performances, freestyles et concerts en direct tout au long du marathon de 24h.' },
-    { icon: '❤️', title: 'Solidarité', text: '100% des fonds collectés reversés aux associations partenaires.' },
-    { icon: '🏆', title: 'Enchères', text: 'Ventes aux enchères solidaires en direct sur eBay Live avec des lots exclusifs.' },
+    { icon: 'picto.highFive', title: 'Musique live', text: 'Performances, freestyles et concerts en direct tout au long du marathon de 24h.' },
+    { icon: 'picto.heart', title: 'Solidarité', text: '100% des fonds collectés reversés aux associations partenaires.' },
+    { icon: 'picto.trophy', title: 'Enchères', text: 'Ventes aux enchères solidaires en direct sur eBay Live avec des lots exclusifs.' },
   ],
   platforms: [
-    { icon: '📺', name: 'Twitch' },
-    { icon: '▶️', name: 'YouTube' },
-    { icon: '🎵', name: 'TikTok' },
-    { icon: '🛒', name: 'eBay Live' },
+    { icon: 'cgpt.sparkles', name: 'Twitch' },
+    { icon: 'picto.plane', name: 'YouTube' },
+    { icon: 'picto.highFive', name: 'TikTok' },
+    { icon: 'picto.gift', name: 'eBay Live' },
   ],
 }
 

@@ -25,18 +25,18 @@ const units = [
 
 <template>
   <div
-    class="flex flex-wrap items-center justify-center divide-x divide-white/40"
-    :class="large ? 'gap-y-4' : ''"
+    class="grid grid-cols-2 items-center justify-items-center gap-x-2 gap-y-4 sm:flex sm:flex-wrap sm:justify-center"
+    :class="large ? 'sm:gap-y-4 sm:divide-x sm:divide-white/40' : 'divide-x divide-white/40'"
   >
     <div
       v-for="unit in units"
       :key="unit.key"
-      class="text-center"
-      :class="large ? 'px-5 sm:px-8 md:px-10 lg:px-14' : 'px-4 md:px-6'"
+      class="w-full text-center sm:w-auto"
+      :class="large ? 'px-3 sm:px-8 md:px-10 lg:px-14' : 'px-4 md:px-6'"
     >
       <p
         class="font-display font-bold tabular-nums leading-none"
-        :class="large ? 'text-5xl sm:text-6xl md:text-7xl lg:text-8xl' : 'text-3xl md:text-4xl'"
+        :class="large ? 'text-4xl sm:text-6xl md:text-7xl lg:text-8xl' : 'text-3xl md:text-4xl'"
       >
         {{ String(remaining[unit.key]).padStart(2, '0') }}
       </p>

@@ -26,10 +26,10 @@ const toggle = (id: string) => {
   <section class="section-divider py-12 md:py-16">
     <div class="w-full text-center">
       <div v-reveal class="flex flex-col items-center gap-3">
-        <div class="flex items-center gap-3">
+        <div class="flex flex-wrap items-center justify-center gap-2 px-2 sm:gap-3">
           <ChalkSparkles />
           <ChalkHeart />
-          <h2 class="font-display text-lg font-bold uppercase tracking-wide md:text-xl">
+          <h2 class="font-display text-base font-bold uppercase tracking-wide sm:text-lg md:text-xl">
             Questions fréquentes
           </h2>
           <ChalkHeart />
@@ -48,11 +48,11 @@ const toggle = (id: string) => {
             class="border-b border-white/20"
           >
             <button
-              class="flex w-full items-center justify-between gap-4 py-4 text-left font-semibold uppercase tracking-wide transition hover:text-primary-light"
+              class="flex w-full items-center justify-between gap-3 py-4 text-left font-semibold uppercase tracking-wide transition hover:text-primary-light sm:gap-4"
               @click="toggle(item.id)"
             >
-              {{ item.question }}
-              <span class="text-primary-light text-xl">{{ openId === item.id ? '−' : '+' }}</span>
+              <span class="min-w-0 flex-1 text-sm sm:text-base">{{ item.question }}</span>
+              <span class="shrink-0 text-primary-light text-xl">{{ openId === item.id ? '−' : '+' }}</span>
             </button>
             <div
               v-show="openId === item.id"
@@ -67,9 +67,10 @@ const toggle = (id: string) => {
       <div v-if="showLink !== false" v-reveal class="mt-8">
         <NuxtLink
           to="/faq"
-          class="text-sm font-semibold uppercase tracking-wide text-primary-light hover:underline"
+          class="inline-flex items-center gap-2 text-sm font-semibold uppercase tracking-wide text-primary-light hover:underline"
         >
-          → Voir toutes les questions
+          <ChalkSparkles class="!h-4 !w-3" />
+          Voir toutes les questions
         </NuxtLink>
       </div>
     </div>

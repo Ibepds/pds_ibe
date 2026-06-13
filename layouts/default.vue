@@ -3,7 +3,7 @@ const route = useRoute()
 </script>
 
 <template>
-  <div class="page-chalk">
+  <div class="page-chalk overflow-x-clip">
     <AppHeader />
     <main :class="route.path === '/' ? '' : 'pt-20'">
       <slot />
