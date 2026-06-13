@@ -15,6 +15,7 @@ export type DaIconKey =
   | 'cgpt.dove'
   | 'cgpt.btnAuctions'
   | 'cgpt.childrenGlobe'
+  | 'cgpt.assoLogo'
   | 'cgpt.chat'
   | 'cgpt.gift'
   | 'cgpt.microphone'

@@ -182,7 +182,7 @@ export const MOCK_ASSOCIATIONS: (AssociationDoc & { id: string })[] = [
     id: 'asso-1',
     name: 'Association partenaire 1',
     description: 'Description de la première association partenaire de PDS Humanity. Les fonds collectés soutiendront leurs actions sur le terrain.',
-    logoUrl: '',
+    logoUrl: '/images/da/cgpt/picto-7-cgpt.png',
     websiteUrl: '',
     mission: 'À préciser — descriptif en cours de collecte.',
     keyNumbers: [
@@ -194,7 +194,7 @@ export const MOCK_ASSOCIATIONS: (AssociationDoc & { id: string })[] = [
     id: 'asso-2',
     name: 'Association partenaire 2',
     description: 'Description de la deuxième association partenaire de PDS Humanity. Chaque don contribue directement à leur mission.',
-    logoUrl: '',
+    logoUrl: '/images/da/cgpt/picto-7-cgpt.png',
     websiteUrl: '',
     mission: 'À préciser — descriptif en cours de collecte.',
     keyNumbers: [

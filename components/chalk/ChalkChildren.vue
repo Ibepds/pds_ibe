@@ -7,7 +7,8 @@ defineOptions({ inheritAttrs: false })
 <template>
   <ChalkImage
     :src="DA.cgpt.childrenGlobe"
-    class="mx-auto w-full max-w-[320px] md:max-w-[480px] lg:max-w-[560px]"
+    transparent
+    class="mx-auto block w-full max-w-[320px] object-contain object-center md:max-w-[480px] lg:max-w-[560px]"
     :class="$attrs.class"
   />
 </template>

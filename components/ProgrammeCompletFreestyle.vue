@@ -3,11 +3,18 @@ import { DA } from '~/utils/daAssets'
 
 defineProps<{
   large?: boolean
+  /** Afficher le lien vers /planning (uniquement s’il reste des entrées non listées) */
+  showProgrammeComplet?: boolean
 }>()
 </script>
 
 <template>
-  <div v-reveal class="text-center" :class="large ? 'mt-10 md:mt-12' : 'mt-8'">
+  <div
+    v-if="showProgrammeComplet"
+    v-reveal
+    class="text-center"
+    :class="large ? 'mt-10 md:mt-12' : 'mt-8'"
+  >
     <NuxtLink
       to="/planning"
       class="inline-flex items-center justify-center gap-2 font-semibold uppercase tracking-wide text-primary-light hover:underline"

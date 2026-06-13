@@ -39,24 +39,10 @@ const { data: associations, loading, error } = useFirestoreCollection(
           <div class="grid gap-8 lg:grid-cols-3">
             <div class="lg:col-span-2">
               <div class="flex flex-col items-center gap-5 text-center sm:flex-row sm:items-start sm:text-left">
-                <div v-if="asso.logoUrl" class="h-16 w-16 shrink-0">
-                  <img
-                    :src="asso.logoUrl"
-                    :alt="`Logo ${asso.name}`"
-                    width="64"
-                    height="64"
-                    loading="lazy"
-                    decoding="async"
-                    class="h-full w-full object-contain brightness-0 invert opacity-85"
-                  />
+                <div class="mx-auto flex shrink-0 items-center justify-center sm:mx-0">
+                  <AssoChalkLogo class="!max-w-[120px] md:!max-w-[140px]" :alt="asso.name" />
                 </div>
-                <div
-                  v-else
-                  class="flex h-16 w-16 shrink-0 items-center justify-center font-display text-2xl font-bold text-white/80"
-                >
-                  {{ asso.name.charAt(0) }}
-                </div>
-                <div>
+                <div class="w-full min-w-0">
                   <h2 class="font-display text-2xl font-bold uppercase text-white">{{ asso.name }}</h2>
                   <p class="mt-3 leading-relaxed text-white/75">{{ asso.description }}</p>
                   <p class="mt-3 text-sm text-white/60">

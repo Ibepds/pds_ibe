@@ -61,7 +61,7 @@ usePageSeo({
         <ScheduleTimeline :items="programmeItems" :loading="loading" />
       </div>
 
-      <ProgrammeCompletFreestyle />
+      <ProgrammeCompletFreestyle :show-programme-complet="false" />
     </section>
 
     <section v-if="event" class="section-divider py-12 text-center md:py-16">

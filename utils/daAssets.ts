@@ -8,8 +8,8 @@ export const DA = {
     heartSm: '/images/da/picto-5-blanc.png',
     plane: '/images/da/picto-6-blanc.png',
     trophy: '/images/da/picto-7-blanc.png',
-    /** Variante CGPT — enfants sur le globe */
-    childrenGlobe: '/images/da/picto-7-blanc-cgpt.png',
+    /** Enfants sur le globe — asset officiel CGPT (associations, countdown, planning) */
+    childrenGlobe: '/images/da/cgpt/picto-7-cgpt.png',
   },
   trait: {
     stroke1: '/images/da/trait-1-blanc.png',
@@ -30,8 +30,10 @@ export const DA = {
     btnAuctions: '/images/da/cgpt/picto-6-blanc.png',
     btnDonateBlue: '/images/da/cgpt/picto-5-bleu.png',
     btnAuctionsBlue: '/images/da/cgpt/picto-6-bleu.png',
-    /** Enfants sur le globe (countdown / planning) */
-    childrenGlobe: '/images/da/cgpt/picto-7-blanc.png',
+    /** Enfants sur le globe — blanc transparent (associations, countdown, planning) */
+    childrenGlobe: '/images/da/cgpt/picto-7-cgpt.png',
+    /** Alias sémantique (même fichier) */
+    assoLogo: '/images/da/cgpt/picto-7-cgpt.png',
     /** Bulles — table ronde / contact */
     chat: '/images/da/cgpt/picto-8-blanc.png',
     /** Cadeau enchères */

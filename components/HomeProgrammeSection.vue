@@ -10,12 +10,19 @@ const props = defineProps<{
   large?: boolean
 }>()
 
-const programmeItems = computed(() => {
-  const sorted = [...props.items]
+const allProgrammeItems = computed(() =>
+  [...props.items]
     .filter((i) => !i.title.toLowerCase().includes('freestyle'))
-    .sort((a, b) => a.order - b.order)
-  return props.limit ? sorted.slice(0, props.limit) : sorted
-})
+    .sort((a, b) => a.order - b.order),
+)
+
+const programmeItems = computed(() =>
+  props.limit ? allProgrammeItems.value.slice(0, props.limit) : allProgrammeItems.value,
+)
+
+const showProgrammeComplet = computed(
+  () => !!props.limit && allProgrammeItems.value.length > props.limit,
+)
 </script>
 
 <template>
@@ -39,7 +46,7 @@ const programmeItems = computed(() => {
         <ScheduleTimeline :items="programmeItems" :loading="loading" :large="large" />
       </div>
 
-      <ProgrammeCompletFreestyle :large="large" />
+      <ProgrammeCompletFreestyle :large="large" :show-programme-complet="showProgrammeComplet" />
     </div>
   </section>
 </template>

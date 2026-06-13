@@ -258,6 +258,10 @@
     mix-blend-mode: screen;
   }
 
+  .chalk-img--alpha {
+    mix-blend-mode: normal;
+  }
+
   .chalk-picto {
     @apply shrink-0 md:inline-block;
   }

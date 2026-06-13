@@ -5,19 +5,20 @@ defineOptions({ inheritAttrs: false })
 
 defineProps<{
   large?: boolean
+  alt?: string
 }>()
 </script>
 
 <template>
   <ChalkImage
     :src="DA.cgpt.childrenGlobe"
-    alt="PDS Humanity"
+    :alt="alt ?? 'Association partenaire'"
     transparent
     :class="[
-      'mx-auto w-full',
+      'mx-auto block w-full object-contain object-center',
       large
-        ? 'max-w-[420px] sm:max-w-[520px] md:max-w-[640px] lg:max-w-[760px] xl:max-w-[860px]'
-        : 'max-w-[320px] md:max-w-[480px] lg:max-w-[560px]',
+        ? 'max-w-[180px] sm:max-w-[220px] md:max-w-[260px] lg:max-w-[300px]'
+        : 'max-w-[140px] sm:max-w-[180px] md:max-w-[220px]',
       $attrs.class,
     ]"
   />
