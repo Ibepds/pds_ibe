@@ -47,9 +47,9 @@ const availableCount = computed(
 )
 
 const infosPratiques = [
-  { icon: 'cgpt.ticket', text: 'Nuit du 27 au 28 juin' },
-  { icon: 'cgpt.sparkles', text: 'De 03h00 à 10h29' },
-  { icon: 'picto.heartSm', text: '~8 minutes par passage' },
+  { icon: 'cgpt.calendar', text: 'Nuit du 27 au 28 juin' },
+  { icon: 'cgpt.calendar', text: 'De 03h00 à 10h29' },
+  { icon: 'cgpt.microphone', text: '~8 minutes par passage' },
 ] as const
 
 const selectSlot = (label: string) => {
@@ -98,39 +98,39 @@ const submit = async () => {
     </section>
 
     <section class="section-divider py-12 md:py-16">
-      <div class="grid gap-8 sm:grid-cols-3">
-        <div v-reveal>
+      <div class="grid gap-8 text-center sm:grid-cols-3 sm:text-left">
+        <div v-reveal class="flex flex-col items-center sm:items-start">
           <h2 class="font-display text-sm font-bold uppercase text-white">Infos pratiques</h2>
           <ul class="mt-3 space-y-2 text-sm text-white/60">
-            <li v-for="info in infosPratiques" :key="info.text" class="flex items-start gap-2">
-              <DaIcon :icon="info.icon" class="mt-0.5 h-5 w-5 shrink-0" />
+            <li v-for="info in infosPratiques" :key="info.text" class="flex items-center justify-center gap-2 sm:justify-start">
+              <DaIcon :icon="info.icon" class="h-5 w-5 shrink-0" />
               <span>{{ info.text }}</span>
             </li>
           </ul>
         </div>
-        <div v-reveal>
+        <div v-reveal class="flex flex-col items-center sm:items-start">
           <h2 class="font-display text-sm font-bold uppercase text-white">Comment ça marche ?</h2>
-          <ol class="mt-3 list-inside list-decimal space-y-1.5 text-sm text-white/60">
+          <ol class="mt-3 list-decimal space-y-1.5 text-sm text-white/60 sm:list-inside">
             <li>Choisissez un créneau libre</li>
             <li>Remplissez le formulaire</li>
             <li>Validation par l'organisateur</li>
           </ol>
         </div>
-        <div v-reveal class="text-center sm:text-left">
+        <div v-reveal>
           <p class="font-display text-4xl font-bold text-accent-green">{{ availableCount }}</p>
           <p class="text-sm text-white/60">créneaux disponibles sur {{ slots.length }}</p>
         </div>
       </div>
     </section>
 
-    <section class="section-divider py-12 md:py-16">
+    <section class="section-divider keep-left-mobile py-12 md:py-16">
       <div class="grid gap-12 lg:grid-cols-5">
         <div v-reveal class="lg:col-span-2 lg:sticky lg:top-24 lg:self-start">
-          <h2 class="section-heading !justify-start">
-            <ChalkHeart />
+          <h2 class="section-heading section-heading-left">
+            <ChalkHeart class="chalk-picto !h-6 !w-6" />
             Choisissez votre créneau
           </h2>
-          <div class="mt-4 flex flex-wrap gap-3 text-xs text-white/60">
+          <div class="mt-4 flex flex-wrap justify-center gap-3 text-xs text-white/60 lg:justify-start">
             <span class="flex items-center gap-1"><span class="h-3 w-3 border border-accent-green/60 bg-accent-green/20" /> Libre</span>
             <span class="flex items-center gap-1"><span class="h-3 w-3 border border-white bg-white" /> Sélectionné</span>
             <span class="flex items-center gap-1"><span class="h-3 w-3 border border-accent-red/60 bg-accent-red/20" /> Pris</span>
@@ -163,7 +163,7 @@ const submit = async () => {
 
         <div class="lg:col-span-3">
           <div v-if="sent" v-reveal class="text-center">
-            <ChalkImage :src="DA.picto.trophy" class="mx-auto h-16 w-16" />
+            <ChalkImage :src="DA.cgpt.check" class="mx-auto h-16 w-16" />
             <h2 class="mt-4 font-display text-xl font-bold uppercase text-white">Inscription reçue !</h2>
             <p class="mt-2 text-white/60">
               Votre demande est en attente de validation. Vous recevrez un e-mail de confirmation
@@ -174,9 +174,9 @@ const submit = async () => {
             </PrimaryButton>
           </div>
 
-          <form v-else v-reveal class="space-y-5" @submit.prevent="submit">
-            <h2 class="section-heading !justify-start">
-              <ChalkHeart />
+          <form v-else v-reveal class="form-block-mobile space-y-5 lg:max-w-none" @submit.prevent="submit">
+            <h2 class="section-heading section-heading-left">
+              <ChalkHeart class="chalk-picto !h-6 !w-6" />
               Vos informations
             </h2>
 

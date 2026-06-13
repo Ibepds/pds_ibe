@@ -213,15 +213,15 @@ export const MOCK_PRESENTATION: PresentationDoc = {
   porteurText:
     "PDS Records est un label indépendant fondé par Ibé, artiste engagé et producteur. PDS Humanity est produit et organisé en interne par PDS Records / Ibé, avec la conviction que la musique peut être un puissant vecteur de solidarité.",
   conceptCards: [
-    { icon: 'picto.highFive', title: 'Musique live', text: 'Performances, freestyles et concerts en direct tout au long du marathon de 24h.' },
+    { icon: 'cgpt.musicNote', title: 'Musique live', text: 'Performances, freestyles et concerts en direct tout au long du marathon de 24h.' },
     { icon: 'picto.heart', title: 'Solidarité', text: '100% des fonds collectés reversés aux associations partenaires.' },
-    { icon: 'picto.trophy', title: 'Enchères', text: 'Ventes aux enchères solidaires en direct sur eBay Live avec des lots exclusifs.' },
+    { icon: 'cgpt.gift', title: 'Enchères', text: 'Ventes aux enchères solidaires en direct sur eBay Live avec des lots exclusifs.' },
   ],
   platforms: [
     { icon: 'cgpt.sparkles', name: 'Twitch' },
-    { icon: 'picto.plane', name: 'YouTube' },
-    { icon: 'picto.highFive', name: 'TikTok' },
-    { icon: 'picto.gift', name: 'eBay Live' },
+    { icon: 'cgpt.star', name: 'YouTube' },
+    { icon: 'cgpt.musicNoteSm', name: 'TikTok' },
+    { icon: 'cgpt.gift', name: 'eBay Live' },
   ],
 }
 

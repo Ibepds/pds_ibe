@@ -8,7 +8,7 @@ export const DA = {
     heartSm: '/images/da/picto-5-blanc.png',
     plane: '/images/da/picto-6-blanc.png',
     trophy: '/images/da/picto-7-blanc.png',
-    /** Variante CGPT — enfants sur le globe (drive-download) */
+    /** Variante CGPT — enfants sur le globe */
     childrenGlobe: '/images/da/picto-7-blanc-cgpt.png',
   },
   trait: {
@@ -20,7 +20,7 @@ export const DA = {
     stroke6: '/images/da/trait-6-blanc.png',
     stroke7: '/images/da/trait-7-blanc.png',
   },
-  /** Boutons craie (maquette CGPT) */
+  /** Pictos CGPT (maquettes slides 1–6 + page freestyle) */
   cgpt: {
     sparkles: '/images/da/cgpt/picto-1-blanc.png',
     ticket: '/images/da/cgpt/picto-2-blanc.png',
@@ -30,6 +30,39 @@ export const DA = {
     btnAuctions: '/images/da/cgpt/picto-6-blanc.png',
     btnDonateBlue: '/images/da/cgpt/picto-5-bleu.png',
     btnAuctionsBlue: '/images/da/cgpt/picto-6-bleu.png',
+    /** Enfants sur le globe (countdown / planning) */
+    childrenGlobe: '/images/da/cgpt/picto-7-blanc.png',
+    /** Bulles — table ronde / contact */
+    chat: '/images/da/cgpt/picto-8-blanc.png',
+    /** Cadeau enchères */
+    gift: '/images/da/cgpt/picto-9-blanc.png',
+    /** Microphone — freestyles */
+    microphone: '/images/da/cgpt/picto-10-blanc.png',
+    /** Couronne — enchère finale */
+    crown: '/images/da/cgpt/picto-11-blanc.png',
+    /** Étoile — concepts / temps fort */
+    star: '/images/da/cgpt/picto-12-blanc.png',
+    /** Calendrier + horloge */
+    calendar: '/images/da/cgpt/picto-13-blanc.png',
+    /** Cadenas — lots verrouillés */
+    padlock: '/images/da/cgpt/picto-14-blanc.png',
+    /** Profil utilisateur */
+    user: '/images/da/cgpt/picto-15-blanc.png',
+    /** Pseudo / artiste */
+    artist: '/images/da/cgpt/picto-16-blanc.png',
+    /** Profil alternatif */
+    userAlt: '/images/da/cgpt/picto-17-blanc.png',
+    /** Note de musique (double) */
+    musicNote: '/images/da/cgpt/picto-18-blanc.png',
+    /** Note de musique (simple) */
+    musicNoteSm: '/images/da/cgpt/picto-19-blanc.png',
+    /** Validation / confirmation */
+    check: '/images/da/cgpt/picto-20-blanc.png',
+  },
+  refs: {
+    screen1: '/images/da/refs/screen-1-cgpt.jpeg',
+    screen2: '/images/da/refs/screen-2-cgpt.jpeg',
+    screen3: '/images/da/refs/screen-3-cgpt.jpeg',
   },
   fond: '#0546A0',
 } as const

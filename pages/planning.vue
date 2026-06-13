@@ -10,6 +10,12 @@ const { data: schedule, loading, error } = useFirestoreCollection(
   { orderField: 'order', orderDirection: 'asc' },
 )
 
+const programmeItems = computed(() =>
+  [...schedule.value]
+    .filter((i) => !i.title.toLowerCase().includes('freestyle'))
+    .sort((a, b) => a.order - b.order),
+)
+
 const { single: programme } = useFirestoreCollection(
   'content',
   [{ id: 'programme', ...MOCK_PROGRAMME }],
@@ -49,11 +55,13 @@ usePageSeo({
         :subtitle="programme?.subtitle ?? 'Concepts, échanges, freestyles et enchères solidaires.'"
       />
 
-      <p v-if="error" class="mt-4 text-accent-rose">{{ error }}</p>
+      <p v-if="error" class="mt-4 text-center text-accent-rose">{{ error }}</p>
 
       <div v-reveal class="mt-10">
-        <ScheduleTimeline :items="schedule" :loading="loading" />
+        <ScheduleTimeline :items="programmeItems" :loading="loading" />
       </div>
+
+      <ProgrammeCompletFreestyle />
     </section>
 
     <section v-if="event" class="section-divider py-12 text-center md:py-16">

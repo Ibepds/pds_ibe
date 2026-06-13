@@ -27,11 +27,11 @@ const { single: encheres } = useFirestoreCollection(
     </section>
 
     <section class="section-divider py-12 md:py-16">
-      <h2 v-reveal class="section-heading !justify-start">
-        <ChalkHeart />
+      <h2 v-reveal class="section-heading section-heading-left">
+        <ChalkHeart class="chalk-picto !h-6 !w-6" />
         Comment ça fonctionne ?
       </h2>
-      <p v-reveal class="mt-6 whitespace-pre-line leading-relaxed text-white/80">
+      <p v-reveal class="page-prose mt-6 whitespace-pre-line leading-relaxed text-white/80">
         {{ encheres?.intro }}
       </p>
     </section>
@@ -39,7 +39,7 @@ const { single: encheres } = useFirestoreCollection(
     <section class="section-divider py-12 md:py-16">
       <div class="grid gap-10 md:grid-cols-3">
         <div v-reveal class="text-center">
-          <ChalkImage :src="DA.picto.trophy" class="mx-auto h-14 w-14" />
+          <ChalkImage :src="DA.cgpt.padlock" class="mx-auto h-14 w-14" />
           <h3 class="mt-4 font-display text-sm font-bold uppercase text-white">Lots exclusifs</h3>
           <p class="mt-2 text-sm text-white/60">
             Objets dédicacés, expériences uniques, pièces de collection.
@@ -53,7 +53,7 @@ const { single: encheres } = useFirestoreCollection(
           </p>
         </div>
         <div v-reveal class="text-center">
-          <ChalkImage :src="DA.picto.gift" class="mx-auto h-14 w-14" />
+          <ChalkImage :src="DA.cgpt.gift" class="mx-auto h-14 w-14" />
           <h3 class="mt-4 font-display text-sm font-bold uppercase text-white">100% solidaire</h3>
           <p class="mt-2 text-sm text-white/60">
             Tous les fonds sont intégralement reversés aux associations.
@@ -64,16 +64,16 @@ const { single: encheres } = useFirestoreCollection(
 
     <section class="section-divider py-12 md:py-16">
       <h2 v-reveal class="section-heading">
-        <ChalkHeart />
+        <ChalkHeart class="chalk-picto !h-6 !w-6" />
         Aperçu des lots
       </h2>
-      <ul v-if="encheres?.lots?.length" v-reveal class="mt-8 divide-y divide-white/15">
+      <ul v-if="encheres?.lots?.length" v-reveal class="mx-auto mt-8 max-w-lg divide-y divide-white/15 md:max-w-none">
         <li
           v-for="(lot, i) in encheres.lots"
           :key="i"
-          class="flex items-start gap-4 py-4"
+          class="flex flex-col items-center gap-3 py-4 text-center sm:flex-row sm:items-start sm:gap-4 sm:text-left"
         >
-          <ChalkImage :src="DA.picto.gift" class="h-10 w-10 shrink-0" />
+          <ChalkImage :src="DA.cgpt.gift" class="chalk-picto mx-auto h-10 w-10 shrink-0 sm:mx-0" />
           <div>
             <h3 class="font-display text-sm font-bold uppercase text-white">{{ lot.title }}</h3>
             <p class="mt-1 text-sm text-white/60">{{ lot.description }}</p>
@@ -86,8 +86,8 @@ const { single: encheres } = useFirestoreCollection(
     </section>
 
     <section class="section-divider py-12 md:py-16">
-      <h2 v-reveal class="section-heading !justify-start">
-        <ChalkHeart />
+      <h2 v-reveal class="section-heading section-heading-left">
+        <ChalkHeart class="chalk-picto !h-6 !w-6" />
         Planning des enchères
       </h2>
       <p v-reveal class="mt-6 whitespace-pre-line text-center text-white/60">

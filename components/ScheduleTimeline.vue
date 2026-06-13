@@ -58,15 +58,15 @@ function getRowStyle(item: ScheduleItem): RowStyle {
       :class="large ? 'h-20' : 'h-14'"
     />
   </div>
-  <ul v-else class="divide-y divide-white/15">
+  <ul v-else class="mx-auto divide-y divide-white/15 md:mx-0 md:max-w-none" :class="large ? 'max-w-xl' : 'max-w-md'">
     <li
       v-for="item in displayed"
       :key="item.id"
-      class="grid items-center gap-2 py-4 md:gap-3 md:py-5"
+      class="flex flex-col items-center gap-3 py-4 text-center sm:grid sm:items-center sm:justify-items-center sm:text-left md:justify-items-stretch md:gap-3 md:py-5"
       :class="
         large
-          ? 'grid-cols-[2.75rem_2.5rem_1fr] sm:grid-cols-[4rem_3.25rem_1fr_auto] md:grid-cols-[5.5rem_4.5rem_1fr_auto] md:py-6 lg:py-7'
-          : 'grid-cols-[2.75rem_2.5rem_1fr] sm:grid-cols-[4.5rem_3.5rem_1fr_auto]'
+          ? 'sm:grid-cols-[4rem_3.25rem_1fr_auto] md:grid-cols-[5.5rem_4.5rem_1fr_auto] md:py-6 lg:py-7'
+          : 'sm:grid-cols-[4.5rem_3.5rem_1fr_auto]'
       "
     >
       <!-- Heure -->
@@ -87,39 +87,38 @@ function getRowStyle(item: ScheduleItem): RowStyle {
       >
         <ChalkImage
           v-if="getRowStyle(item).icon === 'chat'"
-          :src="DA.picto.highFive"
+          :src="DA.cgpt.chat"
+          class="chalk-picto mx-auto"
           :class="large ? 'h-8 w-8 md:h-9 md:w-9' : 'h-6 w-6'"
         />
         <ChalkImage
           v-else-if="getRowStyle(item).icon === 'gift'"
-          :src="DA.picto.gift"
+          :src="DA.cgpt.gift"
+          class="chalk-picto mx-auto"
           :class="large ? 'h-8 w-8 md:h-9 md:w-9' : 'h-6 w-6'"
         />
-        <svg
+        <ChalkImage
           v-else-if="getRowStyle(item).icon === 'mic'"
-          viewBox="0 0 24 24"
-          fill="none"
-          stroke="currentColor"
-          stroke-width="1.8"
-          :class="large ? 'h-7 w-7 md:h-8 md:w-8' : 'h-5 w-5'"
-        >
-          <rect x="9" y="3" width="6" height="10" rx="3" />
-          <path d="M5 11a7 7 0 0014 0M12 18v3" stroke-linecap="round" />
-        </svg>
+          :src="DA.cgpt.microphone"
+          class="chalk-picto mx-auto"
+          :class="large ? 'h-8 w-8 md:h-9 md:w-9' : 'h-6 w-6'"
+        />
         <ChalkImage
           v-else-if="getRowStyle(item).icon === 'crown'"
-          :src="DA.picto.trophy"
+          :src="DA.cgpt.crown"
+          class="chalk-picto mx-auto"
           :class="large ? 'h-8 w-8 md:h-9 md:w-9' : 'h-6 w-6'"
         />
         <ChalkImage
           v-else
-          :src="DA.picto.highFive"
+          :src="DA.cgpt.star"
+          class="chalk-picto mx-auto"
           :class="large ? 'h-8 w-8 md:h-9 md:w-9' : 'h-6 w-6'"
         />
       </div>
 
       <!-- Titre + description -->
-      <div class="min-w-0 border-l border-white/25 pl-3 md:pl-4">
+      <div class="min-w-0 border-white/25 md:border-l md:pl-4">
         <p
           class="font-display font-bold uppercase leading-tight"
           :class="[
@@ -140,7 +139,7 @@ function getRowStyle(item: ScheduleItem): RowStyle {
           v-if="getRowStyle(item).isFreestyle"
           to="/freestyles"
           variant="outline"
-          class="mt-2 !border-accent-green !text-accent-green hover:!bg-accent-green/10"
+          class="mx-auto mt-2 !border-accent-green !text-accent-green hover:!bg-accent-green/10 md:mx-0"
           :class="large ? '!px-4 !py-2 !text-xs md:!text-sm' : '!px-3 !py-1.5 !text-[10px] md:!text-xs'"
         >
           Réserver mon créneau
@@ -148,10 +147,13 @@ function getRowStyle(item: ScheduleItem): RowStyle {
       </div>
 
       <!-- Cœur enchères -->
-      <div class="hidden justify-center sm:flex" :class="large ? 'w-8' : 'w-6'">
+      <div
+        v-if="getRowStyle(item).showHeart"
+        class="flex justify-center"
+        :class="large ? 'w-8' : 'w-6'"
+      >
         <ChalkHeart
-          v-if="getRowStyle(item).showHeart"
-          class="opacity-90"
+          class="chalk-picto opacity-90"
           :class="large ? '!h-6 !w-6 md:!h-7 md:!w-7' : '!h-4 !w-4'"
         />
       </div>

@@ -73,7 +73,7 @@ const finalize = async () => {
       <div v-if="loading" class="h-64 animate-pulse bg-white/10" />
 
       <div v-else v-reveal>
-        <ChalkHeart class="!h-12 !w-12" />
+        <ChalkHeart class="chalk-picto mx-auto !h-12 !w-12" />
         <h1 class="section-title mt-4">Merci !</h1>
         <p class="accent-serif mt-3 text-lg">
           Votre don de

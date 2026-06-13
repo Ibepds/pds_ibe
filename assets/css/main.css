@@ -64,7 +64,40 @@
   }
 
   .section-heading {
-    @apply flex flex-wrap items-center justify-center gap-2 text-center font-display text-lg font-bold uppercase leading-tight tracking-wide sm:text-xl md:text-2xl;
+    @apply flex flex-col items-center justify-center gap-2 text-center font-display text-lg font-bold uppercase leading-tight tracking-wide sm:text-xl md:flex-row md:flex-wrap md:items-center md:gap-2 md:text-2xl;
+  }
+
+  /* Titres alignés à gauche sur desktop, centrés sur mobile */
+  .section-heading-left {
+    @apply justify-center md:!justify-start;
+  }
+
+  .page-prose {
+    @apply mx-auto max-w-3xl text-center md:max-w-none md:text-left;
+  }
+
+  .form-block-mobile {
+    @apply mx-auto w-full max-w-md text-left md:max-w-none;
+  }
+
+  @media (max-width: 767px) {
+    .home-container > section:not(.keep-left-mobile),
+    .home-panel-content > section:not(.keep-left-mobile),
+    .home-panel-content .section-divider:not(.keep-left-mobile) {
+      text-align: center;
+    }
+
+    .home-container .section-heading,
+    .home-panel-content .section-heading {
+      justify-content: center !important;
+    }
+
+    /* Pictos craie autonomes (hors boutons / lignes inline) */
+    .home-container section:not(.keep-left-mobile) .chalk-picto,
+    .home-panel-content .chalk-picto,
+    .da-icon {
+      @apply mx-auto flex justify-center;
+    }
   }
 
   .section-title {
@@ -223,6 +256,18 @@
   .chalk-img {
     @apply inline-block max-w-full;
     mix-blend-mode: screen;
+  }
+
+  .chalk-picto {
+    @apply block md:inline-block;
+  }
+
+  @media (max-width: 767px) {
+    .chalk-picto {
+      display: block !important;
+      margin-left: auto !important;
+      margin-right: auto !important;
+    }
   }
 
   /* Conteneurs pages intérieures */

@@ -49,7 +49,7 @@ const hasStarted = computed(() => remaining.value.ended)
           class="flex items-center justify-center gap-3 font-display font-bold uppercase tracking-wide"
           :class="large ? 'text-2xl md:text-4xl lg:text-5xl' : 'section-heading'"
         >
-          <ChalkHeart :class="large ? '!h-6 !w-6 md:!h-8 md:!w-8 lg:!h-10 lg:!w-10' : ''" />
+          <ChalkHeart :class="large ? 'chalk-picto !h-6 !w-6 md:!h-8 md:!w-8 lg:!h-10 lg:!w-10' : 'chalk-picto !h-5 !w-5'" />
           Le live est en cours
         </h2>
         <p
@@ -71,7 +71,7 @@ const hasStarted = computed(() => remaining.value.ended)
           class="flex items-center justify-center gap-3 font-display font-bold uppercase tracking-wide"
           :class="large ? 'text-2xl md:text-4xl lg:text-5xl' : 'section-heading'"
         >
-          <ChalkHeart :class="large ? '!h-6 !w-6 md:!h-8 md:!w-8 lg:!h-10 lg:!w-10' : ''" />
+          <ChalkHeart :class="large ? 'chalk-picto !h-6 !w-6 md:!h-8 md:!w-8 lg:!h-10 lg:!w-10' : 'chalk-picto !h-5 !w-5'" />
           L'événement commence dans
         </h2>
         <div :class="large ? 'mt-10 md:mt-14' : 'mt-8'">

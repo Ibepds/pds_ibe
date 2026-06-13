@@ -33,10 +33,10 @@ watch(
         <div class="h-10 bg-white/10" />
         <div class="h-4 bg-white/10" />
       </div>
-      <div v-else v-reveal class="section-split">
+      <div v-else v-reveal class="section-split text-center md:text-left">
         <div>
-          <h2 class="section-heading !justify-start">
-            <ChalkHeart />
+          <h2 class="section-heading section-heading-left">
+            <ChalkHeart class="chalk-picto !h-6 !w-6" />
             Objectif de collecte
           </h2>
           <p class="mt-5 font-display text-3xl font-bold uppercase md:text-4xl">

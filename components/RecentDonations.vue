@@ -30,7 +30,7 @@ const formatTime = (iso: string) => {
         class="flex items-center justify-center gap-3 font-display font-bold uppercase tracking-wide"
         :class="large ? 'text-2xl md:text-4xl lg:text-5xl' : 'section-heading'"
       >
-        <ChalkHeart :class="large ? '!h-6 !w-6 md:!h-8 md:!w-8 lg:!h-10 lg:!w-10' : ''" />
+        <ChalkHeart :class="large ? 'chalk-picto !h-6 !w-6 md:!h-8 md:!w-8 lg:!h-10 lg:!w-10' : 'chalk-picto !h-5 !w-5'" />
         Merci pour votre soutien
       </h2>
 
@@ -48,10 +48,10 @@ const formatTime = (iso: string) => {
           v-for="(d, i) in (limit ? donations.slice(0, limit) : donations)"
           :key="d.id"
           class="flex gap-3 border-b border-white/15"
-          :class="large ? 'flex-col items-start py-3 sm:flex-row sm:items-center sm:justify-between sm:py-4' : 'items-center justify-between pb-2'"
+          :class="large ? 'flex-col items-center py-3 text-center sm:flex-row sm:items-center sm:justify-between sm:py-4 sm:text-left' : 'items-center justify-between pb-2'"
         >
           <span
-            class="flex min-w-0 items-center gap-2 font-semibold"
+            class="flex min-w-0 items-center justify-center gap-2 font-semibold sm:justify-start"
             :class="large ? 'text-base md:text-xl lg:text-2xl' : ''"
           >
             <ChalkHeart
@@ -63,7 +63,7 @@ const formatTime = (iso: string) => {
             <span class="truncate">{{ d.username }}</span>
           </span>
           <span
-            class="shrink-0 text-left sm:text-right"
+            class="shrink-0 sm:text-right"
             :class="large ? 'text-base md:text-lg' : 'text-sm'"
           >
             <span

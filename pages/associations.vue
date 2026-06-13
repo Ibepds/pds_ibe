@@ -38,7 +38,7 @@ const { data: associations, loading, error } = useFirestoreCollection(
         >
           <div class="grid gap-8 lg:grid-cols-3">
             <div class="lg:col-span-2">
-              <div class="flex items-start gap-5">
+              <div class="flex flex-col items-center gap-5 text-center sm:flex-row sm:items-start sm:text-left">
                 <div v-if="asso.logoUrl" class="h-16 w-16 shrink-0">
                   <img
                     :src="asso.logoUrl"
@@ -67,7 +67,7 @@ const { data: associations, loading, error } = useFirestoreCollection(
                     :href="asso.websiteUrl"
                     external
                     variant="outline"
-                    class="mt-5"
+                    class="mt-5 w-full max-w-xs sm:w-auto"
                   >
                     Site de l'association
                   </PrimaryButton>

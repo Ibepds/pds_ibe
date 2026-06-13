@@ -2,10 +2,10 @@
 import { DA } from '~/utils/daAssets'
 
 const pictos = [
-  { src: DA.picto.gift, alt: 'Cadeau' },
+  { src: DA.cgpt.gift, alt: 'Cadeau' },
   { src: DA.picto.heart, alt: 'Cœur' },
-  { src: DA.picto.heartSm, alt: 'Cœur' },
-  { src: DA.picto.trophy, alt: 'Trophée' },
+  { src: DA.cgpt.heartOutline, alt: 'Cœur' },
+  { src: DA.cgpt.check, alt: 'Validation' },
 ] as const
 </script>
 

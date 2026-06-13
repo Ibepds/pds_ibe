@@ -6,8 +6,8 @@ defineOptions({ inheritAttrs: false })
 
 <template>
   <ChalkImage
-    :src="DA.picto.trophy"
-    class="h-[18px] w-[18px] shrink-0"
+    :src="DA.cgpt.btnAuctions"
+    class="chalk-inline h-[18px] w-[18px] shrink-0"
     :class="$attrs.class"
   />
 </template>

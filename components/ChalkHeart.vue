@@ -7,7 +7,7 @@ defineOptions({ inheritAttrs: false })
 <template>
   <ChalkImage
     :src="DA.picto.heartSm"
-    class="h-3.5 w-3.5 shrink-0"
+    class="chalk-inline h-3.5 w-3.5 shrink-0"
     :class="$attrs.class"
   />
 </template>

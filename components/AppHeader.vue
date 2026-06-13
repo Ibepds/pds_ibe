@@ -42,9 +42,9 @@ onUnmounted(() => {
     </Transition>
 
     <div class="relative z-50">
-      <div class="home-container flex items-center justify-between py-5">
+      <div class="home-container flex items-center gap-4 py-5">
         <button
-          class="p-1 text-white"
+          class="shrink-0 p-1 text-white"
           aria-label="Menu"
           :aria-expanded="mobileOpen"
           @click="mobileOpen = !mobileOpen"
@@ -54,7 +54,11 @@ onUnmounted(() => {
           </svg>
         </button>
 
-        <ChalkButton preset="donate" to="/donate" class="shrink-0 !max-w-[9.5rem] sm:!max-w-[10rem] md:!max-w-[160px]" />
+        <ChalkButton
+          preset="donate"
+          to="/donate"
+          class="header-donate-btn shrink-0 !ml-auto !mr-0 !w-auto !max-w-[9.5rem] sm:!max-w-[10rem] md:!max-w-[160px]"
+        />
       </div>
 
       <Transition name="menu-slide">
@@ -98,5 +102,11 @@ onUnmounted(() => {
 .menu-slide-leave-to {
   opacity: 0;
   transform: translateY(-8px);
+}
+
+/* Navbar : « Faire un don » toujours à droite (override centrage global .chalk-btn) */
+.header-donate-btn {
+  margin-left: auto !important;
+  margin-right: 0 !important;
 }
 </style>

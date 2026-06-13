@@ -41,14 +41,14 @@ const toggle = (id: string) => {
         <div v-if="loading" class="mt-8 space-y-3">
           <div v-for="i in 3" :key="i" class="h-12 animate-pulse bg-white/10" />
         </div>
-        <div v-else v-reveal class="mt-8 space-y-2 text-left">
+        <div v-else v-reveal class="mx-auto mt-8 max-w-lg space-y-2 text-center md:max-w-none md:text-left">
           <div
             v-for="item in sorted"
             :key="item.id"
             class="border-b border-white/20"
           >
             <button
-              class="flex w-full items-center justify-between gap-3 py-4 text-left font-semibold uppercase tracking-wide transition hover:text-primary-light sm:gap-4"
+              class="flex w-full items-center justify-between gap-3 py-4 font-semibold uppercase tracking-wide transition hover:text-primary-light sm:gap-4"
               @click="toggle(item.id)"
             >
               <span class="min-w-0 flex-1 text-sm sm:text-base">{{ item.question }}</span>

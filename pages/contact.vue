@@ -94,19 +94,19 @@ const send = async () => {
 
     <section class="section-divider py-12 md:py-16">
       <div class="grid gap-12 lg:grid-cols-3">
-        <ul class="space-y-8 lg:col-span-1">
-          <li v-reveal>
-            <DaIcon icon="cgpt.sparkles" class="h-10 w-10" />
+        <ul class="space-y-8 text-center lg:col-span-1 lg:text-left">
+          <li v-reveal class="flex flex-col items-center lg:items-start">
+            <DaIcon icon="cgpt.chat" class="h-10 w-10" />
             <h3 class="mt-2 font-display text-sm font-bold uppercase text-white">Presse</h3>
             <p class="mt-1 text-sm text-white/60">Demandes d'accréditation, interviews, visuels.</p>
           </li>
-          <li v-reveal>
-            <DaIcon icon="picto.highFive" class="h-10 w-10" />
+          <li v-reveal class="flex flex-col items-center lg:items-start">
+            <DaIcon icon="cgpt.gift" class="h-10 w-10" />
             <h3 class="mt-2 font-display text-sm font-bold uppercase text-white">Partenariats</h3>
             <p class="mt-1 text-sm text-white/60">Collaboration, sponsoring, mise en avant.</p>
           </li>
-          <li v-reveal>
-            <DaIcon icon="picto.heartSm" class="h-10 w-10" />
+          <li v-reveal class="flex flex-col items-center lg:items-start">
+            <DaIcon icon="cgpt.heartOutline" class="h-10 w-10" />
             <h3 class="mt-2 font-display text-sm font-bold uppercase text-white">Général</h3>
             <p class="mt-1 text-sm text-white/60">Toute autre question sur l'événement.</p>
           </li>
@@ -114,7 +114,7 @@ const send = async () => {
 
         <div class="lg:col-span-2">
           <div v-if="sent" v-reveal class="text-center">
-            <ChalkHeart class="!h-10 !w-10" />
+            <ChalkHeart class="mx-auto !h-10 !w-10" />
             <h2 class="mt-4 font-display text-xl font-bold uppercase text-white">Message envoyé !</h2>
             <p class="mt-2 text-white/60">Nous reviendrons vers vous dans les plus brefs délais.</p>
             <PrimaryButton class="mt-6" variant="outline" @click="sent = false">
@@ -122,7 +122,7 @@ const send = async () => {
             </PrimaryButton>
           </div>
 
-          <form v-else v-reveal class="space-y-5" @submit.prevent="send">
+          <form v-else v-reveal class="form-block-mobile space-y-5" @submit.prevent="send">
             <div>
               <label class="form-label">Nom / Pseudo <span class="text-accent-red">*</span></label>
               <input v-model="form.name" type="text" required placeholder="Votre nom" class="input-field" />

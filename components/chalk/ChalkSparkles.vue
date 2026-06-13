@@ -7,7 +7,7 @@ defineOptions({ inheritAttrs: false })
 <template>
   <ChalkImage
     :src="DA.cgpt.sparkles"
-    class="h-8 w-5 shrink-0 opacity-90"
+    class="chalk-inline h-8 w-5 shrink-0 opacity-90"
     :class="$attrs.class"
   />
 </template>

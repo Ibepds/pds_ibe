@@ -24,29 +24,27 @@ const { single: content } = useFirestoreCollection(
     </section>
 
     <section class="section-divider py-12 md:py-16">
-      <h2 v-reveal class="section-heading !justify-start">
-        <ChalkHeart />
+      <h2 v-reveal class="section-heading section-heading-left">
+        <ChalkHeart class="chalk-picto !h-6 !w-6" />
         L'événement
       </h2>
-      <p v-reveal class="mt-6 whitespace-pre-line leading-relaxed text-white/80">
+      <p v-reveal class="page-prose mt-6 whitespace-pre-line leading-relaxed text-white/80">
         {{ content?.eventText }}
       </p>
     </section>
 
     <section class="section-divider py-12 md:py-16">
       <h2 v-reveal class="section-heading">
-        <ChalkHeart />
+        <ChalkHeart class="chalk-picto !h-6 !w-6" />
         Le concept
       </h2>
       <ul v-reveal class="mt-8 divide-y divide-white/15 md:grid md:grid-cols-3 md:gap-8 md:divide-y-0">
         <li
           v-for="(card, i) in content?.conceptCards ?? []"
           :key="i"
-          class="py-6 md:py-0 md:text-center"
+          class="py-6 text-center md:py-0 md:text-left"
         >
-          <div class="mx-auto flex h-14 w-14 items-center justify-center">
-            <DaIcon :icon="card.icon" class="h-12 w-12" />
-          </div>
+          <DaIcon :icon="card.icon" class="h-12 w-12" />
           <h3 class="mt-3 font-display text-sm font-bold uppercase text-white">{{ card.title }}</h3>
           <p class="mt-2 text-sm text-white/60">{{ card.text }}</p>
         </li>
@@ -54,18 +52,18 @@ const { single: content } = useFirestoreCollection(
     </section>
 
     <section class="section-divider py-12 md:py-16">
-      <h2 v-reveal class="section-heading !justify-start">
-        <ChalkHeart />
+      <h2 v-reveal class="section-heading section-heading-left">
+        <ChalkHeart class="chalk-picto !h-6 !w-6" />
         Le porteur du projet
       </h2>
-      <p v-reveal class="mt-6 whitespace-pre-line leading-relaxed text-white/80">
+      <p v-reveal class="page-prose mt-6 whitespace-pre-line leading-relaxed text-white/80">
         {{ content?.porteurText }}
       </p>
     </section>
 
     <section class="section-divider py-12 md:py-16">
       <h2 v-reveal class="section-heading">
-        <ChalkHeart />
+        <ChalkHeart class="chalk-picto !h-6 !w-6" />
         Les plateformes de diffusion
       </h2>
       <div v-reveal class="mt-8 flex flex-wrap justify-center gap-x-12 gap-y-8">
@@ -74,9 +72,7 @@ const { single: content } = useFirestoreCollection(
           :key="i"
           class="text-center"
         >
-          <div class="mx-auto flex h-12 w-12 items-center justify-center">
-            <DaIcon :icon="p.icon" class="h-10 w-10" />
-          </div>
+          <DaIcon :icon="p.icon" class="h-10 w-10" />
           <p class="mt-2 font-display text-sm font-bold uppercase text-white">{{ p.name }}</p>
         </div>
       </div>

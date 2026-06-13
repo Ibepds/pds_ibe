@@ -12,10 +12,13 @@ const src = computed(() => resolveDaIconSrc(props.icon))
 </script>
 
 <template>
-  <ChalkImage
-    v-if="src"
-    :src="src"
-    :alt="alt"
-    v-bind="$attrs"
-  />
+  <span class="da-icon inline-flex shrink-0 justify-center md:inline-flex">
+    <ChalkImage
+      v-if="src"
+      :src="src"
+      :alt="alt"
+      class="chalk-picto !mx-0"
+      v-bind="$attrs"
+    />
+  </span>
 </template>

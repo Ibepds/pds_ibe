@@ -8,15 +8,29 @@ const props = defineProps<{
   large?: boolean
 }>()
 
-const DEFAULT_LOTS = [
-  { title: 'Objet mystère', description: '27 juin à 19h30' },
-  { title: 'Objet mystère', description: '27 juin à 20h45' },
-  { title: 'Objet mystère', description: '28 juin à 03h00' },
-]
+const SLOT_COUNT = 10
 
-const items = computed(() =>
-  props.lots?.length ? props.lots : DEFAULT_LOTS,
-)
+const SECTION_DESCRIPTION =
+  'Liste des objets mis aux enchères par des personnalités au profit des associations'
+
+type DisplaySlot =
+  | { locked: true }
+  | { locked: false; title: string; description: string }
+
+const items = computed((): DisplaySlot[] => {
+  const lots = props.lots ?? []
+  return Array.from({ length: SLOT_COUNT }, (_, i) => {
+    const lot = lots[i]
+    if (lot?.title) {
+      return {
+        locked: false,
+        title: lot.title,
+        description: lot.description ?? '',
+      }
+    }
+    return { locked: true }
+  })
+})
 
 const scrollRef = ref<HTMLElement | null>(null)
 
@@ -27,19 +41,31 @@ const scroll = (dir: -1 | 1) => {
 
 <template>
   <section class="section-divider py-12 md:py-16">
-    <div class="w-full">
+    <div class="w-full text-center">
       <h2
         v-reveal
         class="flex items-center justify-center gap-3 font-display font-bold uppercase tracking-wide"
         :class="large ? 'text-2xl md:text-4xl lg:text-5xl' : 'section-heading'"
       >
-        <ChalkHeart :class="large ? '!h-6 !w-6 md:!h-8 md:!w-8 lg:!h-10 lg:!w-10' : ''" />
-        Objets mystères
+        <ChalkImage
+          :src="DA.cgpt.gift"
+          class="chalk-picto shrink-0 opacity-90"
+          :class="large ? '!h-8 !w-8 md:!h-10 md:!w-10 lg:!h-12 lg:!w-12' : '!h-6 !w-6 md:!inline-block'"
+        />
+        Les enchères
       </h2>
+
+      <p
+        v-reveal
+        class="mx-auto mt-4 max-w-2xl leading-relaxed text-white/70"
+        :class="large ? 'text-sm md:text-base lg:text-lg' : 'text-xs md:text-sm'"
+      >
+        {{ SECTION_DESCRIPTION }}
+      </p>
 
       <div v-if="loading" class="mt-8 flex gap-4 overflow-hidden md:mt-10">
         <div
-          v-for="n in 3"
+          v-for="n in SLOT_COUNT"
           :key="n"
           class="shrink-0 animate-pulse bg-white/10"
           :class="large ? 'h-56 w-64 md:h-64 md:w-72' : 'h-48 w-56'"
@@ -63,29 +89,69 @@ const scroll = (dir: -1 | 1) => {
           class="flex snap-x snap-mandatory gap-4 overflow-x-auto pb-2 scrollbar-none md:gap-6"
         >
           <article
-            v-for="(lot, i) in items"
+            v-for="(slot, i) in items"
             :key="i"
             class="flex shrink-0 snap-center flex-col items-center border-2 border-white/35 bg-white/5 text-center"
             :class="large ? 'w-[min(85vw,15rem)] p-6 md:w-72 md:p-7 lg:w-80' : 'w-[min(85vw,13rem)] p-5 md:w-56'"
           >
             <div
-              class="relative flex w-full items-center justify-center"
-              :class="large ? 'h-36 md:h-40' : 'h-28'"
+              class="relative flex w-full items-center justify-center overflow-hidden border-2 border-white/25 bg-white/[0.04]"
+              :class="large ? 'aspect-[4/5] min-h-[9rem] md:min-h-[10rem]' : 'aspect-[4/5] min-h-[7rem]'"
             >
-              <ChalkImage
-                :src="DA.picto.gift"
-                class="opacity-90"
-                :class="large ? 'h-32 w-32 md:h-36 md:w-36' : 'h-24 w-24'"
-              />
+              <template v-if="slot.locked">
+                <ChalkImage
+                  :src="DA.cgpt.gift"
+                  class="pointer-events-none opacity-15"
+                  :class="large ? 'h-24 w-24 md:h-28 md:w-28' : 'h-20 w-20'"
+                />
+                <div
+                  class="absolute inset-0 flex flex-col items-center justify-center gap-2"
+                  aria-hidden="true"
+                >
+                  <ChalkImage
+                    :src="DA.cgpt.padlock"
+                    class="chalk-picto opacity-95"
+                    :class="large ? 'h-16 w-16 md:h-20 md:w-20' : 'h-12 w-12'"
+                  />
+                  <span
+                    class="font-display font-bold uppercase tracking-wide text-white/75"
+                    :class="large ? 'text-[10px] md:text-xs' : 'text-[9px]'"
+                  >
+                    À dévoiler
+                  </span>
+                </div>
+              </template>
+
+              <template v-else>
+                <ChalkImage
+                  :src="DA.cgpt.gift"
+                  class="opacity-90"
+                  :class="large ? 'h-32 w-32 md:h-36 md:w-36' : 'h-24 w-24'"
+                />
+              </template>
             </div>
+
+            <template v-if="!slot.locked">
+              <p
+                class="mt-3 font-display font-bold uppercase"
+                :class="large ? 'text-base md:text-lg' : 'text-sm'"
+              >
+                {{ slot.title }}
+              </p>
+              <p
+                v-if="slot.description"
+                class="mt-1 text-white/55"
+                :class="large ? 'text-sm md:text-base' : 'text-xs'"
+              >
+                {{ slot.description }}
+              </p>
+            </template>
             <p
-              class="mt-3 font-display font-bold uppercase"
-              :class="large ? 'text-base md:text-lg' : 'text-sm'"
+              v-else
+              class="mt-3 font-display text-xs font-bold uppercase tracking-wide text-white/45"
+              :class="large ? 'md:text-sm' : ''"
             >
-              {{ lot.title }}
-            </p>
-            <p class="mt-1 text-white/55" :class="large ? 'text-sm md:text-base' : 'text-xs'">
-              {{ lot.description }}
+              Lot {{ i + 1 }}
             </p>
           </article>
         </div>

@@ -53,7 +53,7 @@ const startCheckout = async () => {
 
     <section class="section-divider mx-auto max-w-xl py-12 md:py-16">
       <div v-if="loading" class="h-48 animate-pulse bg-white/10" />
-      <div v-else v-reveal>
+      <div v-else v-reveal class="text-center">
         <p class="font-display text-2xl font-bold uppercase sm:text-3xl md:text-4xl">
           {{ formatCurrency(current) }}
           <span class="text-white/45"> / {{ formatCurrency(goal) }}</span>
@@ -65,7 +65,7 @@ const startCheckout = async () => {
           {{ progress }}% de l'objectif atteint
         </p>
 
-        <form class="mt-10 space-y-4 text-left" @submit.prevent="startCheckout">
+        <form class="form-block-mobile mt-10 space-y-4" @submit.prevent="startCheckout">
           <div>
             <label class="form-label">
               Votre e-mail <span class="text-accent-red">*</span>
