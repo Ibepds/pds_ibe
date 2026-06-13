@@ -27,7 +27,7 @@ watch(
 
 <template>
   <section class="section-divider py-12 md:py-16">
-    <div class="mx-auto max-w-lg px-5 md:max-w-2xl">
+    <div class="w-full">
       <div v-if="loading" class="animate-pulse space-y-6">
         <div class="mx-auto h-5 w-40 bg-white/10" />
         <div class="h-10 bg-white/10" />

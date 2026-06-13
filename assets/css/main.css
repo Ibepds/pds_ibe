@@ -113,7 +113,7 @@
   }
 
   .section-art {
-    @apply mx-auto w-20 shrink-0 self-center opacity-90 md:w-32 lg:w-36;
+    @apply mx-auto w-24 shrink-0 self-center opacity-90 md:w-36 lg:w-44;
   }
 
   /* Barre de progression craie */
@@ -127,6 +127,11 @@
 
   .input-field {
     @apply w-full border-2 border-gray-300 bg-white px-4 py-3 text-gray-900 placeholder-gray-400 outline-none transition focus:border-primary focus:ring-2 focus:ring-primary/20;
+  }
+
+  /* Conteneur page d'accueil — pleine largeur disponible */
+  .home-container {
+    @apply mx-auto w-full max-w-7xl px-4 lg:px-8;
   }
 }
 

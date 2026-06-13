@@ -1,6 +1,6 @@
 <template>
   <svg
-    class="mx-auto w-full max-w-[320px] text-white"
+    class="mx-auto w-full max-w-[320px] text-white md:max-w-[480px] lg:max-w-[560px]"
     viewBox="0 0 320 140"
     fill="none"
     stroke="currentColor"

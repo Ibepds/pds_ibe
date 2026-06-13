@@ -19,7 +19,7 @@ const formatTime = (iso: string) => {
 
 <template>
   <section class="section-divider py-12 md:py-16">
-    <div class="mx-auto max-w-lg px-5 md:max-w-2xl">
+    <div class="w-full">
       <h2 v-reveal class="section-heading !justify-start">
         <ChalkHeart />
         Derniers dons

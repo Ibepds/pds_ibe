@@ -23,7 +23,7 @@ const toggle = (id: string) => {
 
 <template>
   <section class="section-divider py-12 md:py-16">
-    <div class="mx-auto max-w-lg px-5 text-center md:max-w-2xl">
+    <div class="w-full text-center">
       <div v-reveal class="flex flex-col items-center gap-3">
         <div class="flex items-center gap-3">
           <ChalkSparkles />

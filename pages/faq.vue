@@ -16,7 +16,7 @@ usePageSeo({
 </script>
 
 <template>
-  <div class="py-20 md:py-28">
+  <div class="home-container py-20 md:py-28">
     <FaqSection v-reveal :items="faq" :loading="loading" />
     <p v-if="error" class="text-center text-accent-rose">{{ error }}</p>
   </div>

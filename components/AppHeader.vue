@@ -23,7 +23,7 @@ watch(() => route.path, () => {
 
 <template>
   <header class="fixed inset-x-0 top-0 z-50 bg-transparent">
-    <div class="mx-auto flex max-w-lg items-center justify-between px-5 py-5 md:max-w-2xl">
+    <div class="home-container flex items-center justify-between py-5">
       <!-- Hamburger (maquette) -->
       <button
         class="p-1 text-white"
@@ -36,9 +36,8 @@ watch(() => route.path, () => {
         </svg>
       </button>
 
-      <!-- Tickets (maquette) -->
       <NuxtLink to="/freestyles" class="btn-ticket">
-        Tickets
+        Freestyles
         <ChalkHeart class="!h-3 !w-3" />
       </NuxtLink>
     </div>
@@ -46,9 +45,9 @@ watch(() => route.path, () => {
     <Transition name="menu-slide">
       <div
         v-if="mobileOpen"
-        class="border-t border-white/20 bg-primary/98 px-5 py-5 backdrop-blur-md"
+        class="border-t border-white/20 bg-primary/98 py-5 backdrop-blur-md"
       >
-        <nav class="space-y-2">
+        <nav class="home-container space-y-2">
           <NuxtLink
             v-for="link in links"
             :key="link.to"

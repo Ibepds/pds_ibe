@@ -1,56 +1,48 @@
 <script setup lang="ts">
 import type { AssociationDoc } from '~/types'
 
-defineProps<{
+const props = defineProps<{
   associations: (AssociationDoc & { id?: string })[]
   loading?: boolean
 }>()
 
-const iconVariants = ['hand', 'drop', 'house', 'waves'] as const
-
-const getIcon = (index: number) => iconVariants[index % iconVariants.length]
+const logos = computed(() =>
+  props.associations.filter((asso) => asso.logoUrl?.trim()),
+)
 </script>
 
 <template>
   <section class="section-divider py-12 md:py-16">
-    <div class="mx-auto max-w-lg px-5 md:max-w-3xl">
-      <h2 v-reveal class="section-heading">
+    <div class="w-full">
+      <NuxtLink to="/associations" class="section-heading transition hover:opacity-90">
         <ChalkHeart />
         Associations soutenues
-      </h2>
+      </NuxtLink>
 
-      <div v-if="loading" class="mt-8 grid grid-cols-2 gap-8">
-        <div v-for="n in 4" :key="n" class="h-32 animate-pulse bg-white/10" />
+      <div v-if="loading" class="mt-10 flex flex-wrap items-center justify-center gap-12">
+        <div v-for="n in 4" :key="n" class="h-16 w-32 animate-pulse bg-white/10" />
       </div>
 
       <div
-        v-else
+        v-else-if="logos.length"
         v-reveal
-        class="mt-8 grid grid-cols-2 gap-x-6 gap-y-10 md:grid-cols-4"
+        class="mt-10 flex flex-wrap items-center justify-center gap-x-12 gap-y-10 md:gap-x-16"
       >
-        <article
-          v-for="(asso, i) in associations"
+        <NuxtLink
+          v-for="asso in logos"
           :key="asso.id ?? asso.name"
-          class="text-center"
+          to="/associations"
+          class="flex items-center justify-center outline-none transition hover:scale-105 focus-visible:ring-2 focus-visible:ring-white/40"
+          :title="asso.name"
         >
-          <div class="mx-auto flex h-16 items-center justify-center">
-            <img
-              v-if="asso.logoUrl"
-              :src="asso.logoUrl"
-              :alt="asso.name"
-              loading="lazy"
-              decoding="async"
-              class="max-h-14 max-w-full object-contain brightness-0 invert"
-            />
-            <ChalkAssoIcon v-else :variant="getIcon(i)" />
-          </div>
-          <h3 class="mt-3 font-display text-xs font-bold uppercase leading-tight tracking-wide md:text-sm">
-            {{ asso.name }}
-          </h3>
-          <p class="mt-2 text-[11px] leading-snug text-white/65 md:text-xs">
-            {{ asso.mission || asso.description }}
-          </p>
-        </article>
+          <img
+            :src="asso.logoUrl"
+            :alt="asso.name"
+            loading="lazy"
+            decoding="async"
+            class="h-14 w-auto max-w-[160px] object-contain brightness-0 invert opacity-85 transition hover:opacity-100 md:h-20 md:max-w-[200px]"
+          />
+        </NuxtLink>
       </div>
     </div>
   </section>

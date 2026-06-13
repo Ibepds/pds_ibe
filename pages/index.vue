@@ -54,12 +54,12 @@ usePageSeo({
 </script>
 
 <template>
-  <div class="mx-auto max-w-lg md:max-w-2xl">
+  <div class="home-container">
     <HeroSection :event="event" :loading="eventLoading" />
 
     <!-- Compte à rebours (maquette) -->
     <section v-if="event" class="section-divider py-12 md:py-16">
-      <div v-reveal class="px-5">
+      <div v-reveal class="w-full">
         <h2 class="section-heading !justify-start">
           <ChalkHeart />
           L'événement commence dans
