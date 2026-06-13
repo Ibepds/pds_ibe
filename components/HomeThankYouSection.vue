@@ -4,7 +4,6 @@ import { DA } from '~/utils/daAssets'
 const pictos = [
   { src: DA.cgpt.gift, alt: 'Cadeau' },
   { src: DA.picto.heart, alt: 'Cœur' },
-  { src: DA.cgpt.heartOutline, alt: 'Cœur' },
   { src: DA.cgpt.check, alt: 'Validation' },
 ] as const
 </script>
@@ -14,12 +13,11 @@ const pictos = [
     <div v-reveal class="mx-auto w-full max-w-4xl lg:max-w-5xl">
       <div class="flex flex-wrap items-end justify-center gap-6 sm:gap-10 md:gap-12 lg:gap-16">
         <ChalkImage
-          v-for="(picto, i) in pictos"
+          v-for="picto in pictos"
           :key="picto.src"
           :src="picto.src"
           :alt="picto.alt"
           class="h-20 w-20 sm:h-24 sm:w-24 md:h-32 md:w-32 lg:h-40 lg:w-40 xl:h-44 xl:w-44"
-          :class="i === 2 ? 'md:mb-2' : ''"
         />
       </div>
 

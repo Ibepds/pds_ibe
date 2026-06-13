@@ -108,5 +108,6 @@ onUnmounted(() => {
 .header-donate-btn {
   margin-left: auto !important;
   margin-right: 0 !important;
+  max-width: min(9.5rem, calc(100vw - 5rem)) !important;
 }
 </style>

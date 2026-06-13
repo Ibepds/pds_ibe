@@ -25,8 +25,8 @@ const units = [
 
 <template>
   <div
-    class="grid grid-cols-2 items-center justify-items-center gap-x-2 gap-y-4 sm:flex sm:flex-wrap sm:justify-center"
-    :class="large ? 'sm:gap-y-4 sm:divide-x sm:divide-white/40' : 'divide-x divide-white/40'"
+    class="mx-auto grid w-full max-w-md grid-cols-2 items-center justify-items-center gap-x-2 gap-y-4 sm:max-w-none sm:flex sm:flex-wrap sm:justify-center"
+    :class="large ? 'sm:gap-y-4 sm:divide-x sm:divide-white/40' : 'sm:divide-x sm:divide-white/40'"
   >
     <div
       v-for="unit in units"

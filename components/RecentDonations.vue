@@ -27,10 +27,10 @@ const formatTime = (iso: string) => {
     <div class="w-full">
       <h2
         v-reveal
-        class="flex items-center justify-center gap-3 font-display font-bold uppercase tracking-wide"
+        class="flex w-full flex-wrap items-center justify-center gap-x-3 gap-y-1 text-center font-display font-bold uppercase tracking-wide"
         :class="large ? 'text-2xl md:text-4xl lg:text-5xl' : 'section-heading'"
       >
-        <ChalkHeart :class="large ? 'chalk-picto !h-6 !w-6 md:!h-8 md:!w-8 lg:!h-10 lg:!w-10' : 'chalk-picto !h-5 !w-5'" />
+        <ChalkHeart :class="large ? '!h-6 !w-6 md:!h-8 md:!w-8 lg:!h-10 lg:!w-10' : '!h-5 !w-5'" />
         Merci pour votre soutien
       </h2>
 
@@ -43,16 +43,21 @@ const formatTime = (iso: string) => {
         />
       </div>
 
-      <ul v-else v-reveal :class="large ? 'mt-10 space-y-4 md:mt-12 md:space-y-5' : 'mt-8 space-y-3'">
+      <ul
+        v-else
+        v-reveal
+        class="mx-auto w-full max-w-lg md:max-w-none"
+        :class="large ? 'mt-10 space-y-4 md:mt-12 md:space-y-5' : 'mt-8 space-y-3'"
+      >
         <li
           v-for="(d, i) in (limit ? donations.slice(0, limit) : donations)"
           :key="d.id"
           class="flex gap-3 border-b border-white/15"
-          :class="large ? 'flex-col items-center py-3 text-center sm:flex-row sm:items-center sm:justify-between sm:py-4 sm:text-left' : 'items-center justify-between pb-2'"
+          :class="large ? 'flex-col items-center py-3 text-center max-md:gap-2 sm:flex-row sm:items-center sm:justify-between sm:py-4 sm:text-left' : 'flex-col items-center py-2 text-center max-md:gap-1 sm:flex-row sm:justify-between'"
         >
           <span
-            class="flex min-w-0 items-center justify-center gap-2 font-semibold sm:justify-start"
-            :class="large ? 'text-base md:text-xl lg:text-2xl' : ''"
+            class="flex min-w-0 max-w-full items-center justify-center gap-2 font-semibold"
+            :class="large ? 'text-base md:text-xl lg:text-2xl sm:justify-start' : 'sm:justify-start'"
           >
             <ChalkHeart
               :class="[
@@ -63,7 +68,7 @@ const formatTime = (iso: string) => {
             <span class="truncate">{{ d.username }}</span>
           </span>
           <span
-            class="shrink-0 sm:text-right"
+            class="shrink-0 text-center sm:text-right"
             :class="large ? 'text-base md:text-lg' : 'text-sm'"
           >
             <span

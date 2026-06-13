@@ -46,10 +46,10 @@ const hasStarted = computed(() => remaining.value.ended)
 
       <div v-else-if="hasStarted" v-reveal>
         <h2
-          class="flex items-center justify-center gap-3 font-display font-bold uppercase tracking-wide"
+          class="flex w-full flex-wrap items-center justify-center gap-x-3 gap-y-1 text-center font-display font-bold uppercase tracking-wide"
           :class="large ? 'text-2xl md:text-4xl lg:text-5xl' : 'section-heading'"
         >
-          <ChalkHeart :class="large ? 'chalk-picto !h-6 !w-6 md:!h-8 md:!w-8 lg:!h-10 lg:!w-10' : 'chalk-picto !h-5 !w-5'" />
+          <ChalkHeart :class="large ? '!h-6 !w-6 md:!h-8 md:!w-8 lg:!h-10 lg:!w-10' : '!h-5 !w-5'" />
           Le live est en cours
         </h2>
         <p
@@ -68,10 +68,10 @@ const hasStarted = computed(() => remaining.value.ended)
 
       <div v-else v-reveal>
         <h2
-          class="flex items-center justify-center gap-3 font-display font-bold uppercase tracking-wide"
+          class="flex w-full flex-wrap items-center justify-center gap-x-3 gap-y-1 text-center font-display font-bold uppercase tracking-wide"
           :class="large ? 'text-2xl md:text-4xl lg:text-5xl' : 'section-heading'"
         >
-          <ChalkHeart :class="large ? 'chalk-picto !h-6 !w-6 md:!h-8 md:!w-8 lg:!h-10 lg:!w-10' : 'chalk-picto !h-5 !w-5'" />
+          <ChalkHeart :class="large ? '!h-6 !w-6 md:!h-8 md:!w-8 lg:!h-10 lg:!w-10' : '!h-5 !w-5'" />
           L'événement commence dans
         </h2>
         <div :class="large ? 'mt-10 md:mt-14' : 'mt-8'">

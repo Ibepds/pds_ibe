@@ -49,7 +49,7 @@ const scroll = (dir: -1 | 1) => {
       >
         <ChalkImage
           :src="DA.cgpt.gift"
-          class="chalk-picto shrink-0 opacity-90"
+          class="chalk-inline shrink-0 opacity-90"
           :class="large ? '!h-8 !w-8 md:!h-10 md:!w-10 lg:!h-12 lg:!w-12' : '!h-6 !w-6 md:!inline-block'"
         />
         Les enchères
@@ -72,7 +72,7 @@ const scroll = (dir: -1 | 1) => {
         />
       </div>
 
-      <div v-else v-reveal class="relative" :class="large ? 'mt-10 md:mt-12' : 'mt-8'">
+      <div v-else v-reveal class="relative overflow-x-clip" :class="large ? 'mt-10 md:mt-12' : 'mt-8'">
         <button
           type="button"
           class="absolute -left-2 top-1/2 z-10 hidden -translate-y-1/2 rounded-full border-2 border-white/40 bg-primary/90 p-2 text-white transition hover:bg-primary md:flex"
@@ -86,13 +86,14 @@ const scroll = (dir: -1 | 1) => {
 
         <div
           ref="scrollRef"
-          class="flex snap-x snap-mandatory gap-4 overflow-x-auto pb-2 scrollbar-none md:gap-6"
+          class="flex snap-x snap-mandatory gap-3 overflow-x-auto pb-2 scrollbar-none max-md:-mx-4 max-md:px-4 md:gap-6"
+          style="scroll-padding-inline: 1rem"
         >
           <article
             v-for="(slot, i) in items"
             :key="i"
             class="flex shrink-0 snap-center flex-col items-center border-2 border-white/35 bg-white/5 text-center"
-            :class="large ? 'w-[min(85vw,15rem)] p-6 md:w-72 md:p-7 lg:w-80' : 'w-[min(85vw,13rem)] p-5 md:w-56'"
+            :class="large ? 'w-[min(calc(100vw-2rem),15rem)] p-6 md:w-72 md:p-7 lg:w-80' : 'w-[min(calc(100vw-2rem),13rem)] p-5 md:w-56'"
           >
             <div
               class="relative flex w-full items-center justify-center overflow-hidden border-2 border-white/25 bg-white/[0.04]"

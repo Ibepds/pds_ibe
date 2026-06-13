@@ -92,9 +92,9 @@
       justify-content: center !important;
     }
 
-    /* Pictos craie autonomes (hors boutons / lignes inline) */
-    .home-container section:not(.keep-left-mobile) .chalk-picto,
-    .home-panel-content .chalk-picto,
+    /* Pictos craie autonomes (hors titres, listes, boutons inline) */
+    .home-container section:not(.keep-left-mobile) .chalk-picto:not(.chalk-inline),
+    .home-panel-content .chalk-picto:not(.chalk-inline),
     .da-icon {
       @apply mx-auto flex justify-center;
     }
@@ -199,7 +199,7 @@
   }
 
   .home-panel-content {
-    @apply mx-auto w-full max-w-7xl min-w-0 px-4 lg:px-8;
+    @apply mx-auto w-full max-w-7xl min-w-0 overflow-x-clip px-4 lg:px-8;
   }
 
   .home-panel-content .section-divider {
@@ -259,14 +259,43 @@
   }
 
   .chalk-picto {
-    @apply block md:inline-block;
+    @apply shrink-0 md:inline-block;
+  }
+
+  /* Pictos dans titres, listes, boutons — jamais forcés en block centré */
+  .chalk-inline,
+  h1 .chalk-picto,
+  h2 .chalk-picto,
+  h3 .chalk-picto,
+  h1 .chalk-img,
+  h2 .chalk-img,
+  h3 .chalk-img,
+  li .chalk-inline,
+  li .chalk-img {
+    display: inline-block !important;
+    margin-left: 0 !important;
+    margin-right: 0 !important;
   }
 
   @media (max-width: 767px) {
-    .chalk-picto {
-      display: block !important;
-      margin-left: auto !important;
-      margin-right: auto !important;
+    .chalk-picto:not(.chalk-inline) {
+      display: block;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    h1 .chalk-picto,
+    h2 .chalk-picto,
+    h3 .chalk-picto,
+    h1 .chalk-img,
+    h2 .chalk-img,
+    h3 .chalk-img,
+    li .chalk-inline,
+    li .chalk-img,
+    .chalk-inline {
+      display: inline-block !important;
+      margin-left: 0 !important;
+      margin-right: 0 !important;
     }
   }
 
