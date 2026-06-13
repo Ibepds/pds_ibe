@@ -17,7 +17,7 @@ const platforms = computed(() =>
 </script>
 
 <template>
-  <footer class="section-dark border-t border-white/10">
+  <footer class="section-divider border-t border-white/20 py-14 text-white">
     <div class="mx-auto max-w-7xl px-4 py-16 lg:px-8">
       <div class="grid gap-10 md:grid-cols-3">
         <div>

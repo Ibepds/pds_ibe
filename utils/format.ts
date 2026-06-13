@@ -16,6 +16,16 @@ export function formatDate(dateStr: string): string {
   }).format(new Date(dateStr))
 }
 
+export function formatHeroDate(dateStr: string): string {
+  return new Intl.DateTimeFormat('fr-FR', {
+    day: 'numeric',
+    month: 'long',
+    year: 'numeric',
+  })
+    .format(new Date(dateStr))
+    .toUpperCase()
+}
+
 export function formatShortDate(dateStr: string): string {
   return new Intl.DateTimeFormat('fr-FR', {
     day: 'numeric',

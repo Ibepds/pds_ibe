@@ -5,6 +5,8 @@ const props = defineProps<{
   items: FaqItem[]
   loading?: boolean
   limit?: number
+  /** Maquette accueil : titre + lien uniquement */
+  teaser?: boolean
 }>()
 
 const openId = ref<string | null>(null)
@@ -20,36 +22,53 @@ const toggle = (id: string) => {
 </script>
 
 <template>
-  <section class="py-24 md:py-32">
-    <div class="mx-auto max-w-3xl px-4 lg:px-8">
-      <h2 class="section-title text-center">Questions fréquentes</h2>
-      <div v-if="loading" class="mt-8 space-y-3">
-        <div v-for="i in 4" :key="i" class="h-14 animate-pulse rounded-xl bg-ink/5" />
-      </div>
-      <div v-else class="mt-8 space-y-3">
-        <div
-          v-for="item in sorted"
-          :key="item.id"
-          class="card-glow overflow-hidden"
-        >
-          <button
-            class="flex w-full items-center justify-between gap-4 p-5 text-left font-semibold text-ink transition hover:bg-ink/[0.03]"
-            @click="toggle(item.id)"
-          >
-            {{ item.question }}
-            <span class="text-primary text-xl">{{ openId === item.id ? '−' : '+' }}</span>
-          </button>
-          <div
-            v-show="openId === item.id"
-            class="border-t border-ink/10 px-5 pb-5 pt-3 text-ink/70"
-          >
-            {{ item.answer }}
-          </div>
+  <section class="section-divider py-12 md:py-16">
+    <div class="mx-auto max-w-lg px-5 text-center md:max-w-2xl">
+      <div v-reveal class="flex flex-col items-center gap-3">
+        <div class="flex items-center gap-3">
+          <ChalkSparkles />
+          <ChalkHeart />
+          <h2 class="font-display text-lg font-bold uppercase tracking-wide md:text-xl">
+            Questions fréquentes
+          </h2>
+          <ChalkHeart />
+          <ChalkSparkles class="scale-x-[-1]" />
         </div>
       </div>
-      <div v-if="limit" class="mt-8 text-center">
-        <NuxtLink to="/faq" class="font-semibold text-primary hover:underline">
-          Voir toutes les questions →
+
+      <template v-if="!teaser">
+        <div v-if="loading" class="mt-8 space-y-3">
+          <div v-for="i in 3" :key="i" class="h-12 animate-pulse bg-white/10" />
+        </div>
+        <div v-else v-reveal class="mt-8 space-y-2 text-left">
+          <div
+            v-for="item in sorted"
+            :key="item.id"
+            class="border-b border-white/20"
+          >
+            <button
+              class="flex w-full items-center justify-between gap-4 py-4 text-left font-semibold uppercase tracking-wide transition hover:text-primary-light"
+              @click="toggle(item.id)"
+            >
+              {{ item.question }}
+              <span class="text-primary-light text-xl">{{ openId === item.id ? '−' : '+' }}</span>
+            </button>
+            <div
+              v-show="openId === item.id"
+              class="pb-4 text-sm leading-relaxed text-white/70"
+            >
+              {{ item.answer }}
+            </div>
+          </div>
+        </div>
+      </template>
+
+      <div v-reveal class="mt-8">
+        <NuxtLink
+          to="/faq"
+          class="text-sm font-semibold uppercase tracking-wide text-primary-light hover:underline"
+        >
+          → Voir toutes les questions
         </NuxtLink>
       </div>
     </div>

@@ -4,7 +4,6 @@ import { animateValue, formatCurrency, getProgressPercent } from '~/utils/format
 const props = defineProps<{
   current: number
   goal: number
-  donorsCount: number
   loading?: boolean
 }>()
 
@@ -27,39 +26,33 @@ watch(
 </script>
 
 <template>
-  <section class="border-y border-ink/10 py-24 md:py-32">
-    <div class="mx-auto max-w-7xl px-4 lg:px-8">
-      <div v-if="loading" class="animate-pulse space-y-8">
-        <div class="h-6 w-48 rounded bg-ink/10" />
-        <div class="grid gap-8 md:grid-cols-3">
-          <div v-for="n in 3" :key="n" class="h-24 rounded bg-ink/10" />
-        </div>
+  <section class="section-divider py-12 md:py-16">
+    <div class="mx-auto max-w-lg px-5 md:max-w-2xl">
+      <div v-if="loading" class="animate-pulse space-y-6">
+        <div class="mx-auto h-5 w-40 bg-white/10" />
+        <div class="h-10 bg-white/10" />
+        <div class="h-4 bg-white/10" />
       </div>
-      <div v-else class="animate-slide-up">
-        <p class="section-label">( Objectif de collecte )</p>
-        <div class="grid gap-12 md:grid-cols-3 md:gap-8">
-          <div>
-            <p class="stat-editorial">{{ formatCurrency(displayAmount) }}</p>
-            <p class="mt-3 text-sm uppercase tracking-[0.2em] text-ink/50">Collecté</p>
+      <div v-else v-reveal class="section-split">
+        <div>
+          <h2 class="section-heading !justify-start">
+            <ChalkHeart />
+            Objectif de collecte
+          </h2>
+          <p class="mt-5 font-display text-3xl font-bold uppercase md:text-4xl">
+            {{ formatCurrency(displayAmount) }}
+            <span class="text-white/45"> / {{ formatCurrency(goal) }}</span>
+          </p>
+          <div class="progress-chalk mt-6">
+            <div class="progress-chalk-fill" :style="{ width: `${progress}%` }" />
           </div>
-          <div>
-            <p class="stat-editorial">{{ formatCurrency(goal) }}</p>
-            <p class="mt-3 text-sm uppercase tracking-[0.2em] text-ink/50">Objectif</p>
-          </div>
-          <div>
-            <p class="stat-editorial">{{ donorsCount }}</p>
-            <p class="mt-3 text-sm uppercase tracking-[0.2em] text-ink/50">Donateurs</p>
-          </div>
+          <p class="mt-3 text-xs font-semibold uppercase tracking-[0.15em] text-primary-light">
+            {{ progress }}% de l'objectif atteint
+          </p>
         </div>
-        <div class="mt-12 h-1 overflow-hidden bg-ink/10">
-          <div
-            class="h-full bg-primary transition-all duration-1000 ease-out"
-            :style="{ width: `${progress}%` }"
-          />
+        <div class="section-art">
+          <ChalkGlobe />
         </div>
-        <p class="mt-4 text-sm uppercase tracking-[0.15em] text-ink/45">
-          {{ progress }}% de l'objectif atteint
-        </p>
       </div>
     </div>
   </section>

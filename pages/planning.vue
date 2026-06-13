@@ -13,24 +13,47 @@ const { single: programme } = useFirestoreCollection(
   { docId: 'programme' },
 )
 
-definePageMeta({ pageBackground: 'cyan' })
-
 usePageSeo({
   title: 'Programme — PDS Humanity',
   description:
-    'Le déroulé du marathon de 24h de PDS Humanity (27 juin 18h → 28 juin 18h) : performances, freestyles, enchères et temps forts.',
+    'Le déroulé du marathon de 24h de PDS Humanity : performances, freestyles, enchères et temps forts.',
 })
 </script>
 
 <template>
-  <div class="py-20 md:py-28">
-    <div class="mx-auto max-w-4xl px-4 lg:px-8">
-      <h1 v-reveal class="section-title gradient-text">Programme</h1>
-      <p class="accent-serif mt-4 text-lg text-ink/70 md:text-xl">{{ programme?.subtitle }}</p>
+  <div class="mx-auto max-w-lg md:max-w-2xl">
+    <!-- Illustration haut de page (maquette) -->
+    <div class="px-5 pt-20">
+      <ChalkChildren class="mx-auto max-w-xs opacity-80" />
+    </div>
+
+    <div class="px-5 py-10">
+      <h1 v-reveal class="section-heading !justify-start">
+        <ChalkHeart />
+        Le programme
+      </h1>
+      <p v-reveal class="mt-4 text-sm font-semibold uppercase leading-relaxed tracking-wide text-white/85 md:text-base">
+        24h de live pour faire la différence.
+      </p>
+      <p v-reveal class="mt-2 text-xs uppercase tracking-wide text-white/60 md:text-sm">
+        {{ programme?.subtitle ?? 'Concepts, échanges, freestyles et enchères solidaires.' }}
+      </p>
       <p v-if="error" class="mt-4 text-accent-rose">{{ error }}</p>
-      <div v-reveal class="mt-10">
+      <div v-reveal class="mt-8">
         <ScheduleTimeline :items="schedule" :loading="loading" />
       </div>
     </div>
+
+    <!-- Rappel compte à rebours (maquette bas de page) -->
+    <section class="section-divider px-5 py-12 text-center">
+      <div class="flex items-center justify-center gap-2">
+        <ChalkSparkles />
+        <ChalkHeart />
+        <p class="font-display text-sm font-bold uppercase tracking-wide">
+          L'événement commence dans
+        </p>
+        <ChalkSparkles class="scale-x-[-1]" />
+      </div>
+    </section>
   </div>
 </template>

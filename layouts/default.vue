@@ -3,9 +3,7 @@ const route = useRoute()
 </script>
 
 <template>
-  <div class="relative min-h-screen overflow-x-hidden">
-    <!-- Pictogrammes PERSO discrets (parallax léger) -->
-    <PersoLayer v-if="route.path !== '/'" />
+  <div class="page-chalk">
     <AppHeader />
     <main :class="route.path === '/' ? '' : 'pt-20'">
       <slot />

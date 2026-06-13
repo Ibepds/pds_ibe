@@ -1,90 +1,74 @@
 <script setup lang="ts">
 import type { EventDoc } from '~/types'
-import { formatDate } from '~/utils/format'
+import { formatHeroDate } from '~/utils/format'
 
-const props = defineProps<{
+defineProps<{
   event: EventDoc | null
   loading?: boolean
 }>()
-
-const titleParts = computed(() => {
-  const full = props.event?.heroTitle ?? props.event?.name ?? 'PDS Humanity'
-  const words = full.trim().split(/\s+/).filter(Boolean)
-  if (words.length <= 1) {
-    return { lead: [] as string[], highlight: words[0] ?? 'PDS Humanity' }
-  }
-  return { lead: words.slice(0, -1), highlight: words[words.length - 1]! }
-})
-
-const scrollY = ref(0)
-let raf = 0
-const onScroll = () => {
-  cancelAnimationFrame(raf)
-  raf = requestAnimationFrame(() => (scrollY.value = window.scrollY))
-}
-onMounted(() => {
-  window.addEventListener('scroll', onScroll, { passive: true })
-  onScroll()
-})
-onUnmounted(() => {
-  window.removeEventListener('scroll', onScroll)
-  cancelAnimationFrame(raf)
-})
-const imgStyle = computed(() => ({
-  transform: `translate3d(0, ${scrollY.value * 0.3}px, 0) scale(1.08)`,
-}))
 </script>
 
 <template>
-  <section class="section-dark relative flex min-h-screen items-end overflow-hidden">
-    <img
-      src="https://picsum.photos/seed/pdshumanity-hero/1920/1200"
-      alt=""
-      aria-hidden="true"
-      class="absolute inset-0 h-full w-full object-cover opacity-55 will-change-transform"
-      :style="imgStyle"
-    />
-    <div class="absolute inset-0 bg-gradient-to-t from-ink via-ink/75 to-ink/20" />
-
-    <div class="relative w-full px-4 pb-16 pt-28 md:px-8 md:pb-24 md:pt-36">
-      <div class="mx-auto max-w-7xl">
-        <p
-          v-if="!loading"
-          class="rise mb-8 text-xs font-semibold uppercase tracking-[0.35em] text-white/55"
-          style="animation-delay: 0s"
-        >
-          Marathon caritatif 24h · {{ event?.organizerName ?? 'PDS Records / Ibé' }}
-        </p>
-
-        <h1 class="display-stacked text-[clamp(3.5rem,14vw,11rem)]">
-          <span
-            v-for="(w, i) in titleParts.lead"
-            :key="`lead-${i}`"
-            class="rise mr-4 inline-block md:mr-6"
-            :style="{ animationDelay: `${0.08 + i * 0.07}s` }"
-          >{{ w }}</span>
-          <span
-            class="rise block text-primary-light"
-            style="animation-delay: 0.45s"
-          >{{ titleParts.highlight }}.</span>
-        </h1>
-
-        <div class="mt-12 grid items-end gap-10 md:grid-cols-2 md:gap-16">
-          <p class="rise max-w-lg text-lg text-white/75 md:text-xl" style="animation-delay: 0.55s">
-            {{ event?.heroSubtitle ?? event?.tagline }}
-          </p>
-          <div class="rise flex flex-col items-start gap-5 md:items-end" style="animation-delay: 0.65s">
-            <p v-if="event" class="flex items-center gap-3 text-xs font-semibold uppercase tracking-[0.3em] text-white/50">
-              <span v-if="event.isLive" class="blink inline-block h-2 w-2 rounded-full bg-accent-red" />
-              {{ formatDate(event.startDate) }} → {{ formatDate(event.endDate) }}
-            </p>
-            <div class="flex flex-wrap gap-4 md:justify-end">
-              <PrimaryButton to="/donate">Faire un don</PrimaryButton>
-              <PrimaryButton to="/freestyles" variant="outline">Réserver un freestyle</PrimaryButton>
-            </div>
-          </div>
-        </div>
+  <section class="px-5 pb-10 pt-20 text-center md:px-8">
+    <!-- Logo + décorations cœur / colombe -->
+    <div class="rise relative mx-auto max-w-sm" style="animation-delay: 0.05s">
+      <div class="pointer-events-none absolute -left-2 top-8 md:-left-6">
+        <svg class="h-10 w-10 text-white opacity-90" viewBox="0 0 40 40" fill="none" stroke="currentColor" stroke-width="1.5">
+          <path d="M20 32C12 24 6 18 6 12a6 6 0 0112 0 6 6 0 0112 0c0 6-6 12-14 20z" />
+        </svg>
       </div>
+      <div class="pointer-events-none absolute -right-2 top-6 md:-right-4">
+        <ChalkDove class="!max-w-[70px]" />
+      </div>
+      <img
+        src="/images/logo-white.png"
+        alt="PDS Humanity"
+        width="280"
+        height="180"
+        fetchpriority="high"
+        decoding="async"
+        class="relative mx-auto w-full max-w-[260px] object-contain"
+      />
+    </div>
+
+    <!-- CTAs empilés -->
+    <div class="rise mx-auto mt-8 flex max-w-xs flex-col gap-3" style="animation-delay: 0.15s">
+      <PrimaryButton to="/donate" class="relative w-full !py-3.5">
+        <span class="pointer-events-none absolute -left-3 top-1/2 -translate-y-1/2 hidden sm:block">
+          <ChalkSparkles />
+        </span>
+        <ChalkHeart class="!text-primary" />
+        Faire un don
+        <span class="pointer-events-none absolute -right-3 top-1/2 -translate-y-1/2 hidden sm:block">
+          <ChalkSparkles />
+        </span>
+      </PrimaryButton>
+      <PrimaryButton to="/encheres" variant="outline" class="w-full !py-3.5">
+        <ChalkGavel />
+        Accéder aux enchères
+      </PrimaryButton>
+    </div>
+
+    <!-- Date + tagline -->
+    <div v-if="!loading && event" class="rise mt-10" style="animation-delay: 0.3s">
+      <div class="flex items-center justify-center gap-3">
+        <ChalkSparkles />
+        <p class="font-display text-2xl font-bold uppercase tracking-wide md:text-4xl">
+          {{ formatHeroDate(event.startDate) }}
+        </p>
+        <ChalkSparkles class="scale-x-[-1]" />
+      </div>
+      <div class="mt-4 flex items-center justify-center gap-2">
+        <ChalkHeart />
+        <p class="text-xs font-semibold uppercase tracking-[0.2em] text-white/90 md:text-sm">
+          Live caritatif de 24h non-stop
+        </p>
+      </div>
+    </div>
+
+    <!-- Illustration enfants -->
+    <div class="rise mx-auto mt-10 max-w-md" style="animation-delay: 0.45s">
+      <ChalkChildren />
     </div>
   </section>
 </template>

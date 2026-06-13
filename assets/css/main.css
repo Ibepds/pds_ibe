@@ -2,7 +2,6 @@
 @tailwind components;
 @tailwind utilities;
 
-/* ─── Typographies de l'identité PDS Humanity ─── */
 @font-face {
   font-family: 'Cossette Titre';
   src: url('/fonts/CossetteTitre-Regular.ttf') format('truetype');
@@ -24,13 +23,6 @@
   font-style: normal;
   font-display: swap;
 }
-@font-face {
-  font-family: 'IM Fell DW Pica';
-  src: url('/fonts/IMFellDWPica-Italic.ttf') format('truetype');
-  font-weight: 400;
-  font-style: italic;
-  font-display: swap;
-}
 
 @layer base {
   html {
@@ -38,87 +30,109 @@
   }
 
   body {
-    @apply bg-paper text-ink antialiased;
+    @apply bg-primary text-white antialiased;
   }
 }
 
 @layer components {
-  /* Titre : hérite de la couleur du contexte (encre sur clair, blanc sur sombre) */
+  /* Fond craie texturé (bleu PDS) */
+  .page-chalk {
+    @apply relative min-h-screen text-white;
+    background-color: #0546a0;
+    background-image: url('/images/fond-pds.jpg');
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
+  }
+
   .gradient-text {
-    color: inherit;
+    @apply text-white;
   }
 
-  /* Sous-titres / messages : style normal (non italique) cohérent avec la page */
   .accent-serif {
-    @apply font-sans font-normal not-italic;
+    @apply font-sans font-normal not-italic text-white/80;
   }
 
-  /* Section sombre (hero, bandeaux, footer) : encre + texte blanc */
   .section-dark {
-    @apply bg-ink text-white;
+    @apply text-white;
   }
 
-  /* Carte claire éditoriale (sur fond clair) — léger relief au survol */
-  .card-glow {
-    @apply rounded-2xl border border-ink/10 bg-white shadow-[0_1px_3px_rgba(0,0,0,0.06)] transition duration-300 hover:-translate-y-1 hover:shadow-[0_12px_30px_rgba(0,0,0,0.10)];
+  .section-divider {
+    @apply border-t border-white/25;
   }
 
-  /* Carte sur fond sombre */
-  .card-dark {
-    @apply rounded-2xl border border-white/10 bg-white/[0.04] backdrop-blur-md;
+  .section-heading {
+    @apply flex items-center justify-center gap-2 font-display text-xl font-bold uppercase tracking-wide md:text-2xl;
   }
 
   .section-title {
-    @apply font-display text-4xl font-bold uppercase leading-[0.95] tracking-tight md:text-6xl;
+    @apply font-display text-3xl font-bold uppercase leading-tight tracking-wide md:text-5xl;
   }
 
-  /* Label éditorial type Truck'N Roll : ( Trois leviers ) */
   .section-label {
-    @apply mb-4 text-xs font-semibold uppercase tracking-[0.35em] text-ink/45;
+    @apply mb-3 text-xs font-semibold uppercase tracking-[0.35em] text-white/45;
   }
 
-  .section-dark .section-label {
-    @apply text-white/50;
-  }
-
-  /* Titres empilés mot par mot */
   .display-stacked {
-    @apply font-display font-bold uppercase leading-[0.88] tracking-tight;
+    @apply font-display font-bold uppercase leading-[0.9] tracking-wide;
   }
 
-  /* Bloc chiffres éditorial */
   .stat-editorial {
-    @apply font-display text-5xl font-bold leading-none text-ink md:text-7xl;
+    @apply font-display text-4xl font-bold leading-none text-white md:text-6xl;
   }
 
-  /* CTA principal : noir plein (éditorial) */
+  /* Cartes craie (contour blanc irrégulier simulé) */
+  .card-glow {
+    @apply border-2 border-white/40 bg-white/5 shadow-chalk backdrop-blur-sm transition duration-300;
+  }
+
+  .card-dark {
+    @apply border-2 border-white/30 bg-white/[0.06] backdrop-blur-sm;
+  }
+
+  /* Boutons craie */
   .btn-primary {
-    @apply inline-flex items-center justify-center rounded-full bg-ink px-6 py-3 font-semibold uppercase tracking-wide text-white transition-all hover:bg-ink-soft active:scale-[0.98];
+    @apply inline-flex items-center justify-center gap-2 border-2 border-white bg-white px-6 py-3 font-display text-sm font-bold uppercase tracking-wide text-primary transition-all hover:bg-white/90 active:scale-[0.98];
   }
 
-  /* CTA secondaire : contour encre */
   .btn-outline {
-    @apply inline-flex items-center justify-center rounded-full border border-ink px-6 py-3 font-semibold uppercase tracking-wide text-ink transition-all hover:bg-ink hover:text-white;
+    @apply inline-flex items-center justify-center gap-2 border-2 border-white bg-transparent px-6 py-3 font-display text-sm font-bold uppercase tracking-wide text-white transition-all hover:bg-white/10 active:scale-[0.98];
   }
 
-  /* Variante des boutons quand ils sont dans une section sombre */
-  .section-dark .btn-primary {
-    @apply bg-white text-ink hover:bg-white/80;
-  }
-  .section-dark .btn-outline {
-    @apply border-white text-white hover:bg-white hover:text-ink;
+  /* Bouton ticket (header maquette) */
+  .btn-ticket {
+    @apply inline-flex items-center gap-1.5 border-2 border-white bg-transparent px-3 py-1.5 font-display text-xs font-bold uppercase tracking-wider text-white transition hover:bg-white/10;
+    clip-path: polygon(0 0, calc(100% - 8px) 0, 100% 50%, calc(100% - 8px) 100%, 0 100%, 8px 50%);
+    padding-left: 14px;
+    padding-right: 14px;
   }
 
-  /* Champs de formulaire de l'espace admin (fond clair) */
+  /* Section avec illustration à droite (maquette) */
+  .section-split {
+    @apply grid items-center gap-8 md:grid-cols-[1fr_auto] md:gap-12;
+  }
+
+  .section-art {
+    @apply mx-auto w-20 shrink-0 self-center opacity-90 md:w-32 lg:w-36;
+  }
+
+  /* Barre de progression craie */
+  .progress-chalk {
+    @apply h-3 border-2 border-white bg-transparent p-0.5;
+  }
+
+  .progress-chalk-fill {
+    @apply h-full bg-primary-light transition-all duration-1000 ease-out;
+  }
+
   .input-field {
-    @apply w-full rounded-xl border border-gray-300 bg-white px-4 py-3 text-gray-900 placeholder-gray-400 outline-none transition focus:border-primary focus:ring-2 focus:ring-primary/20;
+    @apply w-full border-2 border-gray-300 bg-white px-4 py-3 text-gray-900 placeholder-gray-400 outline-none transition focus:border-primary focus:ring-2 focus:ring-primary/20;
   }
 }
 
-/* ─── Apparition au défilement (directive v-reveal) ─── */
 .reveal {
   opacity: 0;
-  transform: translateY(32px);
+  transform: translateY(24px);
   transition:
     opacity 0.7s ease,
     transform 0.7s cubic-bezier(0.2, 0.7, 0.2, 1);
@@ -136,11 +150,10 @@
   }
 }
 
-/* ─── Animations hero (apparition échelonnée + flottement) ─── */
 @keyframes rise {
   from {
     opacity: 0;
-    transform: translateY(30px);
+    transform: translateY(24px);
   }
   to {
     opacity: 1;
@@ -150,19 +163,6 @@
 .rise {
   opacity: 0;
   animation: rise 0.8s cubic-bezier(0.2, 0.7, 0.2, 1) forwards;
-}
-
-@keyframes floaty {
-  0%,
-  100% {
-    transform: translateY(0);
-  }
-  50% {
-    transform: translateY(-10px);
-  }
-}
-.floaty {
-  animation: floaty 4.5s ease-in-out infinite;
 }
 
 @keyframes blink {
@@ -183,13 +183,11 @@
     opacity: 1;
     animation: none;
   }
-  .floaty,
   .blink {
     animation: none;
   }
 }
 
-/* ─── Bandeau défilant (ticker streaming) ─── */
 @keyframes marquee {
   from {
     transform: translateX(0);
