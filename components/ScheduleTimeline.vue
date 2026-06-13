@@ -7,6 +7,8 @@ const props = defineProps<{
   loading?: boolean
   limit?: number
   large?: boolean
+  /** Page programme complète — typo et espacements réduits */
+  compact?: boolean
 }>()
 
 const displayed = computed(() => {
@@ -50,29 +52,47 @@ function getRowStyle(item: ScheduleItem): RowStyle {
 </script>
 
 <template>
-  <div v-if="loading" class="space-y-4 px-5">
+  <div v-if="loading" class="space-y-2 px-2" :class="compact ? 'px-0' : 'px-5'">
     <div
       v-for="i in 6"
       :key="i"
       class="animate-pulse bg-white/10"
-      :class="large ? 'h-20' : 'h-14'"
+      :class="compact ? 'h-9' : large ? 'h-20' : 'h-14'"
     />
   </div>
-  <ul v-else class="mx-auto divide-y divide-white/15 md:mx-0 md:max-w-none" :class="large ? 'max-w-xl' : 'max-w-md'">
+  <ul
+    v-else
+    class="mx-auto divide-y divide-white/15 md:mx-0 md:max-w-none"
+    :class="[
+      compact ? 'max-w-none' : large ? 'max-w-xl' : 'max-w-md',
+      compact && 'divide-white/10',
+    ]"
+  >
     <li
       v-for="item in displayed"
       :key="item.id"
-      class="flex flex-col items-center gap-3 py-4 text-center sm:grid sm:items-center sm:justify-items-center sm:text-left md:justify-items-stretch md:gap-3 md:py-5"
+      class="flex flex-col items-center text-center sm:grid sm:items-center sm:justify-items-center sm:text-left md:justify-items-stretch"
       :class="
-        large
-          ? 'sm:grid-cols-[4rem_3.25rem_1fr_auto] md:grid-cols-[5.5rem_4.5rem_1fr_auto] md:py-6 lg:py-7'
-          : 'sm:grid-cols-[4.5rem_3.5rem_1fr_auto]'
+        compact
+          ? 'gap-1.5 py-2 sm:grid-cols-[3.25rem_2rem_1fr_auto] sm:gap-2 md:py-2'
+          : [
+              'gap-3 py-4 md:gap-3 md:py-5',
+              large
+                ? 'sm:grid-cols-[4rem_3.25rem_1fr_auto] md:grid-cols-[5.5rem_4.5rem_1fr_auto] md:py-6 lg:py-7'
+                : 'sm:grid-cols-[4.5rem_3.5rem_1fr_auto]',
+            ]
       "
     >
       <!-- Heure -->
       <span
-        class="font-display font-bold uppercase"
-        :class="large ? 'text-sm sm:text-base md:text-xl lg:text-2xl' : 'text-sm md:text-base'"
+        class="font-display font-bold uppercase tabular-nums"
+        :class="
+          compact
+            ? 'text-[11px] md:text-xs'
+            : large
+              ? 'text-sm sm:text-base md:text-xl lg:text-2xl'
+              : 'text-sm md:text-base'
+        "
       >
         {{ item.time ? formatTimeChalk(item.time) : '—' }}
       </span>
@@ -81,7 +101,11 @@ function getRowStyle(item: ScheduleItem): RowStyle {
       <div
         class="flex items-center justify-center rounded-full border-2"
         :class="[
-          large ? 'h-10 w-10 sm:h-12 sm:w-12 md:h-14 md:w-14 lg:h-16 lg:w-16' : 'h-10 w-10 md:h-11 md:w-11',
+          compact
+            ? 'h-7 w-7 md:h-8 md:w-8'
+            : large
+              ? 'h-10 w-10 sm:h-12 sm:w-12 md:h-14 md:w-14 lg:h-16 lg:w-16'
+              : 'h-10 w-10 md:h-11 md:w-11',
           getRowStyle(item).color,
         ]"
       >
@@ -89,40 +113,44 @@ function getRowStyle(item: ScheduleItem): RowStyle {
           v-if="getRowStyle(item).icon === 'chat'"
           :src="DA.cgpt.chat"
           class="chalk-picto mx-auto"
-          :class="large ? 'h-8 w-8 md:h-9 md:w-9' : 'h-6 w-6'"
+          :class="compact ? 'h-4 w-4' : large ? 'h-8 w-8 md:h-9 md:w-9' : 'h-6 w-6'"
         />
         <ChalkImage
           v-else-if="getRowStyle(item).icon === 'gift'"
           :src="DA.cgpt.gift"
           class="chalk-picto mx-auto"
-          :class="large ? 'h-8 w-8 md:h-9 md:w-9' : 'h-6 w-6'"
+          :class="compact ? 'h-4 w-4' : large ? 'h-8 w-8 md:h-9 md:w-9' : 'h-6 w-6'"
         />
         <ChalkImage
           v-else-if="getRowStyle(item).icon === 'mic'"
           :src="DA.cgpt.microphone"
           class="chalk-picto mx-auto"
-          :class="large ? 'h-8 w-8 md:h-9 md:w-9' : 'h-6 w-6'"
+          :class="compact ? 'h-4 w-4' : large ? 'h-8 w-8 md:h-9 md:w-9' : 'h-6 w-6'"
         />
         <ChalkImage
           v-else-if="getRowStyle(item).icon === 'crown'"
           :src="DA.cgpt.crown"
           class="chalk-picto mx-auto"
-          :class="large ? 'h-8 w-8 md:h-9 md:w-9' : 'h-6 w-6'"
+          :class="compact ? 'h-4 w-4' : large ? 'h-8 w-8 md:h-9 md:w-9' : 'h-6 w-6'"
         />
         <ChalkImage
           v-else
           :src="DA.cgpt.star"
           class="chalk-picto mx-auto"
-          :class="large ? 'h-8 w-8 md:h-9 md:w-9' : 'h-6 w-6'"
+          :class="compact ? 'h-4 w-4' : large ? 'h-8 w-8 md:h-9 md:w-9' : 'h-6 w-6'"
         />
       </div>
 
       <!-- Titre + description -->
-      <div class="min-w-0 border-white/25 md:border-l md:pl-4">
+      <div class="min-w-0 border-white/25 md:border-l" :class="compact ? 'md:pl-2' : 'md:pl-4'">
         <p
           class="font-display font-bold uppercase leading-tight"
           :class="[
-            large ? 'text-sm sm:text-base md:text-lg lg:text-xl' : 'text-sm md:text-base',
+            compact
+              ? 'text-[11px] md:text-xs'
+              : large
+                ? 'text-sm sm:text-base md:text-lg lg:text-xl'
+                : 'text-sm md:text-base',
             getRowStyle(item).titleColor,
           ]"
         >
@@ -130,8 +158,14 @@ function getRowStyle(item: ScheduleItem): RowStyle {
         </p>
         <p
           v-if="item.description"
-          class="mt-1 text-white/60"
-          :class="large ? 'text-sm md:text-base' : 'mt-0.5 text-xs md:text-sm'"
+          class="text-white/60"
+          :class="
+            compact
+              ? 'mt-0.5 text-[10px] leading-snug md:text-[11px]'
+              : large
+                ? 'mt-1 text-sm md:text-base'
+                : 'mt-0.5 text-xs md:text-sm'
+          "
         >
           {{ item.description }}
         </p>
@@ -150,11 +184,11 @@ function getRowStyle(item: ScheduleItem): RowStyle {
       <div
         v-if="getRowStyle(item).showHeart"
         class="flex justify-center"
-        :class="large ? 'w-8' : 'w-6'"
+        :class="compact ? 'w-4' : large ? 'w-8' : 'w-6'"
       >
         <ChalkHeart
           class="chalk-picto opacity-90"
-          :class="large ? '!h-6 !w-6 md:!h-7 md:!w-7' : '!h-4 !w-4'"
+          :class="compact ? '!h-3 !w-3' : large ? '!h-6 !w-6 md:!h-7 md:!w-7' : '!h-4 !w-4'"
         />
       </div>
     </li>

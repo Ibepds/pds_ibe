@@ -3,6 +3,7 @@ import { DA } from '~/utils/daAssets'
 
 defineProps<{
   large?: boolean
+  compact?: boolean
   /** Afficher le lien vers /planning (uniquement s’il reste des entrées non listées) */
   showProgrammeComplet?: boolean
 }>()
@@ -29,26 +30,35 @@ defineProps<{
     v-reveal
     to="/freestyles"
     class="flex flex-col items-center gap-4 border-2 border-white/40 bg-white/5 text-center transition hover:bg-white/10 sm:flex-row sm:items-center sm:gap-4 sm:text-left"
-    :class="large ? 'mt-10 p-5 md:mt-12 md:p-7 lg:p-8' : 'mt-8 p-4 md:p-5'"
+    :class="
+      compact
+        ? 'mt-6 p-3 md:mt-8 md:p-4'
+        : large
+          ? 'mt-10 p-5 md:mt-12 md:p-7 lg:p-8'
+          : 'mt-8 p-4 md:p-5'
+    "
   >
     <div
       class="flex shrink-0 items-center justify-center rounded-full border-2 border-accent-green text-accent-green"
-      :class="large ? 'h-16 w-16 md:h-20 md:w-20' : 'h-12 w-12'"
+      :class="compact ? 'h-9 w-9 md:h-10 md:w-10' : large ? 'h-16 w-16 md:h-20 md:w-20' : 'h-12 w-12'"
     >
       <ChalkImage
         :src="DA.cgpt.microphone"
         class="chalk-picto"
-        :class="large ? 'h-7 w-7 md:h-9 md:w-9' : 'h-5 w-5'"
+        :class="compact ? 'h-4 w-4 md:h-5 md:w-5' : large ? 'h-7 w-7 md:h-9 md:w-9' : 'h-5 w-5'"
       />
     </div>
     <div class="min-w-0 flex-1">
       <p
         class="font-display font-bold uppercase text-accent-green"
-        :class="large ? 'text-base md:text-xl lg:text-2xl' : 'text-sm md:text-base'"
+        :class="compact ? 'text-xs md:text-sm' : large ? 'text-base md:text-xl lg:text-2xl' : 'text-sm md:text-base'"
       >
         Freestyle nocturne
       </p>
-      <p class="text-white/65" :class="large ? 'text-sm md:text-base lg:text-lg' : 'text-xs md:text-sm'">
+      <p
+        class="text-white/65"
+        :class="compact ? 'text-[10px] md:text-xs' : large ? 'text-sm md:text-base lg:text-lg' : 'text-xs md:text-sm'"
+      >
         Réservez votre créneau
       </p>
     </div>

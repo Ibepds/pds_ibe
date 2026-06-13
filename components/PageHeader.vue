@@ -4,6 +4,7 @@ defineProps<{
   lead?: string
   subtitle?: string
   align?: 'left' | 'center'
+  compact?: boolean
 }>()
 </script>
 
@@ -16,8 +17,12 @@ defineProps<{
       <ChalkSparkles v-if="align === 'center'" class="chalk-inline" />
       <ChalkHeart v-if="align !== 'center'" class="chalk-picto !h-6 !w-6 md:!inline-block" />
       <h1
-        class="section-heading"
-        :class="align !== 'center' ? 'section-heading-left' : ''"
+        class="font-display font-bold uppercase leading-tight tracking-wide"
+        :class="
+          compact
+            ? 'text-base md:text-lg'
+            : ['section-heading', align !== 'center' && 'section-heading-left']
+        "
       >
         {{ title }}
       </h1>
@@ -25,15 +30,21 @@ defineProps<{
     </div>
     <p
       v-if="lead"
-      class="accent-serif mt-4 text-lg md:text-xl"
-      :class="align === 'center' ? 'mx-auto max-w-2xl' : 'mx-auto max-w-2xl md:mx-0'"
+      class="accent-serif text-white/80"
+      :class="[
+        compact ? 'mt-2 text-sm md:text-base' : 'mt-4 text-lg md:text-xl',
+        align === 'center' ? 'mx-auto max-w-2xl' : 'mx-auto max-w-2xl md:mx-0',
+      ]"
     >
       {{ lead }}
     </p>
     <p
       v-if="subtitle"
-      class="mt-2 text-xs uppercase tracking-wide text-white/60 md:text-sm"
-      :class="align === 'center' ? 'mx-auto max-w-2xl' : 'mx-auto max-w-2xl md:mx-0'"
+      class="uppercase tracking-wide text-white/60"
+      :class="[
+        compact ? 'mt-1 text-[10px] md:text-xs' : 'mt-2 text-xs md:text-sm',
+        align === 'center' ? 'mx-auto max-w-2xl' : 'mx-auto max-w-2xl md:mx-0',
+      ]"
     >
       {{ subtitle }}
     </p>

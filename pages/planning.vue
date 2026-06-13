@@ -44,24 +44,25 @@ usePageSeo({
 
 <template>
   <div class="home-container">
-    <section class="py-12 md:py-16">
-      <div v-reveal class="mb-10">
-        <ChalkChildren class="mx-auto max-w-xs opacity-90 md:max-w-md" />
+    <section class="py-8 md:py-10">
+      <div v-reveal class="mb-5 md:mb-6">
+        <ChalkChildren class="mx-auto max-w-[180px] opacity-90 md:max-w-[220px]" />
       </div>
 
       <PageHeader
+        compact
         title="Le programme"
         lead="24h de live pour faire la différence."
         :subtitle="programme?.subtitle ?? 'Concepts, échanges, freestyles et enchères solidaires.'"
       />
 
-      <p v-if="error" class="mt-4 text-center text-accent-rose">{{ error }}</p>
+      <p v-if="error" class="mt-3 text-center text-sm text-accent-rose">{{ error }}</p>
 
-      <div v-reveal class="mt-10">
-        <ScheduleTimeline :items="programmeItems" :loading="loading" />
+      <div v-reveal class="mt-6 md:mt-8">
+        <ScheduleTimeline :items="programmeItems" :loading="loading" compact />
       </div>
 
-      <ProgrammeCompletFreestyle :show-programme-complet="false" />
+      <ProgrammeCompletFreestyle compact :show-programme-complet="false" />
     </section>
 
     <section v-if="event" class="section-divider py-12 text-center md:py-16">
