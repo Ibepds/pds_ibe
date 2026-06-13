@@ -56,7 +56,7 @@ const items = computed(() => props.associations)
           class="flex flex-col items-center justify-center text-center transition hover:scale-105"
           :title="asso.name"
         >
-          <AssoChalkLogo :large="large" :alt="asso.name" />
+          <AssociationLogo :logo-url="asso.logoUrl" :name="asso.name" :large="large" />
           <span
             class="mt-3 font-display font-bold uppercase tracking-wide text-white/75"
             :class="large ? 'text-xs md:text-sm' : 'text-[10px] md:text-xs'"

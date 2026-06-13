@@ -13,8 +13,7 @@ defineProps<{
   <img
     :src="src"
     :alt="alt ?? ''"
-    aria-hidden="true"
-    class="chalk-img object-contain"
-    :class="[{ 'chalk-img--alpha': transparent }, $attrs.class]"
+    class="object-contain"
+    :class="[{ 'chalk-img': !transparent, 'chalk-img--alpha': transparent }, $attrs.class]"
   />
 </template>

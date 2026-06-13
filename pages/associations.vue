@@ -40,7 +40,7 @@ const { data: associations, loading, error } = useFirestoreCollection(
             <div class="lg:col-span-2">
               <div class="flex flex-col items-center gap-5 text-center sm:flex-row sm:items-start sm:text-left">
                 <div class="mx-auto flex shrink-0 items-center justify-center sm:mx-0">
-                  <AssoChalkLogo class="!max-w-[120px] md:!max-w-[140px]" :alt="asso.name" />
+                  <AssociationLogo :logo-url="asso.logoUrl" :name="asso.name" />
                 </div>
                 <div class="w-full min-w-0">
                   <h2 class="font-display text-2xl font-bold uppercase text-white">{{ asso.name }}</h2>
