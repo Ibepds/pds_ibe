@@ -40,6 +40,9 @@ const sending = ref(false)
 const sent = ref(false)
 const error = ref('')
 
+// Honeypot anti-bot (doit rester vide)
+const hp = ref('')
+
 const isSlotTaken = (label: string) => takenSlots.value.includes(label)
 
 const availableCount = computed(
@@ -57,9 +60,22 @@ const selectSlot = (label: string) => {
   form.slot = form.slot === label ? '' : label
 }
 
+const EMAIL_RE = /^[^@\s]+@[^@\s]+\.[^@\s]+$/
+
 const submit = async () => {
+  if (hp.value) {
+    sent.value = true
+    return
+  }
+  form.pseudo = form.pseudo.trim()
+  form.email = form.email.trim()
+  form.trackUrl = form.trackUrl.trim()
   if (!form.pseudo || !form.email || !form.slot || !form.trackUrl) {
     error.value = 'Veuillez remplir tous les champs obligatoires (dont le créneau).'
+    return
+  }
+  if (!EMAIL_RE.test(form.email)) {
+    error.value = 'Veuillez saisir une adresse e-mail valide.'
     return
   }
   if (isSlotTaken(form.slot)) {
@@ -175,6 +191,15 @@ const submit = async () => {
           </div>
 
           <form v-else v-reveal class="form-block-mobile space-y-5 lg:max-w-none" @submit.prevent="submit">
+            <!-- Honeypot anti-spam (caché aux utilisateurs) -->
+            <input
+              v-model="hp"
+              type="text"
+              tabindex="-1"
+              autocomplete="off"
+              aria-hidden="true"
+              class="absolute -left-[9999px] h-0 w-0 opacity-0"
+            />
             <h2 class="section-heading section-heading-left">
               <ChalkHeart class="chalk-picto !h-6 !w-6" />
               Vos informations
@@ -185,13 +210,13 @@ const submit = async () => {
                 <label class="form-label">
                   Nom / Pseudo <span class="text-accent-red">*</span>
                 </label>
-                <input v-model="form.pseudo" type="text" required placeholder="Votre nom de scène" class="input-field" />
+                <input v-model="form.pseudo" type="text" required maxlength="60" placeholder="Votre nom de scène" class="input-field" />
               </div>
               <div>
                 <label class="form-label">
                   E-mail <span class="text-accent-red">*</span>
                 </label>
-                <input v-model="form.email" type="email" required placeholder="votre@email.com" class="input-field" />
+                <input v-model="form.email" type="email" required maxlength="200" placeholder="votre@email.com" class="input-field" />
               </div>
             </div>
 
@@ -200,6 +225,7 @@ const submit = async () => {
               <input
                 v-model="form.socialLinks"
                 type="text"
+                maxlength="300"
                 placeholder="@instagram, @tiktok, lien SoundCloud..."
                 class="input-field"
               />
@@ -233,6 +259,7 @@ const submit = async () => {
                 v-model="form.trackUrl"
                 type="url"
                 required
+                maxlength="500"
                 placeholder="https://soundcloud.com/... ou YouTube, Instagram..."
                 class="input-field"
               />
@@ -246,6 +273,7 @@ const submit = async () => {
               <textarea
                 v-model="form.message"
                 rows="3"
+                maxlength="1000"
                 placeholder="Présentation, contexte du morceau, infos supplémentaires..."
                 class="input-field"
               />

@@ -14,67 +14,75 @@ const { data: associations, loading, error } = useFirestoreCollection(
 </script>
 
 <template>
-  <div class="home-container">
-    <section class="py-12 md:py-16">
-      <PageHeader
-        title="Associations soutenues"
-        lead="L'ensemble des fonds récoltés lors de PDS Humanity est reversé à ces associations partenaires."
-      />
+  <div class="home-container pb-16">
+    <!-- Hero -->
+    <section class="pt-8 text-center md:pt-12">
+      <ChalkTitleHero line1="Associations" line2="Soutenues" large />
+      <p v-reveal class="mx-auto mt-8 max-w-2xl leading-relaxed text-white/80 md:text-lg">
+        L'ensemble des fonds récoltés lors de PDS Humanity est reversé à ces associations
+        partenaires.
+      </p>
     </section>
 
-    <section class="section-divider py-12 md:py-16">
-      <div v-if="loading" class="space-y-8">
-        <div v-for="n in 2" :key="n" class="h-48 animate-pulse bg-white/10" />
+    <!-- Liste -->
+    <section class="mt-14 md:mt-20">
+      <div v-if="loading" class="space-y-12">
+        <div v-for="n in 2" :key="n" class="mx-auto h-48 max-w-2xl animate-pulse bg-white/10" />
       </div>
 
       <div v-else-if="error" class="text-center text-accent-rose">{{ error }}</div>
 
-      <ul v-else class="divide-y divide-white/15">
-        <li
+      <div v-else class="space-y-16 md:space-y-24">
+        <article
           v-for="asso in associations"
           :key="asso.id ?? asso.name"
           v-reveal
-          class="py-10 first:pt-0"
+          class="mx-auto max-w-2xl text-center"
         >
-          <div class="grid gap-8 lg:grid-cols-3">
-            <div class="lg:col-span-2">
-              <div class="flex flex-col items-center gap-5 text-center sm:flex-row sm:items-start sm:text-left">
-                <div class="mx-auto flex shrink-0 items-center justify-center sm:mx-0">
-                  <AssociationLogo :logo-url="asso.logoUrl" :name="asso.name" />
-                </div>
-                <div class="w-full min-w-0">
-                  <h2 class="font-display text-2xl font-bold uppercase text-white">{{ asso.name }}</h2>
-                  <p class="mt-3 leading-relaxed text-white/75">{{ asso.description }}</p>
-                  <p class="mt-3 text-sm text-white/60">
-                    <strong class="text-white">Mission :</strong> {{ asso.mission }}
-                  </p>
-                  <PrimaryButton
-                    v-if="asso.websiteUrl"
-                    :href="asso.websiteUrl"
-                    external
-                    variant="outline"
-                    class="mt-5 w-full max-w-xs sm:w-auto"
-                  >
-                    Site de l'association
-                  </PrimaryButton>
-                </div>
-              </div>
-            </div>
-            <div class="grid grid-cols-2 content-start gap-x-4">
-              <StatCard
-                v-for="kn in asso.keyNumbers"
-                :key="kn.label"
-                :label="kn.label"
-                :value="kn.value"
-                accent="cyan"
-              />
-            </div>
+          <!-- Logo -->
+          <img
+            v-if="asso.logoUrl"
+            :src="asso.logoUrl"
+            :alt="`Logo ${asso.name}`"
+            loading="lazy"
+            decoding="async"
+            class="mx-auto h-16 w-auto max-w-[200px] object-contain md:h-20"
+          />
+          <div
+            v-else
+            class="mx-auto flex h-16 w-16 items-center justify-center font-display text-2xl font-bold text-white/80 md:h-20 md:w-20"
+          >
+            {{ asso.name.charAt(0) }}
           </div>
-        </li>
-      </ul>
 
-      <div class="mt-12 flex justify-center">
-        <ChalkButton preset="donate" to="/donate" />
+          <!-- Nom -->
+          <h2 class="mt-5 font-display text-2xl font-bold uppercase tracking-wide md:text-3xl">
+            {{ asso.name }}
+          </h2>
+
+          <!-- Description -->
+          <p class="mx-auto mt-4 max-w-xl whitespace-pre-line leading-relaxed text-white/75">
+            {{ asso.description }}
+          </p>
+
+          <p v-if="asso.mission" class="mx-auto mt-3 max-w-xl text-sm text-white/55">
+            <strong class="text-white/80">Mission :</strong> {{ asso.mission }}
+          </p>
+
+          <PrimaryButton
+            v-if="asso.websiteUrl"
+            :href="asso.websiteUrl"
+            external
+            variant="outline"
+            class="mt-6"
+          >
+            Site de l'association
+          </PrimaryButton>
+        </article>
+      </div>
+
+      <div class="mt-16 flex justify-center">
+        <ChalkButton preset="donate" to="/donate" class="!max-w-[400px] md:!max-w-[480px]" />
       </div>
     </section>
   </div>

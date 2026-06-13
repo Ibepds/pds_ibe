@@ -17,7 +17,6 @@ import {
   MOCK_PARTICIPANTS,
   MOCK_SCHEDULE,
   MOCK_FAQ,
-  MOCK_DONATIONS,
   MOCK_FREESTYLE_SLOTS,
 } from '~/utils/mockData'
 
@@ -77,7 +76,8 @@ const runSeed = async () => {
     await seedCollection('participants', MOCK_PARTICIPANTS)
     await seedCollection('schedule', MOCK_SCHEDULE)
     await seedCollection('faq', MOCK_FAQ)
-    await seedCollection('donations', MOCK_DONATIONS)
+    // Les dons ne sont jamais "seedés" : ils proviennent uniquement de paiements
+    // Stripe réels (collection en écriture serveur uniquement).
     await seedCollection('freestyleSlots', MOCK_FREESTYLE_SLOTS)
 
     log('Terminé ✅')

@@ -71,9 +71,15 @@ usePageSeo({
       <HomeCountdownSection
         :end-date="event.startDate"
         :live-url="event.liveUrl"
+        :youtube-url="event.youtubeUrl"
+        :tiktok-url="event.tiktokUrl"
         :loading="eventLoading"
         large
       />
+    </HomeScrollPanel>
+
+    <HomeScrollPanel>
+      <HomeAboutSection large />
     </HomeScrollPanel>
 
     <HomeScrollPanel v-if="event">
@@ -104,7 +110,7 @@ usePageSeo({
     </HomeScrollPanel>
 
     <HomeScrollPanel>
-      <RecentDonations :donations="donations" :loading="dLoading" :limit="5" large />
+      <RecentDonations :donations="donations" :loading="dLoading" large />
     </HomeScrollPanel>
 
     <HomeScrollPanel>

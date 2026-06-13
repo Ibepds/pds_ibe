@@ -4,6 +4,8 @@ import { getTimeRemaining } from '~/utils/format'
 const props = defineProps<{
   endDate: string
   liveUrl?: string
+  youtubeUrl?: string
+  tiktokUrl?: string
   loading?: boolean
   large?: boolean
 }>()
@@ -59,7 +61,12 @@ const hasStarted = computed(() => remaining.value.ended)
           Rejoignez-nous en direct sur Twitch
         </p>
         <div :class="large ? 'mt-10' : 'mt-8'">
-          <TwitchLiveEmbed v-if="liveUrl" :live-url="liveUrl" />
+          <TwitchLiveEmbed
+            v-if="liveUrl"
+            :live-url="liveUrl"
+            :youtube-url="youtubeUrl"
+            :tiktok-url="tiktokUrl"
+          />
           <p v-else class="text-center text-white/60" :class="large ? 'text-lg' : ''">
             Le stream démarre bientôt — revenez dans quelques instants.
           </p>

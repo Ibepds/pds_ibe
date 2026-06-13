@@ -37,7 +37,14 @@ const save = async () => {
     await set('content', 'encheres', {
       intro: form.intro,
       planningText: form.planningText,
-      lots: form.lots.filter((l) => l.title || l.description),
+      lots: form.lots
+        .filter((l) => l.title || l.description)
+        .map((l) => ({
+          title: l.title ?? '',
+          description: l.description ?? '',
+          // n'inclut ebayUrl que s'il est renseigné (Firestore refuse undefined)
+          ...(l.ebayUrl ? { ebayUrl: l.ebayUrl } : {}),
+        })),
     })
     feedback.value = 'Page Enchères enregistrée.'
     await refresh()
@@ -103,6 +110,15 @@ const save = async () => {
                 class="w-full rounded-lg border border-gray-300 px-3 py-2 text-sm text-gray-900"
                 placeholder="Description du lot"
               />
+              <input
+                v-model="lot.ebayUrl"
+                type="url"
+                class="w-full rounded-lg border border-gray-300 px-3 py-2 text-sm text-gray-900"
+                placeholder="Lien eBay Live de ce lot (optionnel)"
+              />
+              <p class="text-xs text-gray-400">
+                Si vide, le lot renvoie vers le lien eBay Live global de l'événement.
+              </p>
             </div>
             <button type="button" class="rounded p-2 text-red-600 hover:bg-red-50" @click="removeLot(i)">✕</button>
           </div>

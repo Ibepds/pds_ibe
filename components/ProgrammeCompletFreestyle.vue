@@ -26,52 +26,70 @@ defineProps<{
     </NuxtLink>
   </div>
 
+  <!-- Zone artistes « TU ES ARTISTE ? » -->
   <NuxtLink
     v-reveal
     to="/freestyles"
-    class="flex flex-col items-center gap-4 border-2 border-white/40 bg-white/5 text-center transition hover:bg-white/10 sm:flex-row sm:items-center sm:gap-4 sm:text-left"
+    class="mx-auto flex max-w-xl flex-col items-center border-2 border-white/40 bg-white/5 text-center transition hover:bg-white/10"
     :class="
       compact
-        ? 'mt-6 p-3 md:mt-8 md:p-4'
+        ? 'mt-6 gap-3 p-5 md:mt-8'
         : large
-          ? 'mt-10 p-5 md:mt-12 md:p-7 lg:p-8'
-          : 'mt-8 p-4 md:p-5'
+          ? 'mt-10 gap-5 p-7 md:mt-12 md:p-10'
+          : 'mt-8 gap-4 p-6'
     "
   >
-    <div
-      class="flex shrink-0 items-center justify-center rounded-full border-2 border-accent-green text-accent-green"
-      :class="compact ? 'h-9 w-9 md:h-10 md:w-10' : large ? 'h-16 w-16 md:h-20 md:w-20' : 'h-12 w-12'"
+    <!-- Picto profil + étoile -->
+    <div class="relative">
+      <ChalkImage
+        :src="DA.cgpt.user"
+        class="chalk-picto"
+        :class="compact ? 'h-12 w-12' : large ? 'h-16 w-16 md:h-20 md:w-20' : 'h-14 w-14'"
+      />
+      <ChalkImage
+        :src="DA.cgpt.star"
+        class="chalk-picto absolute -right-2 -top-1 opacity-90"
+        :class="compact ? 'h-5 w-5' : large ? 'h-7 w-7 md:h-8 md:w-8' : 'h-6 w-6'"
+      />
+    </div>
+
+    <div>
+      <p
+        class="inline-block border-b-2 border-primary-light pb-1 font-display font-bold uppercase tracking-wide text-primary-light"
+        :class="compact ? 'text-lg' : large ? 'text-2xl md:text-4xl lg:text-5xl' : 'text-xl md:text-2xl'"
+      >
+        Tu es artiste ?
+      </p>
+      <p
+        class="mx-auto mt-4 max-w-md text-white/70"
+        :class="compact ? 'text-xs' : large ? 'text-sm md:text-base lg:text-lg' : 'text-xs md:text-sm'"
+      >
+        Rejoins l'aventure et viens performer lors de notre live caritatif !
+      </p>
+    </div>
+
+    <!-- Bouton réserver un freestyle -->
+    <span
+      class="mt-2 inline-flex items-center gap-3 border-2 border-primary-light text-primary-light transition group-hover:bg-primary-light/10"
+      :class="compact ? 'px-4 py-2 text-xs' : large ? 'px-6 py-3 text-sm md:text-base' : 'px-5 py-2.5 text-sm'"
     >
       <ChalkImage
         :src="DA.cgpt.microphone"
-        class="chalk-picto"
-        :class="compact ? 'h-4 w-4 md:h-5 md:w-5' : large ? 'h-7 w-7 md:h-9 md:w-9' : 'h-5 w-5'"
+        class="chalk-inline shrink-0"
+        :class="compact ? 'h-4 w-4' : 'h-5 w-5 md:h-6 md:w-6'"
       />
-    </div>
-    <div class="min-w-0 flex-1">
-      <p
-        class="font-display font-bold uppercase text-accent-green"
-        :class="compact ? 'text-xs md:text-sm' : large ? 'text-base md:text-xl lg:text-2xl' : 'text-sm md:text-base'"
+      <span class="font-display font-bold uppercase tracking-wide">Réserver un freestyle</span>
+      <svg
+        class="shrink-0"
+        :class="large ? 'h-5 w-5 md:h-6 md:w-6' : 'h-4 w-4'"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="2"
+        viewBox="0 0 24 24"
+        aria-hidden="true"
       >
-        Freestyle nocturne
-      </p>
-      <p
-        class="text-white/65"
-        :class="compact ? 'text-[10px] md:text-xs' : large ? 'text-sm md:text-base lg:text-lg' : 'text-xs md:text-sm'"
-      >
-        Réservez votre créneau
-      </p>
-    </div>
-    <svg
-      class="shrink-0 text-white/70"
-      :class="large ? 'h-6 w-6 md:h-7 md:w-7' : 'h-5 w-5'"
-      fill="none"
-      stroke="currentColor"
-      stroke-width="2"
-      viewBox="0 0 24 24"
-      aria-hidden="true"
-    >
-      <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7" />
-    </svg>
+        <path stroke-linecap="round" stroke-linejoin="round" d="M5 12h14M13 6l6 6-6 6" />
+      </svg>
+    </span>
   </NuxtLink>
 </template>

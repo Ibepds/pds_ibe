@@ -16,8 +16,33 @@ const links = [
 const isActive = (path: string) =>
   path === '/' ? route.path === '/' : route.path.startsWith(path)
 
+const isHome = computed(() => route.path === '/')
+
+// Logo header : visible une fois la 1re section (hero) dépassée sur l'accueil ;
+// toujours visible sur les autres pages (pas de grand logo hero).
+const scrolledPastHero = ref(false)
+const showLogo = computed(() => !isHome.value || scrolledPastHero.value)
+
+const onScroll = () => {
+  scrolledPastHero.value = window.scrollY > window.innerHeight * 0.7
+}
+
+onMounted(() => {
+  if (!import.meta.client) return
+  onScroll()
+  window.addEventListener('scroll', onScroll, { passive: true })
+  window.addEventListener('resize', onScroll, { passive: true })
+})
+
+onUnmounted(() => {
+  if (!import.meta.client) return
+  window.removeEventListener('scroll', onScroll)
+  window.removeEventListener('resize', onScroll)
+})
+
 watch(() => route.path, () => {
   mobileOpen.value = false
+  if (import.meta.client) onScroll()
 })
 
 watch(mobileOpen, (open) => {
@@ -53,6 +78,25 @@ onUnmounted(() => {
             <path stroke-linecap="round" d="M2 5h28M2 12h28M2 19h28" />
           </svg>
         </button>
+
+        <!-- Logo cliquable (ramène à l'accueil) — apparaît une fois la 1re section dépassée -->
+        <Transition name="logo-fade">
+          <NuxtLink
+            v-show="showLogo"
+            to="/"
+            aria-label="Retour à l'accueil"
+            class="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 transition hover:opacity-80"
+          >
+            <img
+              src="/images/logo-white.png"
+              alt="PDS Humanity"
+              width="120"
+              height="60"
+              decoding="async"
+              class="h-7 w-auto object-contain sm:h-9 md:h-10"
+            />
+          </NuxtLink>
+        </Transition>
 
         <ChalkButton
           preset="donate"
@@ -102,6 +146,16 @@ onUnmounted(() => {
 .menu-slide-leave-to {
   opacity: 0;
   transform: translateY(-8px);
+}
+
+.logo-fade-enter-active,
+.logo-fade-leave-active {
+  transition: opacity 0.3s ease, transform 0.3s ease;
+}
+.logo-fade-enter-from,
+.logo-fade-leave-to {
+  opacity: 0;
+  transform: translate(-50%, -40%);
 }
 
 /* Navbar : « Faire un don » toujours à droite (override centrage global .chalk-btn) */

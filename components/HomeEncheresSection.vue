@@ -42,18 +42,7 @@ const scroll = (dir: -1 | 1) => {
 <template>
   <section class="section-divider py-12 md:py-16">
     <div class="w-full text-center">
-      <h2
-        v-reveal
-        class="flex items-center justify-center gap-3 font-display font-bold uppercase tracking-wide"
-        :class="large ? 'text-2xl md:text-4xl lg:text-5xl' : 'section-heading'"
-      >
-        <ChalkImage
-          :src="DA.cgpt.gift"
-          class="chalk-inline shrink-0 opacity-90"
-          :class="large ? '!h-8 !w-8 md:!h-10 md:!w-10 lg:!h-12 lg:!w-12' : '!h-6 !w-6 md:!inline-block'"
-        />
-        Les enchères
-      </h2>
+      <ChalkTitleHero line1="Enchères" line2="Solidaires" :large="large" />
 
       <p
         v-reveal

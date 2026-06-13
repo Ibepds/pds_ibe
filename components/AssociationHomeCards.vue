@@ -13,17 +13,11 @@ const items = computed(() => props.associations)
 <template>
   <section class="section-divider py-12 md:py-16">
     <div class="mx-auto w-full max-w-5xl text-center">
-      <NuxtLink to="/associations" class="transition hover:opacity-90">
-        <h2
-          v-reveal
-          class="font-display font-bold uppercase tracking-wide"
-          :class="large ? 'text-2xl md:text-4xl lg:text-5xl' : 'text-lg md:text-xl'"
-        >
-          Pour qui ?
-        </h2>
+      <NuxtLink to="/associations" class="block transition hover:opacity-90">
+        <ChalkTitleHero line1="Associations" line2="Soutenues" :large="large" />
         <p
           v-reveal
-          class="mt-3 font-semibold uppercase tracking-wide text-white/70"
+          class="mt-5 font-semibold uppercase tracking-wide text-white/70"
           :class="large ? 'text-base md:text-xl lg:text-2xl' : 'mt-2 text-sm'"
         >
           100% des dons reversés

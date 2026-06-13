@@ -71,11 +71,11 @@ function getRowStyle(item: ScheduleItem): RowStyle {
     <li
       v-for="item in displayed"
       :key="item.id"
-      class="flex flex-col items-center text-center sm:grid sm:items-center sm:justify-items-center sm:text-left md:justify-items-stretch"
       :class="
         compact
-          ? 'gap-1.5 py-2 sm:grid-cols-[3.25rem_2rem_1fr_auto] sm:gap-2 md:py-2'
+          ? 'grid grid-cols-[2.8rem_2rem_1fr_auto] items-center gap-2 py-2 !text-left'
           : [
+              'flex flex-col items-center text-center sm:grid sm:items-center sm:justify-items-center sm:text-left md:justify-items-stretch',
               'gap-3 py-4 md:gap-3 md:py-5',
               large
                 ? 'sm:grid-cols-[4rem_3.25rem_1fr_auto] md:grid-cols-[5.5rem_4.5rem_1fr_auto] md:py-6 lg:py-7'

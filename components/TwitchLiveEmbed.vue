@@ -1,7 +1,16 @@
 <script setup lang="ts">
 const props = defineProps<{
   liveUrl: string
+  youtubeUrl?: string
+  tiktokUrl?: string
 }>()
+
+const otherPlatforms = computed(() =>
+  [
+    { label: 'TikTok', url: props.tiktokUrl },
+    { label: 'YouTube', url: props.youtubeUrl },
+  ].filter((p) => p.url),
+)
 
 const parent = ref('')
 
@@ -50,14 +59,40 @@ const embedUrl = computed(() => {
       </PrimaryButton>
     </div>
   </div>
-  <p v-if="embedUrl && liveUrl" class="mt-4 text-center">
+  <!-- Bouton principal : regarder sur Twitch -->
+  <div v-if="liveUrl" class="mt-6 flex justify-center">
     <a
       :href="liveUrl"
       target="_blank"
       rel="noopener"
-      class="text-sm font-semibold uppercase tracking-wide text-primary-light hover:underline"
+      class="inline-flex items-center gap-3 border-2 border-white px-6 py-3 font-display text-sm font-bold uppercase tracking-wide text-white transition hover:bg-white/10 md:text-base"
     >
-      Ouvrir sur Twitch ↗
+      Regarder sur Twitch
+      <svg class="h-5 w-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" aria-hidden="true">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M5 12h14M13 6l6 6-6 6" />
+      </svg>
     </a>
-  </p>
+  </div>
+
+  <!-- Autres plateformes -->
+  <div v-if="otherPlatforms.length" class="mt-6 text-center">
+    <p class="font-display text-xs font-bold uppercase tracking-[0.25em] text-primary-light">
+      Ou regarder sur
+    </p>
+    <div class="mt-4 flex items-center justify-center gap-8">
+      <a
+        v-for="p in otherPlatforms"
+        :key="p.label"
+        :href="p.url"
+        target="_blank"
+        rel="noopener"
+        class="flex flex-col items-center gap-1.5 text-white/80 transition hover:text-white"
+      >
+        <span class="flex h-14 w-14 items-center justify-center border-2 border-white/40">
+          <span class="font-display text-xs font-bold uppercase">{{ p.label.slice(0, 2) }}</span>
+        </span>
+        <span class="font-display text-[10px] font-bold uppercase tracking-wide">{{ p.label }}</span>
+      </a>
+    </div>
+  </div>
 </template>

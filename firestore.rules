@@ -6,39 +6,93 @@ service cloud.firestore {
         exists(/databases/$(database)/documents/admins/$(request.auth.uid));
     }
 
+    // Chaîne présente, de type string et de longueur bornée
+    function strLen(data, field, min, max) {
+      return field in data
+        && data[field] is string
+        && data[field].size() >= min
+        && data[field].size() <= max;
+    }
+
+    // E-mail basique (ancré ^...$) sans backslash
+    function isEmail(s) {
+      return s is string && s.size() <= 200 && s.matches('^[^@ ]+@[^@ ]+[.][^@ ]+$');
+    }
+
     // Contenus publics en lecture, modifiables uniquement par les admins
     match /event/{docId} { allow read: if true; allow write: if isAdmin(); }
     match /participants/{docId} { allow read: if true; allow write: if isAdmin(); }
     match /schedule/{docId} { allow read: if true; allow write: if isAdmin(); }
-    match /donations/{docId} { allow read: if true; allow write: if isAdmin(); }
     match /faq/{docId} { allow read: if true; allow write: if isAdmin(); }
     match /association/{docId} { allow read: if true; allow write: if isAdmin(); }
     match /associations/{docId} { allow read: if true; allow write: if isAdmin(); }
     match /content/{docId} { allow read: if true; allow write: if isAdmin(); }
 
+    // Dons (feed public) : AUCUNE donnée personnelle. Écrits par le serveur
+    // (Admin SDK, hors règles). Aucune écriture client autorisée.
+    match /donations/{docId} {
+      allow read: if true;
+      allow write: if false;
+    }
+
+    // Coordonnées des donateurs (PII) : réservé aux admins. Écrites par le serveur.
+    match /donationContacts/{docId} {
+      allow read: if isAdmin();
+      allow write: if false;
+    }
+
     // Créneaux de freestyles : lecture publique, gestion réservée aux admins.
     match /freestyleSlots/{docId} { allow read: if true; allow write: if isAdmin(); }
 
-    // Réservations de freestyles : soumission publique (statut "pending" forcé),
-    // gestion réservée aux admins.
+    // Réservations de freestyles : soumission publique validée (statut "pending"
+    // forcé, champs et tailles contrôlés pour empêcher le spam). Gestion admin.
     match /freestyles/{docId} {
-      allow create: if request.resource.data.status == 'pending';
+      allow create: if request.resource.data.status == 'pending'
+        && request.resource.data.keys().hasOnly([
+          'pseudo', 'email', 'socialLinks', 'slot', 'trackUrl', 'message',
+          'status', 'createdAt', 'updatedAt'
+        ])
+        && strLen(request.resource.data, 'pseudo', 1, 60)
+        && isEmail(request.resource.data.email)
+        && strLen(request.resource.data, 'slot', 1, 40)
+        && strLen(request.resource.data, 'trackUrl', 1, 500)
+        && (!('socialLinks' in request.resource.data)
+            || (request.resource.data.socialLinks is string
+                && request.resource.data.socialLinks.size() <= 300))
+        && (!('message' in request.resource.data)
+            || (request.resource.data.message is string
+                && request.resource.data.message.size() <= 1000));
       allow read, update, delete: if isAdmin();
     }
 
-    // Messages de contact : envoi public, lecture/gestion réservées aux admins.
+    // Messages de contact : envoi public contrôlé, lecture/gestion admin.
     match /contacts/{docId} {
-      allow create: if true;
+      allow create: if request.resource.data.keys().hasOnly([
+          'name', 'email', 'subject', 'message', 'createdAt', 'updatedAt'
+        ])
+        && strLen(request.resource.data, 'name', 1, 80)
+        && isEmail(request.resource.data.email)
+        && strLen(request.resource.data, 'subject', 1, 120)
+        && strLen(request.resource.data, 'message', 1, 2000);
       allow read, update, delete: if isAdmin();
     }
 
     // File d'envoi d'e-mails de l'extension "Trigger Email from Firestore".
-    // Création publique autorisée UNIQUEMENT vers l'adresse de l'équipe
-    // (empêche d'utiliser le formulaire pour spammer des tiers).
-    // L'extension écrit le statut de livraison via l'Admin SDK (hors règles).
+    // Création publique UNIQUEMENT vers l'adresse de l'équipe (pas de spam de
+    // tiers) et avec des tailles bornées. L'extension écrit le statut via Admin SDK.
     match /mail/{docId} {
       allow create: if request.resource.data.to == 'alizee.grosjean@pdsrecords.com'
-        && request.resource.data.message is map;
+        && request.resource.data.message is map
+        && request.resource.data.message.subject is string
+        && request.resource.data.message.subject.size() <= 200
+        && request.resource.data.message.text is string
+        && request.resource.data.message.text.size() <= 5000
+        && (!('html' in request.resource.data.message)
+            || (request.resource.data.message.html is string
+                && request.resource.data.message.html.size() <= 10000))
+        && (!('replyTo' in request.resource.data)
+            || (request.resource.data.replyTo is string
+                && request.resource.data.replyTo.size() <= 200));
       allow read, update, delete: if isAdmin();
     }
 

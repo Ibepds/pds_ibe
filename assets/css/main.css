@@ -170,17 +170,15 @@
   }
 
   /* Accueil : sections plein écran avec fondu au scroll (desktop) */
+  /* NB : pas de scroll-snap (provoquait un bug de saut en bas de page) */
   .home-scroll {
     @apply overflow-x-clip;
-    scroll-snap-type: y proximity;
   }
 
   .home-panel {
     position: relative;
     height: 100vh;
     height: 100dvh;
-    scroll-snap-align: start;
-    scroll-snap-stop: normal;
   }
 
   .home-panel-inner {
@@ -416,6 +414,27 @@
 }
 @media (prefers-reduced-motion: reduce) {
   .animate-marquee {
+    animation: none;
+  }
+}
+
+/* Défilement vertical continu (liste des dons quand elle est longue) */
+@keyframes marquee-y {
+  from {
+    transform: translateY(0);
+  }
+  to {
+    transform: translateY(-50%);
+  }
+}
+.animate-marquee-y {
+  animation: marquee-y var(--marquee-duration, 24s) linear infinite;
+}
+.marquee-y-mask:hover .animate-marquee-y {
+  animation-play-state: paused;
+}
+@media (prefers-reduced-motion: reduce) {
+  .animate-marquee-y {
     animation: none;
   }
 }

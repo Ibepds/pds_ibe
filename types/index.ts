@@ -118,6 +118,8 @@ export interface ProgrammeDoc {
 export interface EncheresLot {
   title: string
   description: string
+  /** Lien eBay Live dédié au lot (sinon : lien eBay global de l'événement) */
+  ebayUrl?: string
 }
 
 export interface EncheresDoc {

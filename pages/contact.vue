@@ -23,6 +23,9 @@ const sending = ref(false)
 const sent = ref(false)
 const error = ref('')
 
+// Honeypot anti-bot (doit rester vide ; les humains ne le voient pas)
+const hp = ref('')
+
 const TEAM_EMAIL = 'alizee.grosjean@pdsrecords.com'
 
 const { create } = useAdminFirestore()
@@ -33,9 +36,23 @@ const escapeHtml = (s: string) =>
     .replace(/>/g, '&gt;')
     .replace(/"/g, '&quot;')
 
+const EMAIL_RE = /^[^@\s]+@[^@\s]+\.[^@\s]+$/
+
 const send = async () => {
+  // Bot détecté : on simule un succès sans rien envoyer
+  if (hp.value) {
+    sent.value = true
+    return
+  }
+  form.name = form.name.trim()
+  form.email = form.email.trim()
+  form.message = form.message.trim()
   if (!form.name || !form.email || !form.message) {
     error.value = 'Veuillez remplir tous les champs obligatoires.'
+    return
+  }
+  if (!EMAIL_RE.test(form.email)) {
+    error.value = 'Veuillez saisir une adresse e-mail valide.'
     return
   }
   sending.value = true
@@ -123,13 +140,22 @@ const send = async () => {
           </div>
 
           <form v-else v-reveal class="form-block-mobile space-y-5" @submit.prevent="send">
+            <!-- Honeypot anti-spam (caché aux utilisateurs) -->
+            <input
+              v-model="hp"
+              type="text"
+              tabindex="-1"
+              autocomplete="off"
+              aria-hidden="true"
+              class="absolute -left-[9999px] h-0 w-0 opacity-0"
+            />
             <div>
               <label class="form-label">Nom / Pseudo <span class="text-accent-red">*</span></label>
-              <input v-model="form.name" type="text" required placeholder="Votre nom" class="input-field" />
+              <input v-model="form.name" type="text" required maxlength="80" placeholder="Votre nom" class="input-field" />
             </div>
             <div>
               <label class="form-label">E-mail <span class="text-accent-red">*</span></label>
-              <input v-model="form.email" type="email" required placeholder="votre@email.com" class="input-field" />
+              <input v-model="form.email" type="email" required maxlength="200" placeholder="votre@email.com" class="input-field" />
             </div>
             <div>
               <label class="form-label">Objet</label>
@@ -144,6 +170,7 @@ const send = async () => {
                 v-model="form.message"
                 required
                 rows="5"
+                maxlength="2000"
                 placeholder="Votre message..."
                 class="input-field"
               />

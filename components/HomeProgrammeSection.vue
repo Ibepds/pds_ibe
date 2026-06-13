@@ -42,8 +42,9 @@ const showProgrammeComplet = computed(
         />
       </div>
 
-      <div v-reveal :class="large ? 'mt-10 md:mt-12' : 'mt-8'">
-        <ScheduleTimeline :items="programmeItems" :loading="loading" :large="large" />
+      <!-- Programme en lignes resserrées (Heure · Logo · Description) pour gagner de la place -->
+      <div v-reveal class="mx-auto max-w-2xl" :class="large ? 'mt-8 md:mt-10' : 'mt-6'">
+        <ScheduleTimeline :items="programmeItems" :loading="loading" compact />
       </div>
 
       <ProgrammeCompletFreestyle :large="large" :show-programme-complet="showProgrammeComplet" />

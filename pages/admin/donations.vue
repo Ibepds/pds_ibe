@@ -10,6 +10,30 @@ const { data: donations, loading, refresh } = useFirestoreCollection(
   { orderField: 'createdAt', orderDirection: 'desc' },
 )
 
+// Coordonnées privées des donateurs (collection admin-only), jointes par sessionId
+const { data: contacts, refresh: refreshContacts } = useFirestoreCollection<{
+  id: string
+  email?: string
+  sessionId?: string
+}>('donationContacts', [])
+
+const emailBySession = computed(() => {
+  const map: Record<string, string> = {}
+  for (const c of contacts.value) {
+    if (c.sessionId && c.email) map[c.sessionId] = c.email
+  }
+  return map
+})
+
+// E-mail : depuis donationContacts (prod) ou inline (jeu de démo)
+const emailOf = (d: { sessionId?: string; email?: string }) =>
+  (d.sessionId ? emailBySession.value[d.sessionId] : undefined) ?? d.email ?? ''
+
+const refreshAll = () => {
+  refresh()
+  refreshContacts()
+}
+
 const fmtDate = (v: unknown) => {
   if (!v) return ''
   const d = (v as { toDate?: () => Date })?.toDate
@@ -21,7 +45,7 @@ const fmtDate = (v: unknown) => {
 const stats = computed(() => ({
   total: donations.value.length,
   amount: donations.value.reduce((sum, d) => sum + (d.amount ?? 0), 0),
-  withEmail: donations.value.filter((d) => d.email).length,
+  withEmail: donations.value.filter((d) => emailOf(d)).length,
 }))
 
 const exportCsv = () => {
@@ -29,7 +53,7 @@ const exportCsv = () => {
     ['Date', 'E-mail', 'Pseudo', 'Montant (€)', 'Message'],
     ...donations.value.map((d) => [
       fmtDate(d.createdAt),
-      d.email ?? '',
+      emailOf(d),
       d.username,
       String(d.amount ?? 0).replace('.', ','),
       d.message ?? '',
@@ -55,7 +79,7 @@ const exportCsv = () => {
       <div class="flex gap-2">
         <button
           class="rounded-lg border border-gray-300 px-4 py-2 text-sm hover:bg-gray-50"
-          @click="refresh"
+          @click="refreshAll"
         >
           Rafraîchir
         </button>
@@ -118,11 +142,11 @@ const exportCsv = () => {
             <td class="whitespace-nowrap px-4 py-3 text-gray-600">{{ fmtDate(d.createdAt) }}</td>
             <td class="px-4 py-3">
               <a
-                v-if="d.email"
-                :href="`mailto:${d.email}`"
+                v-if="emailOf(d)"
+                :href="`mailto:${emailOf(d)}`"
                 class="text-blue-600 hover:underline"
               >
-                {{ d.email }}
+                {{ emailOf(d) }}
               </a>
               <span v-else class="text-gray-400">—</span>
             </td>

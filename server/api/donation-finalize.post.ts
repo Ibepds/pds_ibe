@@ -42,15 +42,27 @@ export default defineEventHandler(async (event) => {
       return { ok: true, duplicate: true }
     }
 
+    // Don public : AUCUNE donnée personnelle (lecture publique du feed)
     await db.collection('donations').add({
       username,
-      email,
       amount,
       message,
       sessionId: session.id,
       createdAt: new Date().toISOString(),
       serverCreatedAt: FieldValue.serverTimestamp(),
     })
+
+    // Coordonnées du donateur : collection privée, lisible par les admins seulement
+    if (email) {
+      await db.collection('donationContacts').add({
+        email,
+        username,
+        amount,
+        sessionId: session.id,
+        createdAt: new Date().toISOString(),
+        serverCreatedAt: FieldValue.serverTimestamp(),
+      })
+    }
 
     // Met à jour le compteur de collecte (atomique) : montant + nombre de donateurs
     await db.collection('event').doc('main').set(
