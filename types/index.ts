@@ -54,9 +54,11 @@ export interface ScheduleItem {
 export interface Donation {
   id: string
   username: string
+  email?: string
   amount: number
   message: string
   createdAt: string
+  sessionId?: string
 }
 
 export interface FaqItem {

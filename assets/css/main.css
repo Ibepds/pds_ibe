@@ -35,14 +35,9 @@
 }
 
 @layer components {
-  /* Fond craie texturé (bleu PDS) */
+  /* Fond bleu PDS unicolore */
   .page-chalk {
-    @apply relative min-h-screen text-white;
-    background-color: #0546a0;
-    background-image: url('/images/fond-pds.jpg');
-    background-size: cover;
-    background-position: center;
-    background-attachment: fixed;
+    @apply relative min-h-screen bg-primary text-white;
   }
 
   .gradient-text {
@@ -132,6 +127,60 @@
   /* Conteneur page d'accueil — pleine largeur disponible */
   .home-container {
     @apply mx-auto w-full max-w-7xl px-4 lg:px-8;
+  }
+
+  /* Accueil : sections plein écran avec fondu au scroll */
+  .home-scroll {
+    scroll-snap-type: y proximity;
+  }
+
+  .home-panel {
+    position: relative;
+    height: 100vh;
+    height: 100dvh;
+    scroll-snap-align: start;
+    scroll-snap-stop: normal;
+  }
+
+  .home-panel-inner {
+    position: sticky;
+    top: 0;
+    display: flex;
+    height: 100vh;
+    height: 100dvh;
+    align-items: center;
+    justify-content: center;
+    overflow-y: auto;
+    padding-top: 5rem;
+    padding-bottom: 2rem;
+    will-change: opacity, transform;
+  }
+
+  .home-panel-content {
+    @apply mx-auto w-full max-w-7xl px-4 lg:px-8;
+  }
+
+  .home-panel-content .section-divider {
+    @apply border-t-0 py-0;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .home-scroll {
+      scroll-snap-type: none;
+    }
+
+    .home-panel {
+      height: auto;
+      min-height: 100dvh;
+    }
+
+    .home-panel-inner {
+      position: relative;
+      height: auto;
+      min-height: 100dvh;
+      opacity: 1 !important;
+      transform: none !important;
+    }
   }
 
   /* Pictos craie (PNG blanc sur fond noir → transparent sur fond bleu) */

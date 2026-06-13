@@ -101,6 +101,7 @@ export const MOCK_DONATIONS: Donation[] = [
   {
     id: '1',
     username: 'Camille42',
+    email: 'camille@example.com',
     amount: 50,
     message: 'Bravo pour cette initiative !',
     createdAt: new Date(Date.now() - 3600000).toISOString(),
@@ -108,6 +109,7 @@ export const MOCK_DONATIONS: Donation[] = [
   {
     id: '2',
     username: 'MaxDu93',
+    email: 'max@example.com',
     amount: 25,
     message: 'On est avec vous 💜',
     createdAt: new Date(Date.now() - 7200000).toISOString(),
@@ -115,6 +117,7 @@ export const MOCK_DONATIONS: Donation[] = [
   {
     id: '3',
     username: 'Anonyme',
+    email: 'donateur.anonyme@example.com',
     amount: 100,
     message: 'Pour une bonne cause ❤️',
     createdAt: new Date(Date.now() - 10800000).toISOString(),
@@ -122,6 +125,7 @@ export const MOCK_DONATIONS: Donation[] = [
   {
     id: '4',
     username: 'StreamFan',
+    email: 'streamfan@example.com',
     amount: 15,
     message: '',
     createdAt: new Date(Date.now() - 14400000).toISOString(),

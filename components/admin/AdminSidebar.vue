@@ -4,6 +4,7 @@ const route = useRoute()
 const links = [
   { to: '/admin', label: 'Tableau de bord', icon: '📊' },
   { to: '/admin/event', label: 'Événement', icon: '🎯' },
+  { to: '/admin/donations', label: 'Dons', icon: '💝' },
   { to: '/admin/presentation', label: 'Présentation', icon: '📝' },
   { to: '/admin/freestyles', label: 'Freestyles', icon: '🎤' },
   { to: '/admin/contacts', label: 'Messages', icon: '✉️' },

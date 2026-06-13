@@ -54,14 +54,7 @@ onUnmounted(() => {
           </svg>
         </button>
 
-        <PrimaryButton
-          to="/donate"
-          variant="outline"
-          class="!px-3 !py-2 !text-[10px] md:!text-xs"
-        >
-          <ChalkHeart />
-          Faire un don
-        </PrimaryButton>
+        <ChalkButton preset="donate" to="/donate" class="!max-w-[140px] md:!max-w-[160px]" />
       </div>
 
       <Transition name="menu-slide">

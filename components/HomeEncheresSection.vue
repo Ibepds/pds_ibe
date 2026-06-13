@@ -5,6 +5,7 @@ import { DA } from '~/utils/daAssets'
 const props = defineProps<{
   lots?: EncheresLot[]
   loading?: boolean
+  large?: boolean
 }>()
 
 const DEFAULT_LOTS = [
@@ -20,23 +21,32 @@ const items = computed(() =>
 const scrollRef = ref<HTMLElement | null>(null)
 
 const scroll = (dir: -1 | 1) => {
-  scrollRef.value?.scrollBy({ left: dir * 280, behavior: 'smooth' })
+  scrollRef.value?.scrollBy({ left: dir * (props.large ? 340 : 280), behavior: 'smooth' })
 }
 </script>
 
 <template>
   <section class="section-divider py-12 md:py-16">
     <div class="w-full">
-      <h2 v-reveal class="section-heading">
-        <ChalkHeart />
+      <h2
+        v-reveal
+        class="flex items-center justify-center gap-3 font-display font-bold uppercase tracking-wide"
+        :class="large ? 'text-2xl md:text-4xl lg:text-5xl' : 'section-heading'"
+      >
+        <ChalkHeart :class="large ? '!h-6 !w-6 md:!h-8 md:!w-8 lg:!h-10 lg:!w-10' : ''" />
         Objets mystères
       </h2>
 
-      <div v-if="loading" class="mt-8 flex gap-4 overflow-hidden">
-        <div v-for="n in 3" :key="n" class="h-48 w-56 shrink-0 animate-pulse bg-white/10" />
+      <div v-if="loading" class="mt-8 flex gap-4 overflow-hidden md:mt-10">
+        <div
+          v-for="n in 3"
+          :key="n"
+          class="shrink-0 animate-pulse bg-white/10"
+          :class="large ? 'h-56 w-64 md:h-64 md:w-72' : 'h-48 w-56'"
+        />
       </div>
 
-      <div v-else v-reveal class="relative mt-8">
+      <div v-else v-reveal class="relative" :class="large ? 'mt-10 md:mt-12' : 'mt-8'">
         <button
           type="button"
           class="absolute -left-2 top-1/2 z-10 hidden -translate-y-1/2 rounded-full border-2 border-white/40 bg-primary/90 p-2 text-white transition hover:bg-primary md:flex"
@@ -55,13 +65,28 @@ const scroll = (dir: -1 | 1) => {
           <article
             v-for="(lot, i) in items"
             :key="i"
-            class="flex w-52 shrink-0 snap-center flex-col items-center border-2 border-white/35 bg-white/5 p-5 text-center md:w-56"
+            class="flex shrink-0 snap-center flex-col items-center border-2 border-white/35 bg-white/5 text-center"
+            :class="large ? 'w-60 p-6 md:w-72 md:p-7 lg:w-80' : 'w-52 p-5 md:w-56'"
           >
-            <div class="relative flex h-28 w-full items-center justify-center">
-              <ChalkImage :src="DA.picto.gift" class="h-24 w-24 opacity-90" />
+            <div
+              class="relative flex w-full items-center justify-center"
+              :class="large ? 'h-36 md:h-40' : 'h-28'"
+            >
+              <ChalkImage
+                :src="DA.picto.gift"
+                class="opacity-90"
+                :class="large ? 'h-32 w-32 md:h-36 md:w-36' : 'h-24 w-24'"
+              />
             </div>
-            <p class="mt-3 font-display text-sm font-bold uppercase">{{ lot.title }}</p>
-            <p class="mt-1 text-xs text-white/55">{{ lot.description }}</p>
+            <p
+              class="mt-3 font-display font-bold uppercase"
+              :class="large ? 'text-base md:text-lg' : 'text-sm'"
+            >
+              {{ lot.title }}
+            </p>
+            <p class="mt-1 text-white/55" :class="large ? 'text-sm md:text-base' : 'text-xs'">
+              {{ lot.description }}
+            </p>
           </article>
         </div>
 
@@ -77,10 +102,13 @@ const scroll = (dir: -1 | 1) => {
         </button>
       </div>
 
-      <div v-reveal class="mt-8 text-center">
-        <PrimaryButton to="/encheres" variant="outline">
-          Accéder aux enchères
-        </PrimaryButton>
+      <div v-reveal class="text-center" :class="large ? 'mt-10 md:mt-12' : 'mt-8'">
+        <ChalkButton
+          preset="auctions"
+          to="/encheres"
+          class="mx-auto"
+          :class="large ? '!max-w-[400px] md:!max-w-[480px] lg:!max-w-[540px]' : ''"
+        />
       </div>
     </div>
   </section>

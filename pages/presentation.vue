@@ -79,11 +79,8 @@ const { single: content } = useFirestoreCollection(
     </section>
 
     <section class="section-divider py-12 md:py-16">
-      <div v-reveal class="flex flex-wrap justify-center gap-4">
-        <PrimaryButton to="/donate">
-          <ChalkHeart />
-          Faire un don
-        </PrimaryButton>
+      <div v-reveal class="flex flex-wrap justify-center gap-6">
+        <ChalkButton preset="donate" to="/donate" />
         <PrimaryButton to="/freestyles" variant="outline">Réserver un freestyle</PrimaryButton>
         <PrimaryButton to="/planning" variant="outline">Voir le programme</PrimaryButton>
       </div>

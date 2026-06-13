@@ -87,11 +87,8 @@ const { data: associations, loading, error } = useFirestoreCollection(
         </li>
       </ul>
 
-      <div class="mt-12 text-center">
-        <PrimaryButton to="/donate">
-          <ChalkHeart />
-          Faire un don
-        </PrimaryButton>
+      <div class="mt-12 flex justify-center">
+        <ChalkButton preset="donate" to="/donate" />
       </div>
     </section>
   </div>

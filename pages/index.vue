@@ -62,43 +62,53 @@ usePageSeo({
 </script>
 
 <template>
-  <div class="home-container">
-    <HeroSection :event="event" :loading="eventLoading" />
+  <div class="home-scroll">
+    <HomeScrollPanel>
+      <HeroSection :event="event" :loading="eventLoading" large />
+    </HomeScrollPanel>
 
-    <!-- Compte à rebours → programme → barre de dons -->
-    <HomeCountdownSection
-      v-if="event"
-      :end-date="event.startDate"
-      :live-url="event.liveUrl"
-      :loading="eventLoading"
-    >
+    <HomeScrollPanel v-if="event" id="countdown">
+      <HomeCountdownSection
+        :end-date="event.startDate"
+        :live-url="event.liveUrl"
+        :loading="eventLoading"
+        large
+      />
+    </HomeScrollPanel>
+
+    <HomeScrollPanel v-if="event">
       <HomeProgrammeSection
         :items="schedule"
         :loading="sLoading"
         :limit="5"
         embedded
+        large
       />
+    </HomeScrollPanel>
+
+    <HomeScrollPanel v-if="event">
       <HomeDonationBar
         :current="event.currentAmount"
         :goal="event.donationGoal"
         :loading="eventLoading"
+        large
       />
-    </HomeCountdownSection>
+    </HomeScrollPanel>
 
-    <HomeEncheresSection :lots="encheres?.lots" :loading="eLoading" />
+    <HomeScrollPanel>
+      <HomeEncheresSection :lots="encheres?.lots" :loading="eLoading" large />
+    </HomeScrollPanel>
 
-    <AssociationHomeCards :associations="associations" :loading="aLoading" />
+    <HomeScrollPanel>
+      <AssociationHomeCards :associations="associations" :loading="aLoading" large />
+    </HomeScrollPanel>
 
-    <RecentDonations :donations="donations" :loading="dLoading" :limit="5" />
+    <HomeScrollPanel>
+      <RecentDonations :donations="donations" :loading="dLoading" :limit="5" large />
+    </HomeScrollPanel>
 
-    <section class="section-divider py-12 text-center">
-      <div v-reveal class="flex items-center justify-center gap-3">
-        <ChalkHeart />
-        <p class="font-display text-sm font-bold uppercase tracking-wide md:text-base">
-          Merci de faire la différence
-        </p>
-        <ChalkHeart />
-      </div>
-    </section>
+    <HomeScrollPanel>
+      <HomeThankYouSection />
+    </HomeScrollPanel>
   </div>
 </template>

@@ -6,8 +6,8 @@ defineOptions({ inheritAttrs: false })
 
 <template>
   <ChalkImage
-    :src="DA.trait.stroke5"
-    class="h-4 w-8 shrink-0 opacity-90"
+    :src="DA.cgpt.sparkles"
+    class="h-8 w-5 shrink-0 opacity-90"
     :class="$attrs.class"
   />
 </template>

@@ -26,6 +26,8 @@ export default defineEventHandler(async (event) => {
   const amount = (session.amount_total ?? 0) / 100
   const username = body?.anonymous ? 'Anonyme' : clean(body?.username, 40) || 'Anonyme'
   const message = body?.anonymous ? '' : clean(body?.message, 300)
+  const email =
+    clean(session.customer_details?.email ?? session.customer_email, 320) || undefined
 
   try {
     const db = getAdminDb()
@@ -42,6 +44,7 @@ export default defineEventHandler(async (event) => {
 
     await db.collection('donations').add({
       username,
+      email,
       amount,
       message,
       sessionId: session.id,

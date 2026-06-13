@@ -51,8 +51,8 @@ const ev = computed(() => event.value ?? { ...MOCK_EVENT })
         <p class="mt-2 text-3xl font-bold text-primary">
           {{ dLoading ? '...' : donations.length }}
         </p>
-        <NuxtLink to="/admin/event" class="mt-4 inline-block text-sm text-primary hover:underline">
-          Mettre à jour le compteur →
+        <NuxtLink to="/admin/donations" class="mt-4 inline-block text-sm text-primary hover:underline">
+          Voir les dons et e-mails →
         </NuxtLink>
       </div>
     </div>

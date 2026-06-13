@@ -98,7 +98,7 @@ const showEmbed = computed(() => props.isLive && !!embedUrl.value)
           v-else
           class="relative flex aspect-video items-center justify-center overflow-hidden bg-black"
         >
-          <div class="pointer-events-none absolute inset-0 bg-pds-texture bg-cover bg-center opacity-25" />
+          <div class="pointer-events-none absolute inset-0 bg-primary-dark/20" />
           <div class="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_center,_rgba(5,70,160,0.35),_transparent_60%)]" />
           <div class="relative px-6 text-center">
             <p class="font-display text-5xl font-bold uppercase leading-none tracking-tight text-white md:text-7xl">

@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { getTimeRemaining } from '~/utils/format'
 
-const props = defineProps<{ endDate: string }>()
+const props = defineProps<{ endDate: string; large?: boolean }>()
 const remaining = ref(getTimeRemaining(props.endDate))
 
 onMounted(() => {
@@ -24,21 +24,39 @@ const units = [
 </script>
 
 <template>
-  <div class="flex flex-wrap items-center justify-center divide-x divide-white/40">
+  <div
+    class="flex flex-wrap items-center justify-center divide-x divide-white/40"
+    :class="large ? 'gap-y-4' : ''"
+  >
     <div
       v-for="unit in units"
       :key="unit.key"
-      class="px-4 text-center md:px-6"
+      class="text-center"
+      :class="large ? 'px-5 sm:px-8 md:px-10 lg:px-14' : 'px-4 md:px-6'"
     >
-      <p class="font-display text-3xl font-bold md:text-4xl">
+      <p
+        class="font-display font-bold tabular-nums leading-none"
+        :class="large ? 'text-5xl sm:text-6xl md:text-7xl lg:text-8xl' : 'text-3xl md:text-4xl'"
+      >
         {{ String(remaining[unit.key]).padStart(2, '0') }}
       </p>
-      <p class="mt-1 text-[10px] font-semibold uppercase tracking-[0.15em] text-white/55 md:text-xs">
+      <p
+        class="mt-2 font-semibold uppercase text-white/55"
+        :class="
+          large
+            ? 'text-xs tracking-[0.2em] sm:text-sm md:text-base md:tracking-[0.25em]'
+            : 'text-[10px] tracking-[0.15em] md:text-xs'
+        "
+      >
         {{ unit.label }}
       </p>
     </div>
   </div>
-  <p v-if="remaining.ended" class="mt-6 text-center text-sm font-semibold uppercase text-primary-light">
+  <p
+    v-if="remaining.ended"
+    class="mt-6 text-center font-semibold uppercase text-primary-light"
+    :class="large ? 'text-lg md:text-xl' : 'text-sm'"
+  >
     C'est parti !
   </p>
 </template>

@@ -6,7 +6,7 @@ defineOptions({ inheritAttrs: false })
 
 <template>
   <ChalkImage
-    :src="DA.picto.children"
+    :src="DA.picto.childrenGlobe"
     class="mx-auto w-full max-w-[320px] md:max-w-[480px] lg:max-w-[560px]"
     :class="$attrs.class"
   />

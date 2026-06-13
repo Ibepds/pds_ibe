@@ -6,6 +6,7 @@ const props = defineProps<{
   items: ScheduleItem[]
   loading?: boolean
   limit?: number
+  large?: boolean
 }>()
 
 const displayed = computed(() => {
@@ -50,73 +51,108 @@ function getRowStyle(item: ScheduleItem): RowStyle {
 
 <template>
   <div v-if="loading" class="space-y-4 px-5">
-    <div v-for="i in 6" :key="i" class="h-14 animate-pulse bg-white/10" />
+    <div
+      v-for="i in 6"
+      :key="i"
+      class="animate-pulse bg-white/10"
+      :class="large ? 'h-20' : 'h-14'"
+    />
   </div>
   <ul v-else class="divide-y divide-white/15">
     <li
       v-for="item in displayed"
       :key="item.id"
-      class="grid grid-cols-[3.5rem_3rem_1fr_auto] items-center gap-2 py-4 md:grid-cols-[4.5rem_3.5rem_1fr_auto] md:gap-3"
+      class="grid items-center gap-2 md:gap-3"
+      :class="
+        large
+          ? 'grid-cols-[4.5rem_4rem_1fr_auto] py-5 md:grid-cols-[5.5rem_4.5rem_1fr_auto] md:py-6 lg:py-7'
+          : 'grid-cols-[3.5rem_3rem_1fr_auto] py-4 md:grid-cols-[4.5rem_3.5rem_1fr_auto]'
+      "
     >
       <!-- Heure -->
-      <span class="font-display text-sm font-bold uppercase md:text-base">
+      <span
+        class="font-display font-bold uppercase"
+        :class="large ? 'text-base md:text-xl lg:text-2xl' : 'text-sm md:text-base'"
+      >
         {{ item.time ? formatTimeChalk(item.time) : '—' }}
       </span>
 
       <!-- Icône cercle -->
       <div
-        class="flex h-10 w-10 items-center justify-center rounded-full border-2 md:h-11 md:w-11"
-        :class="getRowStyle(item).color"
+        class="flex items-center justify-center rounded-full border-2"
+        :class="[
+          large ? 'h-12 w-12 md:h-14 md:w-14 lg:h-16 lg:w-16' : 'h-10 w-10 md:h-11 md:w-11',
+          getRowStyle(item).color,
+        ]"
       >
         <ChalkImage
           v-if="getRowStyle(item).icon === 'chat'"
           :src="DA.picto.highFive"
-          class="h-6 w-6"
+          :class="large ? 'h-8 w-8 md:h-9 md:w-9' : 'h-6 w-6'"
         />
         <ChalkImage
           v-else-if="getRowStyle(item).icon === 'gift'"
           :src="DA.picto.gift"
-          class="h-6 w-6"
+          :class="large ? 'h-8 w-8 md:h-9 md:w-9' : 'h-6 w-6'"
         />
-        <svg v-else-if="getRowStyle(item).icon === 'mic'" class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+        <svg
+          v-else-if="getRowStyle(item).icon === 'mic'"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="1.8"
+          :class="large ? 'h-7 w-7 md:h-8 md:w-8' : 'h-5 w-5'"
+        >
           <rect x="9" y="3" width="6" height="10" rx="3" />
           <path d="M5 11a7 7 0 0014 0M12 18v3" stroke-linecap="round" />
         </svg>
         <ChalkImage
           v-else-if="getRowStyle(item).icon === 'crown'"
           :src="DA.picto.trophy"
-          class="h-6 w-6"
+          :class="large ? 'h-8 w-8 md:h-9 md:w-9' : 'h-6 w-6'"
         />
         <ChalkImage
           v-else
           :src="DA.picto.highFive"
-          class="h-6 w-6"
+          :class="large ? 'h-8 w-8 md:h-9 md:w-9' : 'h-6 w-6'"
         />
       </div>
 
       <!-- Titre + description -->
-      <div class="min-w-0 border-l border-white/25 pl-3">
-        <p class="font-display text-sm font-bold uppercase leading-tight md:text-base" :class="getRowStyle(item).titleColor">
+      <div class="min-w-0 border-l border-white/25 pl-3 md:pl-4">
+        <p
+          class="font-display font-bold uppercase leading-tight"
+          :class="[
+            large ? 'text-base md:text-lg lg:text-xl' : 'text-sm md:text-base',
+            getRowStyle(item).titleColor,
+          ]"
+        >
           {{ item.title }}
         </p>
-        <p v-if="item.description" class="mt-0.5 text-xs text-white/60 md:text-sm">
+        <p
+          v-if="item.description"
+          class="mt-1 text-white/60"
+          :class="large ? 'text-sm md:text-base' : 'mt-0.5 text-xs md:text-sm'"
+        >
           {{ item.description }}
         </p>
         <PrimaryButton
           v-if="getRowStyle(item).isFreestyle"
           to="/freestyles"
           variant="outline"
-          class="mt-2 !border-accent-green !px-3 !py-1.5 !text-[10px] !text-accent-green hover:!bg-accent-green/10 md:!text-xs"
+          class="mt-2 !border-accent-green !text-accent-green hover:!bg-accent-green/10"
+          :class="large ? '!px-4 !py-2 !text-xs md:!text-sm' : '!px-3 !py-1.5 !text-[10px] md:!text-xs'"
         >
           Réserver mon créneau
         </PrimaryButton>
       </div>
 
       <!-- Cœur enchères -->
-      <div class="flex w-6 justify-center">
+      <div class="flex justify-center" :class="large ? 'w-8' : 'w-6'">
         <ChalkHeart
           v-if="getRowStyle(item).showHeart"
-          class="!h-4 !w-4 opacity-90"
+          class="opacity-90"
+          :class="large ? '!h-6 !w-6 md:!h-7 md:!w-7' : '!h-4 !w-4'"
         />
       </div>
     </li>
