@@ -3,7 +3,8 @@ import { doc, onSnapshot } from 'firebase/firestore'
 import {
   MOCK_ASSOCIATIONS,
   MOCK_DONATIONS,
-  MOCK_FAQ,
+  MOCK_ENCHERES,
+  MOCK_SCHEDULE,
 } from '~/utils/mockData'
 
 const { event, loading: eventLoading } = useEvent()
@@ -29,20 +30,27 @@ onMounted(() => {
 })
 onUnmounted(() => unsubEvent?.())
 
+const { data: schedule, loading: sLoading } = useFirestoreCollection(
+  'schedule',
+  MOCK_SCHEDULE,
+  { orderField: 'order', orderDirection: 'asc' },
+)
+
 const { data: donations, loading: dLoading } = useFirestoreCollection(
   'donations',
   MOCK_DONATIONS,
   { orderField: 'createdAt', orderDirection: 'desc' },
 )
 
-const { data: faq, loading: fLoading } = useFirestoreCollection('faq', MOCK_FAQ, {
-  orderField: 'order',
-  orderDirection: 'asc',
-})
-
 const { data: associations, loading: aLoading } = useFirestoreCollection(
   'associations',
   MOCK_ASSOCIATIONS,
+)
+
+const { single: encheres, loading: eLoading } = useFirestoreCollection(
+  'content',
+  [{ id: 'encheres', ...MOCK_ENCHERES }],
+  { docId: 'encheres' },
 )
 
 usePageSeo({
@@ -57,33 +65,40 @@ usePageSeo({
   <div class="home-container">
     <HeroSection :event="event" :loading="eventLoading" />
 
-    <!-- Compte à rebours (maquette) -->
-    <section v-if="event" class="section-divider py-12 md:py-16">
-      <div v-reveal class="w-full">
-        <h2 class="section-heading !justify-start">
-          <ChalkHeart />
-          L'événement commence dans
-        </h2>
-        <div class="section-split mt-8">
-          <EventCountdown :end-date="event.startDate" />
-          <div class="section-art">
-            <ChalkDove />
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <DonationCounter
+    <!-- Compte à rebours → programme → barre de dons -->
+    <HomeCountdownSection
       v-if="event"
-      :current="event.currentAmount"
-      :goal="event.donationGoal"
+      :end-date="event.startDate"
+      :live-url="event.liveUrl"
       :loading="eventLoading"
-    />
+    >
+      <HomeProgrammeSection
+        :items="schedule"
+        :loading="sLoading"
+        :limit="5"
+        embedded
+      />
+      <HomeDonationBar
+        :current="event.currentAmount"
+        :goal="event.donationGoal"
+        :loading="eventLoading"
+      />
+    </HomeCountdownSection>
 
-    <RecentDonations :donations="donations" :loading="dLoading" :limit="5" />
+    <HomeEncheresSection :lots="encheres?.lots" :loading="eLoading" />
 
     <AssociationHomeCards :associations="associations" :loading="aLoading" />
 
-    <FaqSection :items="faq" :loading="fLoading" teaser />
+    <RecentDonations :donations="donations" :loading="dLoading" :limit="5" />
+
+    <section class="section-divider py-12 text-center">
+      <div v-reveal class="flex items-center justify-center gap-3">
+        <ChalkHeart />
+        <p class="font-display text-sm font-bold uppercase tracking-wide md:text-base">
+          Merci de faire la différence
+        </p>
+        <ChalkHeart />
+      </div>
+    </section>
   </div>
 </template>

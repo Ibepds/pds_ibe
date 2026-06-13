@@ -1,10 +1,8 @@
 <script setup lang="ts">
 import { MOCK_EVENT } from '~/utils/mockData'
-import { formatCurrency } from '~/utils/format'
+import { formatCurrency, getProgressPercent } from '~/utils/format'
 
 const { event, loading } = useEvent()
-
-definePageMeta({ pageBackground: 'blue' })
 
 usePageSeo({
   title: 'Faire un don — PDS Humanity',
@@ -15,6 +13,10 @@ usePageSeo({
 const email = ref('')
 const submitting = ref(false)
 const error = ref('')
+
+const current = computed(() => event.value?.currentAmount ?? MOCK_EVENT.currentAmount)
+const goal = computed(() => event.value?.donationGoal ?? MOCK_EVENT.donationGoal)
+const progress = computed(() => getProgressPercent(current.value, goal.value))
 
 const startCheckout = async () => {
   error.value = ''
@@ -40,28 +42,32 @@ const startCheckout = async () => {
 </script>
 
 <template>
-  <div class="py-20 md:py-28">
-    <div class="mx-auto max-w-2xl px-4 text-center lg:px-8">
-      <h1 v-reveal class="section-title gradient-text">Faire un don</h1>
-      <p class="accent-serif mt-4 text-lg text-ink/75 md:text-xl">
-        Chaque contribution compte — 100% reversé aux associations partenaires.
-      </p>
+  <div class="home-container">
+    <section class="py-12 text-center md:py-16">
+      <PageHeader
+        align="center"
+        title="Faire un don"
+        lead="Chaque contribution compte — 100% reversé aux associations partenaires."
+      />
+    </section>
 
-      <div v-if="loading" v-reveal class="mt-10 card-glow h-48 animate-pulse" />
-      <div v-else v-reveal class="mt-10 card-glow p-8 text-left">
-        <div class="text-center">
-          <p class="text-sm uppercase tracking-wide text-ink/60">Montant collecté</p>
-          <p class="mt-2 font-display text-4xl font-bold text-accent-green">
-            {{ formatCurrency(event?.currentAmount ?? MOCK_EVENT.currentAmount) }}
-          </p>
-          <p class="mt-1 text-sm text-ink/60">
-            Objectif : {{ formatCurrency(event?.donationGoal ?? MOCK_EVENT.donationGoal) }}
-          </p>
+    <section class="section-divider mx-auto max-w-xl py-12 md:py-16">
+      <div v-if="loading" class="h-48 animate-pulse bg-white/10" />
+      <div v-else v-reveal>
+        <p class="font-display text-3xl font-bold uppercase md:text-4xl">
+          {{ formatCurrency(current) }}
+          <span class="text-white/45"> / {{ formatCurrency(goal) }}</span>
+        </p>
+        <div class="progress-chalk mt-6">
+          <div class="progress-chalk-fill" :style="{ width: `${progress}%` }" />
         </div>
+        <p class="mt-4 text-sm font-semibold uppercase tracking-wide text-primary-light">
+          {{ progress }}% de l'objectif atteint
+        </p>
 
-        <form class="mt-8 space-y-4" @submit.prevent="startCheckout">
+        <form class="mt-10 space-y-4 text-left" @submit.prevent="startCheckout">
           <div>
-            <label class="mb-1 block text-sm font-medium text-ink/80">
+            <label class="form-label">
               Votre e-mail <span class="text-accent-red">*</span>
             </label>
             <input
@@ -69,9 +75,9 @@ const startCheckout = async () => {
               type="email"
               required
               placeholder="vous@email.com"
-              class="w-full rounded-lg border border-ink/15 bg-white px-4 py-2.5 text-ink placeholder-ink/40 focus:border-primary-light focus:outline-none focus:ring-1 focus:ring-primary-light"
+              class="input-field"
             />
-            <p class="mt-1 text-xs text-ink/50">
+            <p class="form-hint">
               Vous choisirez le montant de votre don sur la page de paiement sécurisée.
             </p>
           </div>
@@ -79,14 +85,15 @@ const startCheckout = async () => {
           <p v-if="error" class="text-sm text-accent-red">{{ error }}</p>
 
           <PrimaryButton type="submit" :disabled="submitting" class="w-full">
+            <ChalkHeart />
             {{ submitting ? 'Redirection…' : 'Continuer vers le paiement' }}
           </PrimaryButton>
         </form>
 
-        <p class="mt-4 text-center text-xs text-ink/50">
+        <p class="mt-4 text-center text-xs text-white/50">
           Paiement sécurisé par Stripe. Vous reviendrez ensuite sur le site.
         </p>
       </div>
-    </div>
+    </section>
   </div>
 </template>

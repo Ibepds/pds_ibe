@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import type { ScheduleItem } from '~/types'
+import { DA } from '~/utils/daAssets'
 
 const props = defineProps<{
   items: ScheduleItem[]
@@ -67,24 +68,30 @@ function getRowStyle(item: ScheduleItem): RowStyle {
         class="flex h-10 w-10 items-center justify-center rounded-full border-2 md:h-11 md:w-11"
         :class="getRowStyle(item).color"
       >
-        <svg v-if="getRowStyle(item).icon === 'chat'" class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
-          <path d="M8 10h8M8 14h5" stroke-linecap="round" />
-          <path d="M6 4h12a2 2 0 012 2v10a2 2 0 01-2 2H10l-4 3v-3H6a2 2 0 01-2-2V6a2 2 0 012-2z" />
-        </svg>
-        <svg v-else-if="getRowStyle(item).icon === 'gift'" class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
-          <rect x="4" y="10" width="16" height="10" rx="1" />
-          <path d="M12 10V20M4 10h16M12 4c-2 0-3 1-3 2s1 2 3 2 3-1 3-2-1-2-3-2z" />
-        </svg>
+        <ChalkImage
+          v-if="getRowStyle(item).icon === 'chat'"
+          :src="DA.picto.highFive"
+          class="h-6 w-6"
+        />
+        <ChalkImage
+          v-else-if="getRowStyle(item).icon === 'gift'"
+          :src="DA.picto.gift"
+          class="h-6 w-6"
+        />
         <svg v-else-if="getRowStyle(item).icon === 'mic'" class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
           <rect x="9" y="3" width="6" height="10" rx="3" />
           <path d="M5 11a7 7 0 0014 0M12 18v3" stroke-linecap="round" />
         </svg>
-        <svg v-else-if="getRowStyle(item).icon === 'crown'" class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
-          <path d="M4 18h16M6 18l2-10 4 5 4-5 2 10" stroke-linejoin="round" />
-        </svg>
-        <svg v-else class="h-5 w-5" viewBox="0 0 24 24" fill="currentColor">
-          <path d="M12 2l2.5 7.5H22l-6 4.5 2.5 7.5L12 17l-6.5 4.5 2.5-7.5-6-4.5h7.5z" />
-        </svg>
+        <ChalkImage
+          v-else-if="getRowStyle(item).icon === 'crown'"
+          :src="DA.picto.trophy"
+          class="h-6 w-6"
+        />
+        <ChalkImage
+          v-else
+          :src="DA.picto.highFive"
+          class="h-6 w-6"
+        />
       </div>
 
       <!-- Titre + description -->
@@ -109,7 +116,7 @@ function getRowStyle(item: ScheduleItem): RowStyle {
       <div class="flex w-6 justify-center">
         <ChalkHeart
           v-if="getRowStyle(item).showHeart"
-          class="!text-accent-purple opacity-90"
+          class="!h-4 !w-4 opacity-90"
         />
       </div>
     </li>

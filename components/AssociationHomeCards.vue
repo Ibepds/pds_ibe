@@ -13,14 +13,18 @@ const logos = computed(() =>
 
 <template>
   <section class="section-divider py-12 md:py-16">
-    <div class="w-full">
-      <NuxtLink to="/associations" class="section-heading transition hover:opacity-90">
-        <ChalkHeart />
-        Associations soutenues
+    <div class="w-full text-center">
+      <NuxtLink to="/associations" class="transition hover:opacity-90">
+        <h2 v-reveal class="font-display text-lg font-bold uppercase tracking-wide md:text-xl">
+          Pour qui ?
+        </h2>
+        <p v-reveal class="mt-2 text-sm font-semibold uppercase tracking-wide text-white/70">
+          100% des dons reversés
+        </p>
       </NuxtLink>
 
       <div v-if="loading" class="mt-10 flex flex-wrap items-center justify-center gap-12">
-        <div v-for="n in 4" :key="n" class="h-16 w-32 animate-pulse bg-white/10" />
+        <div v-for="n in 3" :key="n" class="h-16 w-32 animate-pulse bg-white/10" />
       </div>
 
       <div
@@ -32,7 +36,7 @@ const logos = computed(() =>
           v-for="asso in logos"
           :key="asso.id ?? asso.name"
           to="/associations"
-          class="flex items-center justify-center outline-none transition hover:scale-105 focus-visible:ring-2 focus-visible:ring-white/40"
+          class="flex items-center justify-center transition hover:scale-105"
           :title="asso.name"
         >
           <img

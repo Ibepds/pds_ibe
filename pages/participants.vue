@@ -8,8 +8,6 @@ const { data: participants, loading, error } = useFirestoreCollection(
   MOCK_PARTICIPANTS,
 )
 
-definePageMeta({ pageBackground: 'dark' })
-
 usePageSeo({
   title: 'Participants — PDS Humanity',
   description:
@@ -23,37 +21,32 @@ const filtered = computed(() => {
 </script>
 
 <template>
-  <div class="py-20 md:py-28">
-    <div class="mx-auto max-w-7xl px-4 lg:px-8">
-      <h1 v-reveal class="section-title gradient-text">Participants</h1>
-      <p class="accent-serif mt-4 text-lg text-ink/70 md:text-xl">
-        Streamers, artistes et invités — organisé par PDS Records / Ibé
-      </p>
+  <div class="home-container">
+    <section class="py-12 md:py-16">
+      <PageHeader
+        title="Participants"
+        lead="Streamers, artistes et invités — organisé par PDS Records / Ibé"
+      />
 
-      <div class="mt-8 flex flex-wrap gap-2">
+      <div class="mt-8 flex flex-wrap justify-center gap-2">
         <button
           v-for="opt in FILTER_OPTIONS"
           :key="opt.value"
-          class="rounded-full px-4 py-2 text-sm font-medium transition"
-          :class="
-            activeFilter === opt.value
-              ? 'bg-primary text-white shadow-glow'
-              : 'bg-ink/5 text-ink/70 hover:bg-ink/10'
-          "
+          class="chip"
+          :class="activeFilter === opt.value ? 'chip-active' : 'chip-idle'"
           @click="activeFilter = opt.value"
         >
           {{ opt.label }}
         </button>
       </div>
+    </section>
 
-      <p v-if="error" class="mt-6 text-accent-rose">{{ error }}</p>
-
-      <div v-reveal class="mt-8">
-        <ParticipantsGrid
-          :participants="filtered"
-          :loading="loading"
-        />
-      </div>
-    </div>
+    <section class="section-divider py-12 md:py-16">
+      <p v-if="error" class="mb-6 text-center text-accent-rose">{{ error }}</p>
+      <ParticipantsGrid
+        :participants="filtered"
+        :loading="loading"
+      />
+    </section>
   </div>
 </template>

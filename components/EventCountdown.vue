@@ -38,7 +38,7 @@ const units = [
       </p>
     </div>
   </div>
-  <p v-if="remaining.ended" class="mt-6 text-center text-sm font-semibold uppercase text-accent-red">
-    L'événement est terminé — merci pour votre soutien !
+  <p v-if="remaining.ended" class="mt-6 text-center text-sm font-semibold uppercase text-primary-light">
+    C'est parti !
   </p>
 </template>

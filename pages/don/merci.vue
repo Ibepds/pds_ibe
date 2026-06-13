@@ -1,7 +1,6 @@
 <script setup lang="ts">
 import { formatCurrency } from '~/utils/format'
 
-definePageMeta({ pageBackground: 'blue' })
 usePageSeo({
   title: 'Merci pour votre don — PDS Humanity',
   description: 'Merci pour votre soutien à PDS Humanity.',
@@ -35,7 +34,6 @@ onMounted(async () => {
     amount.value = res.amount
     alreadyRecorded.value = res.recorded
     if (!res.paid) {
-      // Paiement non confirmé -> retour à la page de don
       navigateTo('/donate')
       return
     }
@@ -70,53 +68,53 @@ const finalize = async () => {
 </script>
 
 <template>
-  <div class="py-20 md:py-28">
-    <div class="mx-auto max-w-xl px-4 lg:px-8">
-      <div v-if="loading" v-reveal class="card-glow h-64 animate-pulse" />
+  <div class="home-container">
+    <section class="mx-auto max-w-xl py-12 text-center md:py-16">
+      <div v-if="loading" class="h-64 animate-pulse bg-white/10" />
 
-      <div v-else v-reveal class="card-glow p-8 text-center">
-        <div class="text-5xl">💙</div>
-        <h1 class="section-title gradient-text mt-4">Merci !</h1>
-        <p class="accent-serif mt-3 text-lg text-ink/80">
+      <div v-else v-reveal>
+        <ChalkHeart class="!h-12 !w-12" />
+        <h1 class="section-title mt-4">Merci !</h1>
+        <p class="accent-serif mt-3 text-lg">
           Votre don de
           <strong class="text-accent-green">{{ formatCurrency(amount) }}</strong>
           a bien été reçu.
         </p>
 
-        <div v-if="alreadyRecorded" class="mt-8">
-          <p class="text-ink/70">Votre don a déjà été enregistré. Merci pour votre soutien !</p>
+        <div v-if="alreadyRecorded" class="mt-10">
+          <p class="text-white/70">Votre don a déjà été enregistré. Merci pour votre soutien !</p>
           <PrimaryButton to="/" class="mt-6">Retour à l'accueil</PrimaryButton>
         </div>
 
-        <form v-else class="mt-8 space-y-4 text-left" @submit.prevent="finalize">
-          <p class="text-center text-sm text-ink/70">
+        <form v-else class="mt-10 space-y-4 text-left" @submit.prevent="finalize">
+          <p class="text-center text-sm text-white/70">
             Souhaitez-vous laisser un message qui s'affichera lors de l'événement ?
           </p>
 
-          <label class="flex items-center justify-center gap-2 text-sm text-ink/80">
+          <label class="flex items-center justify-center gap-2 text-sm text-white/80">
             <input v-model="anonymous" type="checkbox" class="rounded" />
             Rester anonyme (sans message)
           </label>
 
           <div v-if="!anonymous" class="space-y-4">
             <div>
-              <label class="mb-1 block text-sm font-medium text-ink/80">Pseudo</label>
+              <label class="form-label">Pseudo</label>
               <input
                 v-model="username"
                 type="text"
                 maxlength="40"
                 placeholder="Votre pseudo (laisser vide = Anonyme)"
-                class="w-full rounded-lg border border-ink/15 bg-white px-4 py-2.5 text-ink placeholder-ink/40 focus:border-primary-light focus:outline-none focus:ring-1 focus:ring-primary-light"
+                class="input-field"
               />
             </div>
             <div>
-              <label class="mb-1 block text-sm font-medium text-ink/80">Message (optionnel)</label>
+              <label class="form-label">Message (optionnel)</label>
               <textarea
                 v-model="message"
                 rows="3"
                 maxlength="300"
                 placeholder="Un mot d'encouragement…"
-                class="w-full rounded-lg border border-ink/15 bg-white px-4 py-2.5 text-ink placeholder-ink/40 focus:border-primary-light focus:outline-none focus:ring-1 focus:ring-primary-light"
+                class="input-field"
               />
             </div>
           </div>
@@ -128,6 +126,6 @@ const finalize = async () => {
           </PrimaryButton>
         </form>
       </div>
-    </div>
+    </section>
   </div>
 </template>

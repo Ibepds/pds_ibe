@@ -7,6 +7,7 @@ const props = defineProps<{
   limit?: number
   /** Maquette accueil : titre + lien uniquement */
   teaser?: boolean
+  showLink?: boolean
 }>()
 
 const openId = ref<string | null>(null)
@@ -63,7 +64,7 @@ const toggle = (id: string) => {
         </div>
       </template>
 
-      <div v-reveal class="mt-8">
+      <div v-if="showLink !== false" v-reveal class="mt-8">
         <NuxtLink
           to="/faq"
           class="text-sm font-semibold uppercase tracking-wide text-primary-light hover:underline"

@@ -1,6 +1,4 @@
 <script setup lang="ts">
-definePageMeta({ pageBackground: 'cyan' })
-
 usePageSeo({
   title: 'Contact — PDS Humanity',
   description:
@@ -25,7 +23,6 @@ const sending = ref(false)
 const sent = ref(false)
 const error = ref('')
 
-// Destinataire des notifications de contact (extension Firebase Trigger Email)
 const TEAM_EMAIL = 'alizee.grosjean@pdsrecords.com'
 
 const { create } = useAdminFirestore()
@@ -45,7 +42,6 @@ const send = async () => {
   error.value = ''
   const subject = form.subject || 'Information générale'
   try {
-    // 1) Enregistrement du message (consultable dans l'admin)
     await create('contacts', {
       name: form.name,
       email: form.email,
@@ -53,10 +49,6 @@ const send = async () => {
       message: form.message,
     })
 
-    // 2) Notification e-mail via l'extension "Trigger Email from Firestore".
-    //    L'extension surveille la collection `mail` et envoie l'e-mail.
-    //    Une erreur ici (ex. extension non encore installée) ne doit pas
-    //    bloquer l'utilisateur : le message est déjà sauvegardé.
     try {
       await create('mail', {
         to: TEAM_EMAIL,
@@ -78,7 +70,7 @@ const send = async () => {
         },
       })
     } catch {
-      /* notification e-mail optionnelle — ignorée si indisponible */
+      /* notification e-mail optionnelle */
     }
 
     sent.value = true
@@ -92,84 +84,73 @@ const send = async () => {
 </script>
 
 <template>
-  <div class="py-20 md:py-28">
-    <div class="mx-auto max-w-3xl px-4 lg:px-8">
-      <h1 v-reveal class="section-title gradient-text">Contact</h1>
-      <p class="accent-serif mt-4 text-lg text-ink/75 md:text-xl">Une question, une demande presse ou un projet de partenariat ?</p>
+  <div class="home-container">
+    <section class="py-12 md:py-16">
+      <PageHeader
+        title="Contact"
+        lead="Une question, une demande presse ou un projet de partenariat ?"
+      />
+    </section>
 
-      <div class="mt-10 grid gap-8 lg:grid-cols-3">
-        <div class="space-y-4 lg:col-span-1">
-          <div v-reveal class="card-glow p-5">
-            <div class="text-2xl">📰</div>
-            <h3 class="mt-2 font-semibold text-ink">Presse</h3>
-            <p class="mt-1 text-sm text-ink/60">Demandes d'accréditation, interviews, visuels.</p>
-          </div>
-          <div v-reveal class="card-glow p-5">
-            <div class="text-2xl">🤝</div>
-            <h3 class="mt-2 font-semibold text-ink">Partenariats</h3>
-            <p class="mt-1 text-sm text-ink/60">Collaboration, sponsoring, mise en avant.</p>
-          </div>
-          <div v-reveal class="card-glow p-5">
-            <div class="text-2xl">💬</div>
-            <h3 class="mt-2 font-semibold text-ink">Général</h3>
-            <p class="mt-1 text-sm text-ink/60">Toute autre question sur l'événement.</p>
-          </div>
-        </div>
+    <section class="section-divider py-12 md:py-16">
+      <div class="grid gap-12 lg:grid-cols-3">
+        <ul class="space-y-8 lg:col-span-1">
+          <li v-reveal>
+            <p class="text-2xl">📰</p>
+            <h3 class="mt-2 font-display text-sm font-bold uppercase text-white">Presse</h3>
+            <p class="mt-1 text-sm text-white/60">Demandes d'accréditation, interviews, visuels.</p>
+          </li>
+          <li v-reveal>
+            <p class="text-2xl">🤝</p>
+            <h3 class="mt-2 font-display text-sm font-bold uppercase text-white">Partenariats</h3>
+            <p class="mt-1 text-sm text-white/60">Collaboration, sponsoring, mise en avant.</p>
+          </li>
+          <li v-reveal>
+            <p class="text-2xl">💬</p>
+            <h3 class="mt-2 font-display text-sm font-bold uppercase text-white">Général</h3>
+            <p class="mt-1 text-sm text-white/60">Toute autre question sur l'événement.</p>
+          </li>
+        </ul>
 
         <div class="lg:col-span-2">
-          <div v-if="sent" v-reveal class="card-glow p-8 text-center">
-            <div class="text-5xl">✅</div>
-            <h2 class="mt-4 font-display text-xl font-bold text-ink">Message envoyé !</h2>
-            <p class="mt-2 text-ink/60">Nous reviendrons vers vous dans les plus brefs délais.</p>
+          <div v-if="sent" v-reveal class="text-center">
+            <ChalkHeart class="!h-10 !w-10" />
+            <h2 class="mt-4 font-display text-xl font-bold uppercase text-white">Message envoyé !</h2>
+            <p class="mt-2 text-white/60">Nous reviendrons vers vous dans les plus brefs délais.</p>
             <PrimaryButton class="mt-6" variant="outline" @click="sent = false">
               Envoyer un autre message
             </PrimaryButton>
           </div>
 
-          <form v-else v-reveal class="card-glow p-8 space-y-5" @submit.prevent="send">
+          <form v-else v-reveal class="space-y-5" @submit.prevent="send">
             <div>
-              <label class="block text-sm font-medium text-ink/70 mb-1">Nom / Pseudo <span class="text-accent-red">*</span></label>
-              <input
-                v-model="form.name"
-                type="text"
-                required
-                placeholder="Votre nom"
-                class="w-full rounded-lg border border-ink/15 bg-white px-4 py-2.5 text-ink placeholder-ink/40 focus:border-primary/50 focus:outline-none focus:ring-1 focus:ring-primary/50"
-              />
+              <label class="form-label">Nom / Pseudo <span class="text-accent-red">*</span></label>
+              <input v-model="form.name" type="text" required placeholder="Votre nom" class="input-field" />
             </div>
             <div>
-              <label class="block text-sm font-medium text-ink/70 mb-1">E-mail <span class="text-accent-red">*</span></label>
-              <input
-                v-model="form.email"
-                type="email"
-                required
-                placeholder="votre@email.com"
-                class="w-full rounded-lg border border-ink/15 bg-white px-4 py-2.5 text-ink placeholder-ink/40 focus:border-primary/50 focus:outline-none focus:ring-1 focus:ring-primary/50"
-              />
+              <label class="form-label">E-mail <span class="text-accent-red">*</span></label>
+              <input v-model="form.email" type="email" required placeholder="votre@email.com" class="input-field" />
             </div>
             <div>
-              <label class="block text-sm font-medium text-ink/70 mb-1">Objet</label>
-              <select
-                v-model="form.subject"
-                class="w-full rounded-lg border border-white/10 bg-white px-4 py-2.5 text-ink focus:border-primary/50 focus:outline-none focus:ring-1 focus:ring-primary/50"
-              >
+              <label class="form-label">Objet</label>
+              <select v-model="form.subject" class="input-field">
                 <option value="">-- Choisir un objet --</option>
                 <option v-for="s in subjects" :key="s" :value="s">{{ s }}</option>
               </select>
             </div>
             <div>
-              <label class="block text-sm font-medium text-ink/70 mb-1">Message <span class="text-accent-red">*</span></label>
+              <label class="form-label">Message <span class="text-accent-red">*</span></label>
               <textarea
                 v-model="form.message"
                 required
                 rows="5"
                 placeholder="Votre message..."
-                class="w-full rounded-lg border border-ink/15 bg-white px-4 py-2.5 text-ink placeholder-ink/40 focus:border-primary/50 focus:outline-none focus:ring-1 focus:ring-primary/50"
+                class="input-field"
               />
             </div>
-            <p class="text-xs text-ink/50">
+            <p class="text-xs text-white/50">
               Vos données sont traitées uniquement pour répondre à votre demande, conformément à notre
-              <NuxtLink to="/confidentialite" class="text-primary hover:underline">politique de confidentialité</NuxtLink>.
+              <NuxtLink to="/confidentialite" class="text-primary-light hover:underline">politique de confidentialité</NuxtLink>.
             </p>
             <p v-if="error" class="text-sm text-accent-red">{{ error }}</p>
             <PrimaryButton type="submit" :disabled="sending" class="w-full">
@@ -178,6 +159,6 @@ const send = async () => {
           </form>
         </div>
       </div>
-    </div>
+    </section>
   </div>
 </template>

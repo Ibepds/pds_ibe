@@ -19,52 +19,84 @@ const isActive = (path: string) =>
 watch(() => route.path, () => {
   mobileOpen.value = false
 })
+
+watch(mobileOpen, (open) => {
+  if (!import.meta.client) return
+  document.body.style.overflow = open ? 'hidden' : ''
+})
+
+onUnmounted(() => {
+  if (import.meta.client) document.body.style.overflow = ''
+})
 </script>
 
 <template>
   <header class="fixed inset-x-0 top-0 z-50 bg-transparent">
-    <div class="home-container flex items-center justify-between py-5">
-      <!-- Hamburger (maquette) -->
-      <button
-        class="p-1 text-white"
-        aria-label="Menu"
-        :aria-expanded="mobileOpen"
-        @click="mobileOpen = !mobileOpen"
-      >
-        <svg class="h-6 w-8" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 32 24">
-          <path stroke-linecap="round" d="M2 5h28M2 12h28M2 19h28" />
-        </svg>
-      </button>
-
-      <NuxtLink to="/freestyles" class="btn-ticket">
-        Freestyles
-        <ChalkHeart class="!h-3 !w-3" />
-      </NuxtLink>
-    </div>
-
-    <Transition name="menu-slide">
+    <Transition name="overlay-fade">
       <div
         v-if="mobileOpen"
-        class="border-t border-white/20 bg-primary/98 py-5 backdrop-blur-md"
-      >
-        <nav class="home-container space-y-2">
-          <NuxtLink
-            v-for="link in links"
-            :key="link.to"
-            :to="link.to"
-            class="block py-2 font-display text-sm uppercase tracking-wide"
-            :class="isActive(link.to) ? 'text-primary-light' : 'text-white/85'"
-            @click="mobileOpen = false"
-          >
-            {{ link.label }}
-          </NuxtLink>
-        </nav>
-      </div>
+        class="fixed inset-0 z-[45] bg-black/60 backdrop-blur-sm"
+        aria-hidden="true"
+        @click="mobileOpen = false"
+      />
     </Transition>
+
+    <div class="relative z-50">
+      <div class="home-container flex items-center justify-between py-5">
+        <button
+          class="p-1 text-white"
+          aria-label="Menu"
+          :aria-expanded="mobileOpen"
+          @click="mobileOpen = !mobileOpen"
+        >
+          <svg class="h-6 w-8" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 32 24">
+            <path stroke-linecap="round" d="M2 5h28M2 12h28M2 19h28" />
+          </svg>
+        </button>
+
+        <PrimaryButton
+          to="/donate"
+          variant="outline"
+          class="!px-3 !py-2 !text-[10px] md:!text-xs"
+        >
+          <ChalkHeart />
+          Faire un don
+        </PrimaryButton>
+      </div>
+
+      <Transition name="menu-slide">
+        <div
+          v-if="mobileOpen"
+          class="border-t border-white/20 bg-primary-dark/95 py-5 shadow-lg backdrop-blur-md"
+        >
+          <nav class="home-container space-y-2">
+            <NuxtLink
+              v-for="link in links"
+              :key="link.to"
+              :to="link.to"
+              class="block py-2 font-display text-sm uppercase tracking-wide"
+              :class="isActive(link.to) ? 'text-primary-light' : 'text-white/85'"
+              @click="mobileOpen = false"
+            >
+              {{ link.label }}
+            </NuxtLink>
+          </nav>
+        </div>
+      </Transition>
+    </div>
   </header>
 </template>
 
 <style scoped>
+.overlay-fade-enter-active,
+.overlay-fade-leave-active {
+  transition: opacity 0.25s ease;
+}
+.overlay-fade-enter-from,
+.overlay-fade-leave-to {
+  opacity: 0;
+}
+
 .menu-slide-enter-active,
 .menu-slide-leave-active {
   transition: opacity 0.25s ease, transform 0.25s ease;
