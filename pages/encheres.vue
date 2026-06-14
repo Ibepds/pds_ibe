@@ -57,7 +57,7 @@ const liveDate = computed(() =>
         Live le {{ liveDate }}
       </p>
       <div class="mt-6">
-        <ChalkTitleHero line1="Enchères" line2="Solidaires" large />
+        <ChalkTitleHero line1="Enchères" line2="Solidaires" :image="DA.retours.titreEncheres" large />
       </div>
     </section>
 

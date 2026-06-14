@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import { DA } from '~/utils/daAssets'
+
 const props = defineProps<{
   liveUrl: string
   youtubeUrl?: string
@@ -7,8 +9,8 @@ const props = defineProps<{
 
 const otherPlatforms = computed(() =>
   [
-    { label: 'TikTok', url: props.tiktokUrl },
-    { label: 'YouTube', url: props.youtubeUrl },
+    { label: 'TikTok', url: props.tiktokUrl, icon: DA.retours.tiktok },
+    { label: 'YouTube', url: props.youtubeUrl, icon: DA.retours.youtube },
   ].filter((p) => p.url),
 )
 
@@ -36,28 +38,37 @@ const embedUrl = computed(() => {
 </script>
 
 <template>
-  <div class="relative mx-auto aspect-video w-full max-w-4xl overflow-hidden border-2 border-white/35 bg-black">
-    <div
-      class="absolute left-4 top-4 z-10 flex items-center gap-2 bg-accent-red/90 px-3 py-1 text-xs font-bold uppercase tracking-wide"
-    >
-      <span class="h-2 w-2 animate-pulse rounded-full bg-white" />
-      Live
+  <!-- Lecteur live calé dans le trou transparent du picto craie (PICTO°1) -->
+  <!-- Le picto définit la taille ; la vidéo est positionnée exactement dans son encadré -->
+  <div class="relative mx-auto w-full max-w-5xl">
+    <!-- Cadre étiré (un peu plus haut + débordant vers la gauche) ; la vidéo suit en % -->
+    <div class="relative -ml-[5%] aspect-[1.4/1] w-[105%]">
+      <img
+        :src="DA.retours.liveFrame"
+        alt=""
+        aria-hidden="true"
+        class="pointer-events-none absolute inset-0 z-10 h-full w-full select-none object-fill"
+      />
+      <!-- Zone écran = trou du picto (fond noir). La vidéo 16:9 est calée EN BAS,
+           laissant une bande noire en haut, pile sous le badge « LIVE » du picto. -->
+      <div class="absolute bottom-[7%] left-[3.5%] right-[4%] top-[4%] overflow-hidden bg-black">
+      <iframe
+        v-if="embedUrl"
+        :src="embedUrl"
+        class="absolute inset-x-0 bottom-0 aspect-video w-full"
+        allow="autoplay; fullscreen; encrypted-media; picture-in-picture"
+        allowfullscreen
+        frameborder="0"
+        title="Live PDS Humanity — Twitch"
+      />
+      <div v-else class="flex h-full flex-col items-center justify-center gap-4 p-6 text-center">
+        <p class="text-sm text-white/70">Le lecteur Twitch sera disponible dès le début du live.</p>
+        <PrimaryButton v-if="liveUrl" :href="liveUrl" external variant="outline">
+          Ouvrir sur Twitch
+        </PrimaryButton>
+      </div>
     </div>
-    <iframe
-      v-if="embedUrl"
-      :src="embedUrl"
-      class="h-full w-full"
-      allow="autoplay; fullscreen; encrypted-media; picture-in-picture"
-      allowfullscreen
-      frameborder="0"
-      title="Live PDS Humanity — Twitch"
-    />
-    <div v-else class="flex h-full flex-col items-center justify-center gap-4 p-6 text-center">
-      <p class="text-sm text-white/70">Le lecteur Twitch sera disponible dès le début du live.</p>
-      <PrimaryButton v-if="liveUrl" :href="liveUrl" external variant="outline">
-        Ouvrir sur Twitch
-      </PrimaryButton>
-    </div>
+  </div>
   </div>
   <!-- Bouton principal : regarder sur Twitch -->
   <div v-if="liveUrl" class="mt-6 flex justify-center">
@@ -65,33 +76,34 @@ const embedUrl = computed(() => {
       :href="liveUrl"
       target="_blank"
       rel="noopener"
-      class="inline-flex items-center gap-3 border-2 border-white px-6 py-3 font-display text-sm font-bold uppercase tracking-wide text-white transition hover:bg-white/10 md:text-base"
+      class="block w-full max-w-md transition hover:opacity-90 active:scale-[0.98]"
+      aria-label="Regarder sur Twitch"
     >
-      Regarder sur Twitch
-      <svg class="h-5 w-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" aria-hidden="true">
-        <path stroke-linecap="round" stroke-linejoin="round" d="M5 12h14M13 6l6 6-6 6" />
-      </svg>
+      <img :src="DA.retours.btnTwitch" alt="Regarder sur Twitch" class="mx-auto h-auto w-full object-contain" decoding="async" />
     </a>
   </div>
 
   <!-- Autres plateformes -->
-  <div v-if="otherPlatforms.length" class="mt-6 text-center">
-    <p class="font-display text-xs font-bold uppercase tracking-[0.25em] text-primary-light">
-      Ou regarder sur
-    </p>
-    <div class="mt-4 flex items-center justify-center gap-8">
+  <div v-if="otherPlatforms.length" class="mt-8 text-center">
+    <img
+      :src="DA.retours.ouRegarder"
+      alt="Ou regarder sur"
+      class="mx-auto h-auto w-40 object-contain md:w-48"
+      loading="lazy"
+      decoding="async"
+    />
+    <div class="mt-5 flex items-center justify-center gap-10">
       <a
         v-for="p in otherPlatforms"
         :key="p.label"
         :href="p.url"
         target="_blank"
         rel="noopener"
-        class="flex flex-col items-center gap-1.5 text-white/80 transition hover:text-white"
+        class="flex flex-col items-center gap-2 transition hover:opacity-90 active:scale-95"
+        :aria-label="p.label"
       >
-        <span class="flex h-14 w-14 items-center justify-center border-2 border-white/40">
-          <span class="font-display text-xs font-bold uppercase">{{ p.label.slice(0, 2) }}</span>
-        </span>
-        <span class="font-display text-[10px] font-bold uppercase tracking-wide">{{ p.label }}</span>
+        <img :src="p.icon" :alt="p.label" class="h-14 w-14 object-contain md:h-16 md:w-16" decoding="async" />
+        <span class="font-display text-[10px] font-bold uppercase tracking-wide text-white/80">{{ p.label }}</span>
       </a>
     </div>
   </div>

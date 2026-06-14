@@ -54,12 +54,14 @@ defineProps<{
     </div>
 
     <div>
-      <p
-        class="inline-block border-b-2 border-primary-light pb-1 font-display font-bold uppercase tracking-wide text-primary-light"
-        :class="compact ? 'text-lg' : large ? 'text-2xl md:text-4xl lg:text-5xl' : 'text-xl md:text-2xl'"
-      >
-        Tu es artiste ?
-      </p>
+      <img
+        :src="DA.retours.titreArtiste"
+        alt="Tu es artiste ?"
+        loading="lazy"
+        decoding="async"
+        class="mx-auto h-auto w-full object-contain"
+        :class="compact ? 'max-w-[12rem]' : large ? 'max-w-[18rem] md:max-w-sm' : 'max-w-[14rem]'"
+      />
       <p
         class="mx-auto mt-4 max-w-md text-white/70"
         :class="compact ? 'text-xs' : large ? 'text-sm md:text-base lg:text-lg' : 'text-xs md:text-sm'"

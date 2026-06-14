@@ -61,6 +61,30 @@ export const DA = {
     /** Validation / confirmation */
     check: '/images/da/cgpt/picto-20-blanc.png',
   },
+  /** Pictos « RETOURS » (lot du 14/06) — titres peints, boutons & icônes plateformes */
+  retours: {
+    /** Cadre vidéo avec badge LIVE */
+    liveFrame: '/images/da/retours/live-frame.png',
+    /** Logo Twitch + « LIVE SUR TWITCH » */
+    liveTwitch: '/images/da/retours/live-twitch.png',
+    /** Bouton « REGARDER SUR TWITCH » */
+    btnTwitch: '/images/da/retours/btn-twitch.png',
+    /** Label « OU REGARDER SUR » */
+    ouRegarder: '/images/da/retours/ou-regarder.png',
+    /** Icône TikTok (encadrée) */
+    tiktok: '/images/da/retours/tiktok.png',
+    /** Icône YouTube (encadrée) */
+    youtube: '/images/da/retours/youtube.png',
+    /** Logo Twitch (bulle) */
+    twitchLogo: '/images/da/retours/twitch-logo.png',
+    /** Titre peint « TU ES ARTISTE ? » */
+    titreArtiste: '/images/da/retours/titre-artiste.png',
+    /** Titre peint « ENCHÈRES SOLIDAIRES » */
+    titreEncheres: '/images/da/retours/titre-encheres.png',
+    /** Titre peint « ASSOCIATIONS SOUTENUES » */
+    titreAssos: '/images/da/retours/titre-assos.png',
+  },
+
   refs: {
     screen1: '/images/da/refs/screen-1-cgpt.jpeg',
     screen2: '/images/da/refs/screen-2-cgpt.jpeg',

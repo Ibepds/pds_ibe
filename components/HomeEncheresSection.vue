@@ -42,7 +42,7 @@ const scroll = (dir: -1 | 1) => {
 <template>
   <section class="section-divider py-12 md:py-16">
     <div class="w-full text-center">
-      <ChalkTitleHero line1="Enchères" line2="Solidaires" :large="large" />
+      <ChalkTitleHero line1="Enchères" line2="Solidaires" :image="DA.retours.titreEncheres" :large="large" />
 
       <p
         v-reveal

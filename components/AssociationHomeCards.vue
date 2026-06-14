@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import type { AssociationDoc } from '~/types'
+import { DA } from '~/utils/daAssets'
 
 const props = defineProps<{
   associations: (AssociationDoc & { id?: string })[]
@@ -14,7 +15,7 @@ const items = computed(() => props.associations)
   <section class="section-divider py-12 md:py-16">
     <div class="mx-auto w-full max-w-5xl text-center">
       <NuxtLink to="/associations" class="block transition hover:opacity-90">
-        <ChalkTitleHero line1="Associations" line2="Soutenues" :large="large" />
+        <ChalkTitleHero line1="Associations" line2="Soutenues" :image="DA.retours.titreAssos" :large="large" />
         <p
           v-reveal
           class="mt-5 font-semibold uppercase tracking-wide text-white/70"

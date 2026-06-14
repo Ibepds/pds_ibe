@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { MOCK_ASSOCIATIONS } from '~/utils/mockData'
+import { DA } from '~/utils/daAssets'
 
 usePageSeo({
   title: 'Associations soutenues — PDS Humanity',
@@ -17,7 +18,7 @@ const { data: associations, loading, error } = useFirestoreCollection(
   <div class="home-container pb-16">
     <!-- Hero -->
     <section class="pt-8 text-center md:pt-12">
-      <ChalkTitleHero line1="Associations" line2="Soutenues" large />
+      <ChalkTitleHero line1="Associations" line2="Soutenues" :image="DA.retours.titreAssos" large />
       <p v-reveal class="mx-auto mt-8 max-w-2xl leading-relaxed text-white/80 md:text-lg">
         L'ensemble des fonds récoltés lors de PDS Humanity est reversé à ces associations
         partenaires.
