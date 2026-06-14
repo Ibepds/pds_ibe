@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { formatCurrency } from '~/utils/format'
+import { formatCurrencyPrecise } from '~/utils/format'
 
 usePageSeo({
   title: 'Merci pour votre don — PDS Humanity',
@@ -77,7 +77,7 @@ const finalize = async () => {
         <h1 class="section-title mt-4">Merci !</h1>
         <p class="accent-serif mt-3 text-lg">
           Votre don de
-          <strong class="text-accent-green">{{ formatCurrency(amount) }}</strong>
+          <strong class="text-accent-green">{{ formatCurrencyPrecise(amount) }}</strong>
           a bien été reçu.
         </p>
 

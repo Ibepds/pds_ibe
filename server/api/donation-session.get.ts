@@ -22,9 +22,10 @@ export default defineEventHandler(async (event) => {
     recorded = false
   }
 
-  return {
-    paid,
-    amount: (session.amount_total ?? 0) / 100,
-    recorded,
-  }
+  const donationCents = Number(session.metadata?.donationCents)
+  const amount = Number.isFinite(donationCents) && donationCents > 0
+    ? donationCents / 100
+    : (session.amount_total ?? 0) / 100
+
+  return { paid, amount, recorded }
 })

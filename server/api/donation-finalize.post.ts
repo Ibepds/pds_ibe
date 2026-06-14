@@ -23,7 +23,11 @@ export default defineEventHandler(async (event) => {
     throw createError({ statusCode: 402, statusMessage: 'Paiement non confirmé.' })
   }
 
-  const amount = (session.amount_total ?? 0) / 100
+  // Montant du don (hors frais couverts) : metadata si présent, sinon total payé
+  const donationCents = Number(session.metadata?.donationCents)
+  const amount = Number.isFinite(donationCents) && donationCents > 0
+    ? donationCents / 100
+    : (session.amount_total ?? 0) / 100
   const username = body?.anonymous ? 'Anonyme' : clean(body?.username, 40) || 'Anonyme'
   const message = body?.anonymous ? '' : clean(body?.message, 300)
   const email =

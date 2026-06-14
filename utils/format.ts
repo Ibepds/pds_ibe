@@ -6,6 +6,20 @@ export function formatCurrency(amount: number): string {
   }).format(amount)
 }
 
+/**
+ * Montant avec centimes (ex. 20,56 €). Les centimes ne s'affichent que s'ils
+ * sont non nuls (20 € reste « 20 € », 20,56 € reste « 20,56 € »).
+ */
+export function formatCurrencyPrecise(amount: number): string {
+  const hasCents = Math.round(amount * 100) % 100 !== 0
+  return new Intl.NumberFormat('fr-FR', {
+    style: 'currency',
+    currency: 'EUR',
+    minimumFractionDigits: hasCents ? 2 : 0,
+    maximumFractionDigits: 2,
+  }).format(amount)
+}
+
 export function formatDate(dateStr: string): string {
   return new Intl.DateTimeFormat('fr-FR', {
     day: 'numeric',

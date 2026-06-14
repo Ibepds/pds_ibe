@@ -2,7 +2,6 @@
 import { doc, onSnapshot } from 'firebase/firestore'
 import {
   MOCK_ASSOCIATIONS,
-  MOCK_DONATIONS,
   MOCK_ENCHERES,
   MOCK_SCHEDULE,
 } from '~/utils/mockData'
@@ -36,11 +35,8 @@ const { data: schedule, loading: sLoading } = useFirestoreCollection(
   { orderField: 'order', orderDirection: 'asc' },
 )
 
-const { data: donations, loading: dLoading } = useFirestoreCollection(
-  'donations',
-  MOCK_DONATIONS,
-  { orderField: 'createdAt', orderDirection: 'desc' },
-)
+// Dons en temps réel + total calculé par somme (tous les dons)
+const { donations, total: donationsTotal, loading: dLoading } = useDonationsLive()
 
 const { data: associations, loading: aLoading } = useFirestoreCollection(
   'associations',
@@ -94,9 +90,9 @@ usePageSeo({
 
     <HomeScrollPanel v-if="event">
       <HomeDonationBar
-        :current="event.currentAmount"
+        :current="donationsTotal"
         :goal="event.donationGoal"
-        :loading="eventLoading"
+        :loading="eventLoading || dLoading"
         large
       />
     </HomeScrollPanel>

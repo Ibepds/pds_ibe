@@ -60,7 +60,7 @@ onUnmounted(() => unsub?.())
       <div
         v-for="t in toasts"
         :key="t.id"
-        class="pointer-events-auto overflow-hidden rounded-xl border border-white/15 bg-black/80 p-4 text-white shadow-xl backdrop-blur-md"
+        class="pointer-events-auto overflow-hidden rounded-xl border border-white/25 bg-white/10 p-4 text-white shadow-xl backdrop-blur-lg"
       >
         <div class="flex items-center gap-2">
           <span class="text-xl">💙</span>
