@@ -76,7 +76,12 @@ usePageSeo({
           <ChalkSparkles class="scale-x-[-1]" />
         </div>
         <div v-reveal class="mt-8">
-          <TwitchLiveEmbed v-if="event.liveUrl" :live-url="event.liveUrl" />
+          <TwitchLiveEmbed
+            v-if="event.liveUrl"
+            :live-url="event.liveUrl"
+            :youtube-url="event.youtubeUrl"
+            :tiktok-url="event.tiktokUrl"
+          />
         </div>
       </template>
       <template v-else>

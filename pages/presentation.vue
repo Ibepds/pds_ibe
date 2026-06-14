@@ -1,5 +1,15 @@
 <script setup lang="ts">
 import { MOCK_PRESENTATION } from '~/utils/mockData'
+import { DA } from '~/utils/daAssets'
+
+// Picto officiel de plateforme à partir du nom (sinon DaIcon générique)
+const platformPicto = (name?: string): string | null => {
+  const n = (name ?? '').toLowerCase()
+  if (n.includes('twitch')) return DA.retours.twitchLogo
+  if (n.includes('youtube')) return DA.retours.youtube
+  if (n.includes('tiktok')) return DA.retours.tiktok
+  return null
+}
 
 usePageSeo({
   title: 'Présentation — PDS Humanity',
@@ -72,7 +82,15 @@ const { single: content } = useFirestoreCollection(
           :key="i"
           class="text-center"
         >
-          <DaIcon :icon="p.icon" class="h-10 w-10" />
+          <img
+            v-if="platformPicto(p.name)"
+            :src="platformPicto(p.name)!"
+            :alt="p.name"
+            loading="lazy"
+            decoding="async"
+            class="mx-auto h-12 w-12 object-contain"
+          />
+          <DaIcon v-else :icon="p.icon" class="h-10 w-10" />
           <p class="mt-2 font-display text-sm font-bold uppercase text-white">{{ p.name }}</p>
         </div>
       </div>

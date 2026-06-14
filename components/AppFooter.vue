@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { formatDate } from '~/utils/format'
+import { DA } from '~/utils/daAssets'
 
 const year = new Date().getFullYear()
 const { reset } = useCookieConsent()
@@ -8,10 +9,10 @@ const { event } = useEvent()
 // Liens plateformes réutilisés depuis la config Événement (admin)
 const platforms = computed(() =>
   [
-    { label: 'Twitch', url: event.value?.liveUrl },
-    { label: 'YouTube', url: event.value?.youtubeUrl },
-    { label: 'TikTok', url: event.value?.tiktokUrl },
-    { label: 'eBay Live', url: event.value?.ebayLiveUrl },
+    { label: 'Twitch', url: event.value?.liveUrl, icon: DA.retours.twitchLogo },
+    { label: 'YouTube', url: event.value?.youtubeUrl, icon: DA.retours.youtube },
+    { label: 'TikTok', url: event.value?.tiktokUrl, icon: DA.retours.tiktok },
+    { label: 'eBay Live', url: event.value?.ebayLiveUrl, icon: null },
   ].filter((p) => p.url),
 )
 </script>
@@ -39,9 +40,17 @@ const platforms = computed(() =>
 
           <div v-if="platforms.length" class="mt-4">
             <p class="text-xs uppercase tracking-wide text-gray-500">Suivez le live</p>
-            <ul class="mt-2 flex flex-wrap gap-x-4 gap-y-1 text-sm text-gray-400">
+            <ul class="mt-2 flex flex-wrap gap-x-4 gap-y-2 text-sm text-gray-400">
               <li v-for="p in platforms" :key="p.label">
-                <a :href="p.url" target="_blank" rel="noopener" class="hover:text-primary-light">{{ p.label }}</a>
+                <a
+                  :href="p.url"
+                  target="_blank"
+                  rel="noopener"
+                  class="flex items-center gap-1.5 hover:text-primary-light"
+                >
+                  <img v-if="p.icon" :src="p.icon" :alt="p.label" loading="lazy" class="h-5 w-5 object-contain" />
+                  {{ p.label }}
+                </a>
               </li>
             </ul>
           </div>
