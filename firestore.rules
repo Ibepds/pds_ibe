@@ -44,16 +44,18 @@ service cloud.firestore {
     // Créneaux de freestyles : lecture publique, gestion réservée aux admins.
     match /freestyleSlots/{docId} { allow read: if true; allow write: if isAdmin(); }
 
-    // Réservations de freestyles : soumission publique validée (statut "pending"
-    // forcé, champs et tailles contrôlés pour empêcher le spam). Gestion admin.
+    // Réservations de freestyles — ENTRÉE PUBLIQUE (sans e-mail) :
+    // lecture publique (affichage des créneaux pris pour tous), création publique
+    // validée (statut "pending" forcé, champs/tailles contrôlés). Gestion admin.
     match /freestyles/{docId} {
+      allow read: if true;
       allow create: if request.resource.data.status == 'pending'
         && request.resource.data.keys().hasOnly([
-          'pseudo', 'email', 'socialLinks', 'slot', 'trackUrl', 'message',
+          'ref', 'pseudo', 'socialLinks', 'slot', 'trackUrl', 'message',
           'status', 'createdAt', 'updatedAt'
         ])
+        && strLen(request.resource.data, 'ref', 1, 80)
         && strLen(request.resource.data, 'pseudo', 1, 60)
-        && isEmail(request.resource.data.email)
         && strLen(request.resource.data, 'slot', 1, 40)
         && strLen(request.resource.data, 'trackUrl', 1, 500)
         && (!('socialLinks' in request.resource.data)
@@ -62,6 +64,18 @@ service cloud.firestore {
         && (!('message' in request.resource.data)
             || (request.resource.data.message is string
                 && request.resource.data.message.size() <= 1000));
+      allow update, delete: if isAdmin();
+    }
+
+    // Coordonnées des freestylers (PII : e-mail) — réservé aux admins.
+    match /freestyleContacts/{docId} {
+      allow create: if request.resource.data.keys().hasOnly([
+          'ref', 'pseudo', 'email', 'slot', 'createdAt', 'updatedAt'
+        ])
+        && strLen(request.resource.data, 'ref', 1, 80)
+        && strLen(request.resource.data, 'pseudo', 1, 60)
+        && isEmail(request.resource.data.email)
+        && strLen(request.resource.data, 'slot', 1, 40);
       allow read, update, delete: if isAdmin();
     }
 

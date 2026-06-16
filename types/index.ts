@@ -165,13 +165,26 @@ export interface FreestyleSlot {
 
 export interface FreestyleBooking {
   id: string
+  /** Identifiant de liaison avec les coordonnées privées (freestyleContacts) */
+  ref?: string
   pseudo: string
-  email: string
+  /** Renseigné côté admin via jointure (jamais dans l'entrée publique) */
+  email?: string
   socialLinks?: string
   slot: string
   trackUrl: string
   message?: string
   status: FreestyleStatus
   createdAt: string
+  updatedAt?: string
+}
+
+export interface FreestyleContact {
+  id: string
+  ref: string
+  pseudo: string
+  email: string
+  slot: string
+  createdAt?: string
   updatedAt?: string
 }

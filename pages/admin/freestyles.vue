@@ -10,6 +10,25 @@ const { data: bookings, loading, refresh } = useFirestoreCollection(
   { orderField: 'createdAt', orderDirection: 'asc' },
 )
 
+// Coordonnées privées (e-mail), jointes par `ref`
+const { data: contacts, refresh: refreshContacts } = useFirestoreCollection<{
+  id: string
+  ref?: string
+  email?: string
+}>('freestyleContacts', [])
+
+const emailByRef = computed(() => {
+  const map: Record<string, string> = {}
+  for (const c of contacts.value) {
+    if (c.ref && c.email) map[c.ref] = c.email
+  }
+  return map
+})
+
+// E-mail : depuis freestyleContacts (prod) ou inline (jeu de démo)
+const emailOf = (b: { ref?: string; email?: string }) =>
+  (b.ref ? emailByRef.value[b.ref] : undefined) ?? b.email ?? ''
+
 const { data: slots } = useFirestoreCollection(
   'freestyleSlots',
   MOCK_FREESTYLE_SLOTS,
@@ -43,6 +62,7 @@ const setStatus = async (booking: FreestyleBooking, status: FreestyleStatus) => 
     await update('freestyles', booking.id, { status })
     feedback.value = `Statut mis à jour : ${statusLabel[status]}`
     await refresh()
+    await refreshContacts()
   } catch (e: unknown) {
     feedback.value = e instanceof Error ? e.message : 'Erreur'
   }
@@ -63,7 +83,7 @@ const exportCsv = () => {
     ...bookings.value.map((b) => [
       b.slot,
       b.pseudo,
-      b.email,
+      emailOf(b),
       b.socialLinks ?? '',
       b.trackUrl,
       b.message ?? '',
@@ -157,7 +177,7 @@ const exportCsv = () => {
                 {{ statusLabel[b.status] }}
               </span>
             </div>
-            <p class="mt-1 text-sm text-gray-500">{{ b.email }}</p>
+            <p class="mt-1 text-sm text-gray-500">{{ emailOf(b) || '—' }}</p>
             <div class="mt-2 flex flex-wrap gap-4 text-sm">
               <a v-if="b.trackUrl" :href="b.trackUrl" target="_blank" rel="noopener" class="text-blue-600 hover:underline truncate max-w-xs">
                 Écouter le morceau

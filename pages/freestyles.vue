@@ -85,9 +85,23 @@ const submit = async () => {
   sending.value = true
   error.value = ''
   try {
-    await create('freestyles', {
+    // Identifiant de liaison entre l'entrée publique et les coordonnées privées
+    const bookingRef =
+      (globalThis.crypto?.randomUUID?.() ??
+        `${Date.now()}-${Math.random().toString(36).slice(2)}`)
+
+    // Coordonnées privées (e-mail) — collection admin uniquement
+    await create('freestyleContacts', {
+      ref: bookingRef,
       pseudo: form.pseudo,
       email: form.email,
+      slot: form.slot,
+    })
+
+    // Entrée publique (sans e-mail) — pilote l'affichage des créneaux pour tous
+    await create('freestyles', {
+      ref: bookingRef,
+      pseudo: form.pseudo,
       socialLinks: form.socialLinks,
       slot: form.slot,
       trackUrl: form.trackUrl,
