@@ -1,12 +1,14 @@
 <script setup lang="ts">
 import { collection, limit, onSnapshot, orderBy, query } from 'firebase/firestore'
 import { formatCurrency } from '~/utils/format'
+import { DA } from '~/utils/daAssets'
 
 interface Toast {
   id: string
   username: string
   amount: number
   message: string
+  source?: string
 }
 
 const { db, ready } = useFirebase()
@@ -37,12 +39,18 @@ onMounted(() => {
       snap.docChanges().forEach((change) => {
         if (change.type === 'added' && !seen.has(change.doc.id)) {
           seen.add(change.doc.id)
-          const data = change.doc.data() as { username?: string; amount?: number; message?: string }
+          const data = change.doc.data() as {
+            username?: string
+            amount?: number
+            message?: string
+            source?: string
+          }
           pushToast({
             id: change.doc.id,
             username: data.username || 'Anonyme',
             amount: data.amount ?? 0,
             message: data.message || '',
+            source: data.source,
           })
         }
       })
@@ -65,6 +73,13 @@ onUnmounted(() => unsub?.())
         <div class="flex items-center gap-2">
           <span class="text-xl">💙</span>
           <p class="font-display text-sm font-bold uppercase tracking-wide">Nouveau don !</p>
+          <img
+            v-if="t.source === 'twitch'"
+            :src="DA.retours.twitchLogo"
+            alt="Twitch"
+            title="Don via Twitch"
+            class="ml-auto h-5 w-5 object-contain"
+          />
         </div>
         <p class="mt-1 text-sm">
           <strong class="text-primary-light">{{ t.username }}</strong>

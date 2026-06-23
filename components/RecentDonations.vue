@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import type { Donation } from '~/types'
 import { formatCurrency } from '~/utils/format'
+import { DA } from '~/utils/daAssets'
 
 const props = defineProps<{
   donations: Donation[]
@@ -77,6 +78,14 @@ const marqueeStyle = computed(() => ({
             <span class="flex min-w-0 items-center gap-2 font-semibold" :class="large ? 'md:text-lg' : ''">
               <ChalkHeart :class="[heartOpacities[i % heartOpacities.length], large ? '!h-5 !w-5' : '!h-3.5 !w-3.5']" />
               <span class="truncate">{{ d.username }}</span>
+            <img
+              v-if="d.source === 'twitch'"
+              :src="DA.retours.twitchLogo"
+              alt="Twitch"
+              title="Don via Twitch"
+              loading="lazy"
+              class="h-4 w-4 shrink-0 object-contain md:h-5 md:w-5"
+            />
             </span>
             <span class="flex shrink-0 items-baseline gap-2">
               <span class="font-display font-bold text-primary-light" :class="large ? 'text-lg md:text-xl' : 'text-sm'">
@@ -104,6 +113,14 @@ const marqueeStyle = computed(() => ({
           <span class="flex min-w-0 items-center gap-2 font-semibold" :class="large ? 'text-base md:text-xl' : ''">
             <ChalkHeart :class="[heartOpacities[i % heartOpacities.length], large ? '!h-5 !w-5 md:!h-6 md:!w-6' : '!h-3.5 !w-3.5']" />
             <span class="truncate">{{ d.username }}</span>
+            <img
+              v-if="d.source === 'twitch'"
+              :src="DA.retours.twitchLogo"
+              alt="Twitch"
+              title="Don via Twitch"
+              loading="lazy"
+              class="h-4 w-4 shrink-0 object-contain md:h-5 md:w-5"
+            />
           </span>
           <span class="flex shrink-0 items-baseline gap-2">
             <span class="font-display font-bold text-primary-light" :class="large ? 'text-xl md:text-2xl' : 'text-sm'">

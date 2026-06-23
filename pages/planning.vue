@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { MOCK_SCHEDULE, MOCK_PROGRAMME } from '~/utils/mockData'
 import { getTimeRemaining } from '~/utils/format'
+import { DA } from '~/utils/daAssets'
 
 const { event, loading: eventLoading } = useEvent()
 
@@ -63,6 +64,29 @@ usePageSeo({
       </div>
 
       <ProgrammeCompletFreestyle compact :show-programme-complet="false" />
+    </section>
+
+    <!-- Inscription aux battles (DJ / Versus) -->
+    <section class="section-divider py-10 text-center md:py-14">
+      <NuxtLink
+        to="/battles"
+        v-reveal
+        class="mx-auto flex max-w-xl flex-col items-center border-2 border-white/40 bg-white/5 p-6 transition hover:bg-white/10 md:p-8"
+      >
+        <ChalkImage :src="DA.cgpt.microphone" class="chalk-picto h-12 w-12 md:h-14 md:w-14" />
+        <p class="mt-4 font-display text-lg font-bold uppercase tracking-wide text-primary-light md:text-2xl">
+          Battle de DJ &amp; Battle Versus
+        </p>
+        <p class="mt-2 max-w-md text-sm text-white/70 md:text-base">
+          Viens assister aux battles en direct ! Inscris-toi pour y participer en tant que spectateur.
+        </p>
+        <span class="mt-5 inline-flex items-center gap-2 border-2 border-primary-light px-5 py-2.5 font-display text-sm font-bold uppercase tracking-wide text-primary-light">
+          Assister aux battles
+          <svg class="h-4 w-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" aria-hidden="true">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M5 12h14M13 6l6 6-6 6" />
+          </svg>
+        </span>
+      </NuxtLink>
     </section>
 
     <section v-if="event" class="section-divider py-12 text-center md:py-16">

@@ -59,6 +59,9 @@ export interface Donation {
   message: string
   createdAt: string
   sessionId?: string
+  /** Origine du don : 'twitch' pour les Bits/Cheers, sinon Stripe (site) */
+  source?: 'twitch' | 'site'
+  twitchMsgId?: string
 }
 
 export interface FaqItem {
@@ -127,6 +130,16 @@ export interface EncheresDoc {
   intro: string
   lots: EncheresLot[]
   planningText: string
+  createdAt?: string
+  updatedAt?: string
+}
+
+export interface BattleInscription {
+  id: string
+  lastName: string
+  firstName: string
+  email: string
+  event: 'battle-dj' | 'versus'
   createdAt?: string
   updatedAt?: string
 }

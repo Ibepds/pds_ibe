@@ -11,6 +11,8 @@ const buckets = new Map<string, Hit>()
 
 // Limites par fenêtre de 60 s
 const LIMITS: { test: (path: string) => boolean; max: number }[] = [
+  // Webhook Twitch : signé (HMAC), peut recevoir des rafales de Cheers
+  { test: (p) => p.startsWith('/api/twitch'), max: 600 },
   { test: (p) => p.startsWith('/api/checkout'), max: 10 },
   { test: (p) => p.startsWith('/api/donation-finalize'), max: 20 },
   { test: (p) => p.startsWith('/api/donation-session'), max: 60 },

@@ -8,6 +8,9 @@ export default defineNuxtConfig({
     // Privé (serveur uniquement) — surchargé par NUXT_STRIPE_SECRET_KEY etc.
     stripeSecretKey: '',
     firebaseServiceAccount: '', // JSON du compte de service Firebase (une ligne)
+    // Twitch EventSub (dons Bits/Cheers → site)
+    twitchEventsubSecret: '', // secret partagé HMAC (≥ 10 caractères)
+    bitsToEur: '0.01', // valeur d'un bit en € (1 bit ≈ 0,01 €)
     public: {
       siteUrl: 'https://pdshumanity.com',
       firebaseApiKey: '',

@@ -91,6 +91,19 @@ service cloud.firestore {
       allow read, update, delete: if isAdmin();
     }
 
+    // Inscriptions aux battles (DJ / Versus) : envoi public contrôlé, gestion admin.
+    match /battleInscriptions/{docId} {
+      allow create: if request.resource.data.keys().hasOnly([
+          'lastName', 'firstName', 'email', 'event', 'createdAt', 'updatedAt'
+        ])
+        && strLen(request.resource.data, 'lastName', 1, 80)
+        && strLen(request.resource.data, 'firstName', 1, 80)
+        && isEmail(request.resource.data.email)
+        && (request.resource.data.event == 'battle-dj'
+            || request.resource.data.event == 'versus');
+      allow read, update, delete: if isAdmin();
+    }
+
     // File d'envoi d'e-mails de l'extension "Trigger Email from Firestore".
     // Création publique UNIQUEMENT vers l'adresse de l'équipe (pas de spam de
     // tiers) et avec des tailles bornées. L'extension écrit le statut via Admin SDK.
