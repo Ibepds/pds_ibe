@@ -134,6 +134,24 @@ export interface EncheresDoc {
   updatedAt?: string
 }
 
+export interface BattlesDoc {
+  id?: string
+  pageTitle: string
+  pageLead: string
+  chooseLabel: string
+  ctaTitle: string
+  ctaText: string
+  ctaButton: string
+  djLabel: string
+  djDesc: string
+  djSlot: string
+  versusLabel: string
+  versusDesc: string
+  versusSlot: string
+  createdAt?: string
+  updatedAt?: string
+}
+
 export interface BattleInscription {
   id: string
   lastName: string

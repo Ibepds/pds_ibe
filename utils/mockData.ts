@@ -1,5 +1,6 @@
 import type {
   AssociationDoc,
+  BattlesDoc,
   ContactMessage,
   Donation,
   EncheresDoc,
@@ -247,6 +248,22 @@ export const MOCK_ENCHERES: EncheresDoc = {
   lots: [],
   planningText:
     "Le planning des sessions d'enchères sera communiqué avant l'événement.",
+}
+
+export const MOCK_BATTLES: BattlesDoc = {
+  pageTitle: 'Assister aux battles',
+  pageLead: 'Inscrivez-vous pour assister en spectateur aux battles, en direct lors du marathon.',
+  chooseLabel: 'Battle auquel vous souhaitez assister',
+  ctaTitle: 'Battle de DJ & Versus',
+  ctaText:
+    'Viens assister aux battles en direct lors du marathon — inscris-toi comme spectateur !',
+  ctaButton: 'Assister aux battles',
+  djLabel: 'Battle de DJ',
+  djDesc: "Des DJ s'affrontent aux platines, en direct.",
+  djSlot: '',
+  versusLabel: 'Battle Versus',
+  versusDesc: 'Le face-à-face scénique : un contre un.',
+  versusSlot: '',
 }
 
 export const MOCK_CONTACTS: ContactMessage[] = []

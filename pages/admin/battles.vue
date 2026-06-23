@@ -1,14 +1,61 @@
 <script setup lang="ts">
 definePageMeta({ layout: 'admin', middleware: 'admin' })
 
-import type { BattleInscription } from '~/types'
+import type { BattleInscription, BattlesDoc } from '~/types'
+import { MOCK_BATTLES } from '~/utils/mockData'
 
 const { data: inscriptions, loading, refresh } = useFirestoreCollection<BattleInscription>(
   'battleInscriptions',
   [],
   { orderField: 'createdAt', orderDirection: 'desc' },
 )
-const { remove } = useAdminFirestore()
+const { remove, set } = useAdminFirestore()
+
+// --- Contenu éditable de la section Battles (content/battles) ---
+const { single: battlesDoc, refresh: refreshContent } = useFirestoreCollection(
+  'content',
+  [{ id: 'battles', ...MOCK_BATTLES }],
+  { docId: 'battles' },
+)
+const content = reactive<BattlesDoc>({ ...MOCK_BATTLES })
+watch(
+  battlesDoc,
+  (d) => {
+    if (d) Object.assign(content, { ...MOCK_BATTLES, ...d })
+  },
+  { immediate: true },
+)
+const savingContent = ref(false)
+const contentFeedback = ref('')
+const saveContent = async () => {
+  savingContent.value = true
+  contentFeedback.value = ''
+  try {
+    const { id, createdAt, updatedAt, ...payload } = content
+    await set('content', 'battles', payload as Record<string, unknown>)
+    contentFeedback.value = 'Contenu Battles enregistré.'
+    await refreshContent()
+  } catch (e: unknown) {
+    contentFeedback.value = e instanceof Error ? e.message : 'Erreur'
+  } finally {
+    savingContent.value = false
+  }
+}
+
+const CONTENT_FIELDS: { key: keyof BattlesDoc; label: string; textarea?: boolean }[] = [
+  { key: 'pageTitle', label: 'Titre de la page' },
+  { key: 'pageLead', label: 'Accroche de la page', textarea: true },
+  { key: 'chooseLabel', label: 'Libellé du choix de battle' },
+  { key: 'ctaTitle', label: 'CTA — Titre (accueil & programme)' },
+  { key: 'ctaText', label: 'CTA — Texte', textarea: true },
+  { key: 'ctaButton', label: 'CTA — Bouton' },
+  { key: 'djLabel', label: 'DJ Battle — Nom' },
+  { key: 'djDesc', label: 'DJ Battle — Description', textarea: true },
+  { key: 'djSlot', label: 'DJ Battle — Créneau' },
+  { key: 'versusLabel', label: 'Battle Versus — Nom' },
+  { key: 'versusDesc', label: 'Battle Versus — Description', textarea: true },
+  { key: 'versusSlot', label: 'Battle Versus — Créneau' },
+]
 
 const feedback = ref('')
 const deleteTarget = ref<BattleInscription | null>(null)
@@ -70,6 +117,40 @@ const exportCsv = () => {
 
 <template>
   <div>
+    <!-- Contenu éditable de la section Battles -->
+    <section class="mb-10">
+      <h1 class="mb-1 text-xl font-bold text-gray-900">Contenu Battles</h1>
+      <p class="mb-4 text-sm text-gray-500">
+        Textes des CTA (accueil & programme), de la page d'inscription et créneaux des battles.
+      </p>
+      <p v-if="contentFeedback" class="mb-4 text-sm text-green-700">{{ contentFeedback }}</p>
+      <form class="grid gap-4 rounded-xl border border-gray-200 bg-white p-6 md:grid-cols-2" @submit.prevent="saveContent">
+        <div v-for="f in CONTENT_FIELDS" :key="f.key" :class="f.textarea ? 'md:col-span-2' : ''">
+          <label class="mb-1 block text-sm font-medium text-gray-700">{{ f.label }}</label>
+          <textarea
+            v-if="f.textarea"
+            v-model="content[f.key]"
+            rows="2"
+            class="w-full rounded-lg border border-gray-300 px-3 py-2 text-sm text-gray-900 focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary"
+          />
+          <input
+            v-else
+            v-model="content[f.key]"
+            class="w-full rounded-lg border border-gray-300 px-3 py-2 text-sm text-gray-900 focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary"
+          />
+        </div>
+        <div class="md:col-span-2">
+          <button
+            type="submit"
+            class="rounded-xl bg-primary px-6 py-2 text-white hover:bg-primary-dark disabled:opacity-50"
+            :disabled="savingContent"
+          >
+            {{ savingContent ? 'Enregistrement…' : 'Enregistrer le contenu' }}
+          </button>
+        </div>
+      </form>
+    </section>
+
     <div class="mb-2 flex flex-wrap items-center justify-between gap-3">
       <h1 class="text-xl font-bold text-gray-900">Inscriptions Battles</h1>
       <button

@@ -7,6 +7,8 @@ defineProps<{
   /** Afficher le lien vers /planning (uniquement s’il reste des entrées non listées) */
   showProgrammeComplet?: boolean
 }>()
+
+const { battles } = useBattles()
 </script>
 
 <template>
@@ -110,10 +112,10 @@ defineProps<{
 
       <div>
         <p class="font-display text-2xl font-bold uppercase tracking-wide text-primary-light md:text-4xl">
-          Battle de DJ<br class="hidden sm:block" /> &amp; Versus
+          {{ battles.ctaTitle }}
         </p>
         <p class="mx-auto mt-4 max-w-md text-white/70 md:text-base lg:text-lg">
-          Viens assister aux battles en direct lors du marathon — inscris-toi comme spectateur !
+          {{ battles.ctaText }}
         </p>
       </div>
 
@@ -121,7 +123,7 @@ defineProps<{
         class="mt-auto inline-flex items-center gap-3 border-2 border-primary-light px-6 py-3 text-sm text-primary-light transition md:text-base"
       >
         <ChalkImage :src="DA.cgpt.musicNote" class="chalk-inline h-5 w-5 shrink-0 md:h-6 md:w-6" />
-        <span class="font-display font-bold uppercase tracking-wide">Assister aux battles</span>
+        <span class="font-display font-bold uppercase tracking-wide">{{ battles.ctaButton }}</span>
         <svg class="h-5 w-5 shrink-0 md:h-6 md:w-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" aria-hidden="true">
           <path stroke-linecap="round" stroke-linejoin="round" d="M5 12h14M13 6l6 6-6 6" />
         </svg>

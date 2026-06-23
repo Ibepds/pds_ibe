@@ -5,10 +5,12 @@ usePageSeo({
     "Inscrivez-vous pour assister en tant que spectateur aux battles de PDS Humanity : Battle de DJ ou Battle Versus, en direct lors du marathon caritatif.",
 })
 
-const EVENTS = [
-  { value: 'battle-dj', label: 'Battle de DJ', desc: 'Des DJ s\'affrontent aux platines, en direct.' },
-  { value: 'versus', label: 'Battle Versus', desc: 'Le face-à-face scénique : un contre un.' },
-] as const
+const { battles } = useBattles()
+
+const EVENTS = computed(() => [
+  { value: 'battle-dj' as const, label: battles.value.djLabel, desc: battles.value.djDesc, slot: battles.value.djSlot },
+  { value: 'versus' as const, label: battles.value.versusLabel, desc: battles.value.versusDesc, slot: battles.value.versusSlot },
+])
 
 const form = reactive({
   firstName: '',
@@ -32,7 +34,7 @@ const { create } = useAdminFirestore()
 const escapeHtml = (s: string) =>
   s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;')
 
-const eventLabel = (v: string) => EVENTS.find((e) => e.value === v)?.label ?? v
+const eventLabel = (v: string) => EVENTS.value.find((e) => e.value === v)?.label ?? v
 
 const submit = async () => {
   if (hp.value) {
@@ -100,10 +102,7 @@ const submit = async () => {
 <template>
   <div class="home-container">
     <section class="py-12 md:py-16">
-      <PageHeader
-        title="Assister aux battles"
-        lead="Inscrivez-vous pour assister en spectateur aux battles, en direct lors du marathon."
-      />
+      <PageHeader :title="battles.pageTitle" :lead="battles.pageLead" />
     </section>
 
     <section class="section-divider py-12 md:py-16">
@@ -132,7 +131,7 @@ const submit = async () => {
 
           <!-- Choix du battle -->
           <div>
-            <label class="form-label">Battle auquel vous souhaitez assister <span class="text-accent-red">*</span></label>
+            <label class="form-label">{{ battles.chooseLabel }} <span class="text-accent-red">*</span></label>
             <div class="mt-2 grid gap-3 sm:grid-cols-2">
               <label
                 v-for="ev in EVENTS"
@@ -145,6 +144,9 @@ const submit = async () => {
                   <span class="font-display text-sm font-bold uppercase text-white">{{ ev.label }}</span>
                 </span>
                 <span class="text-xs text-white/60">{{ ev.desc }}</span>
+                <span v-if="ev.slot" class="mt-1 inline-flex items-center gap-1 text-xs font-semibold text-primary-light">
+                  🕒 Créneau : {{ ev.slot }}
+                </span>
               </label>
             </div>
           </div>

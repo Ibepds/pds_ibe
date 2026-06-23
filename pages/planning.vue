@@ -4,6 +4,7 @@ import { getTimeRemaining } from '~/utils/format'
 import { DA } from '~/utils/daAssets'
 
 const { event, loading: eventLoading } = useEvent()
+const { battles } = useBattles()
 
 const { data: schedule, loading, error } = useFirestoreCollection(
   'schedule',
@@ -75,13 +76,13 @@ usePageSeo({
       >
         <ChalkImage :src="DA.cgpt.microphone" class="chalk-picto h-12 w-12 md:h-14 md:w-14" />
         <p class="mt-4 font-display text-lg font-bold uppercase tracking-wide text-primary-light md:text-2xl">
-          Battle de DJ &amp; Battle Versus
+          {{ battles.ctaTitle }}
         </p>
         <p class="mt-2 max-w-md text-sm text-white/70 md:text-base">
-          Viens assister aux battles en direct ! Inscris-toi pour y participer en tant que spectateur.
+          {{ battles.ctaText }}
         </p>
         <span class="mt-5 inline-flex items-center gap-2 border-2 border-primary-light px-5 py-2.5 font-display text-sm font-bold uppercase tracking-wide text-primary-light">
-          Assister aux battles
+          {{ battles.ctaButton }}
           <svg class="h-4 w-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" aria-hidden="true">
             <path stroke-linecap="round" stroke-linejoin="round" d="M5 12h14M13 6l6 6-6 6" />
           </svg>
