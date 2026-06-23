@@ -106,16 +106,20 @@ onUnmounted(() => {
 
         <button
           type="button"
-          class="ml-auto inline-flex shrink-0 items-center gap-2 border-2 border-white px-3 py-2 font-display text-[11px] font-bold uppercase tracking-wide text-white transition hover:bg-white/10 sm:px-4 sm:text-xs"
+          class="ml-auto inline-flex shrink-0 items-center gap-2 border-2 border-white px-2.5 py-2 font-display text-xs font-bold uppercase tracking-wide text-white transition hover:bg-white/10 sm:px-4"
+          aria-label="S'inscrire"
           @click="openInscription"
         >
-          S'inscrire
+          <svg class="h-4 w-4 shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" aria-hidden="true">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M16 21v-2a4 4 0 00-4-4H6a4 4 0 00-4 4v2M9 11a4 4 0 100-8 4 4 0 000 8zM19 8v6M22 11h-6" />
+          </svg>
+          <span class="hidden sm:inline">S'inscrire</span>
         </button>
 
         <ChalkButton
           preset="donate"
           to="/donate"
-          class="header-donate-btn !ml-2 !mr-0 shrink-0 !w-auto !max-w-[8rem] sm:!max-w-[10rem] md:!max-w-[160px]"
+          class="header-donate-btn !ml-2 !mr-0 shrink-0 !w-auto !max-w-[6.5rem] sm:!max-w-[10rem] md:!max-w-[160px]"
         />
       </div>
 
@@ -184,8 +188,7 @@ onUnmounted(() => {
 /* Navbar : « Faire un don » collé à droite de « S'inscrire » (le groupe est poussé
    à droite par le ml-auto du bouton S'inscrire). Override du centrage global .chalk-btn. */
 .header-donate-btn {
-  margin-left: 0.5rem !important;
+  margin-left: 0 !important;
   margin-right: 0 !important;
-  max-width: min(9.5rem, calc(100vw - 5rem)) !important;
 }
 </style>
