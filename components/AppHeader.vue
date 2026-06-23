@@ -1,6 +1,12 @@
 <script setup lang="ts">
 const route = useRoute()
 const mobileOpen = ref(false)
+const inscriptionOpen = ref(false)
+
+const openInscription = () => {
+  mobileOpen.value = false
+  inscriptionOpen.value = true
+}
 
 const links = [
   { to: '/', label: 'Accueil' },
@@ -98,10 +104,18 @@ onUnmounted(() => {
           </NuxtLink>
         </Transition>
 
+        <button
+          type="button"
+          class="ml-auto inline-flex shrink-0 items-center gap-2 border-2 border-white px-3 py-2 font-display text-[11px] font-bold uppercase tracking-wide text-white transition hover:bg-white/10 sm:px-4 sm:text-xs"
+          @click="openInscription"
+        >
+          S'inscrire
+        </button>
+
         <ChalkButton
           preset="donate"
           to="/donate"
-          class="header-donate-btn shrink-0 !ml-auto !mr-0 !w-auto !max-w-[9.5rem] sm:!max-w-[10rem] md:!max-w-[160px]"
+          class="header-donate-btn !ml-2 !mr-0 shrink-0 !w-auto !max-w-[8rem] sm:!max-w-[10rem] md:!max-w-[160px]"
         />
       </div>
 
@@ -111,6 +125,13 @@ onUnmounted(() => {
           class="border-t border-white/20 bg-primary-dark/95 py-5 shadow-lg backdrop-blur-md"
         >
           <nav class="home-container space-y-2">
+            <button
+              type="button"
+              class="mb-2 flex w-full items-center justify-center border-2 border-white py-2.5 font-display text-sm font-bold uppercase tracking-wide text-white transition hover:bg-white/10"
+              @click="openInscription"
+            >
+              S'inscrire
+            </button>
             <NuxtLink
               v-for="link in links"
               :key="link.to"
@@ -125,6 +146,8 @@ onUnmounted(() => {
         </div>
       </Transition>
     </div>
+
+    <InscriptionModal :open="inscriptionOpen" @close="inscriptionOpen = false" />
   </header>
 </template>
 
@@ -158,9 +181,10 @@ onUnmounted(() => {
   transform: translate(-50%, -40%);
 }
 
-/* Navbar : « Faire un don » toujours à droite (override centrage global .chalk-btn) */
+/* Navbar : « Faire un don » collé à droite de « S'inscrire » (le groupe est poussé
+   à droite par le ml-auto du bouton S'inscrire). Override du centrage global .chalk-btn. */
 .header-donate-btn {
-  margin-left: auto !important;
+  margin-left: 0.5rem !important;
   margin-right: 0 !important;
   max-width: min(9.5rem, calc(100vw - 5rem)) !important;
 }
