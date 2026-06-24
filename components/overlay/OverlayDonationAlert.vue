@@ -8,62 +8,155 @@ export interface OverlayAlertData {
   message: string
 }
 
-defineProps<{
+const props = defineProps<{
   alert: OverlayAlertData
 }>()
+
+const videoRef = ref<HTMLVideoElement | null>(null)
+
+function restartVideo() {
+  const el = videoRef.value
+  if (!el) return
+  el.currentTime = 0
+  el.play().catch(() => {})
+}
+
+onMounted(() => restartVideo())
+
+watch(() => props.alert.id, () => restartVideo())
 </script>
 
 <template>
   <div class="alert-card">
-    <div class="alert-heart">💙</div>
-    <p class="alert-title">Nouveau don !</p>
-    <p class="alert-line">
-      <span class="alert-user">{{ alert.username }}</span>
-      a donné
-      <span class="alert-amount">{{ formatCurrencyPrecise(alert.amount) }}</span>
-    </p>
-    <p v-if="alert.message" class="alert-message">« {{ alert.message }} »</p>
+    <video
+      ref="videoRef"
+      class="alert-video"
+      src="/videos/overlay-alerte.mp4"
+      autoplay
+      muted
+      playsinline
+      loop
+      preload="auto"
+    />
+
+    <div class="alert-text">
+      <div class="alert-copy">
+        <p class="alert-donation">
+          <span class="alert-user">{{ alert.username }}</span>
+          <span class="alert-verb">a donné</span>
+          <span class="alert-amount">{{ formatCurrencyPrecise(alert.amount) }}</span>
+        </p>
+
+        <p v-if="alert.message" class="alert-message">
+          <span class="alert-message-inner">{{ alert.message }}</span>
+        </p>
+      </div>
+    </div>
   </div>
 </template>
 
 <style scoped>
 .alert-card {
+  position: relative;
+  width: min(92vw, 34rem);
+  line-height: 0;
+  filter: drop-shadow(0 12px 28px rgba(0, 0, 0, 0.28));
+}
+
+.alert-video {
+  display: block;
+  width: 100%;
+  height: auto;
+  border-radius: 0.15rem;
+}
+
+.alert-text {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  padding: 40% 6% 0;
+  pointer-events: none;
+}
+
+.alert-copy {
+  width: 100%;
+  max-width: 28rem;
   text-align: center;
-  color: #fff;
-  background: rgba(5, 70, 160, 0.85);
-  border: 4px solid #fff;
-  border-radius: 1rem;
-  padding: 2rem 3rem;
-  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.45);
-  max-width: 90vw;
+  animation: copy-rise 0.65s cubic-bezier(0.22, 1, 0.36, 1) both;
 }
-.alert-heart {
-  font-size: 3.5rem;
-  line-height: 1;
+
+.alert-donation {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: center;
+  gap: 0.35rem 0.5rem;
+  margin: 0;
+  font-family: 'Cossette Titre', system-ui, sans-serif;
+  line-height: 1.15;
 }
-.alert-title {
-  margin-top: 0.5rem;
-  font-size: 1.5rem;
-  font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: 0.05em;
-}
-.alert-line {
-  margin-top: 0.75rem;
-  font-size: 2rem;
-}
+
 .alert-user {
-  color: #3e78d6;
+  font-size: clamp(1.35rem, 4.8vw, 2.1rem);
   font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: #fff;
+  text-shadow:
+    0 0 18px rgba(5, 70, 160, 0.65),
+    0 1px 2px rgba(0, 0, 0, 0.45);
 }
-.alert-amount {
-  color: #4ade80;
-  font-weight: 700;
-}
-.alert-message {
-  margin-top: 0.75rem;
-  font-size: 1.25rem;
+
+.alert-verb {
+  font-family: 'IM Fell DW Pica', Georgia, serif;
+  font-size: clamp(1.1rem, 3.6vw, 1.5rem);
+  font-weight: 400;
   font-style: italic;
-  opacity: 0.9;
+  color: rgba(255, 255, 255, 0.82);
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.35);
+}
+
+.alert-amount {
+  font-size: clamp(1.5rem, 5.2vw, 2.35rem);
+  font-weight: 700;
+  letter-spacing: 0.03em;
+  color: #fff;
+  text-shadow:
+    0 0 14px rgba(255, 255, 255, 0.35),
+    0 1px 2px rgba(0, 0, 0, 0.45);
+}
+
+.alert-message {
+  margin: 0.65rem 0 0;
+  animation: copy-rise 0.65s cubic-bezier(0.22, 1, 0.36, 1) 0.12s both;
+}
+
+.alert-message-inner {
+  max-width: 100%;
+  padding: 0 0.15rem;
+  font-family: 'IM Fell DW Pica', Georgia, serif;
+  font-size: clamp(1rem, 3.2vw, 1.35rem);
+  font-style: italic;
+  line-height: 1.35;
+  color: rgba(255, 255, 255, 0.88);
+  text-shadow: 0 1px 4px rgba(0, 0, 0, 0.4);
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  line-clamp: 2;
+}
+
+@keyframes copy-rise {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 </style>

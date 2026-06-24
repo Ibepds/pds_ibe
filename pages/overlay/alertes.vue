@@ -223,25 +223,25 @@ onUnmounted(() => unsub?.())
 }
 
 .alert-enter-active {
-  animation: pop-in 0.5s cubic-bezier(0.2, 1.2, 0.3, 1);
+  animation: alert-in 0.55s cubic-bezier(0.22, 1, 0.36, 1);
 }
 .alert-leave-active {
-  animation: pop-out 0.5s ease forwards;
+  animation: alert-out 0.45s ease forwards;
 }
-@keyframes pop-in {
+@keyframes alert-in {
   from {
     opacity: 0;
-    transform: translateY(-40px) scale(0.8);
+    transform: translateY(16px) scale(0.97);
   }
   to {
     opacity: 1;
     transform: translateY(0) scale(1);
   }
 }
-@keyframes pop-out {
+@keyframes alert-out {
   to {
     opacity: 0;
-    transform: translateY(-20px) scale(0.95);
+    transform: translateY(-8px) scale(0.98);
   }
 }
 </style>
