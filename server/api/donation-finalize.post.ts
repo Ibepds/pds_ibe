@@ -33,6 +33,13 @@ export default defineEventHandler(async (event) => {
   const email =
     clean(session.customer_details?.email ?? session.customer_email, 320) || undefined
 
+  const raffleParticipate = session.metadata?.raffleParticipate === 'yes'
+  const rafflePhone = raffleParticipate ? clean(session.metadata?.rafflePhone, 20) : undefined
+  const raffleInstagram = raffleParticipate
+    ? clean(session.metadata?.raffleInstagram, 40)
+    : undefined
+  const raffleTiktok = raffleParticipate ? clean(session.metadata?.raffleTiktok, 40) : undefined
+
   try {
     const db = getAdminDb()
 
@@ -63,6 +70,14 @@ export default defineEventHandler(async (event) => {
         username,
         amount,
         sessionId: session.id,
+        raffleParticipate,
+        ...(raffleParticipate
+          ? {
+              rafflePhone,
+              raffleInstagram,
+              raffleTiktok,
+            }
+          : {}),
         createdAt: new Date().toISOString(),
         serverCreatedAt: FieldValue.serverTimestamp(),
       })
