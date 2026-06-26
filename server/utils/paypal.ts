@@ -34,8 +34,8 @@ function getPayPalApiBase(): string {
 
 function getPayPalCredentials(): { clientId: string; clientSecret: string } {
   const config = useRuntimeConfig()
-  const clientId = config.paypalClientId
-  const clientSecret = config.paypalClientSecret
+  const clientId = String(config.paypalClientId || '').trim()
+  const clientSecret = String(config.paypalClientSecret || '').trim()
   if (!clientId || !clientSecret) {
     throw createError({
       statusCode: 500,
@@ -45,26 +45,44 @@ function getPayPalCredentials(): { clientId: string; clientSecret: string } {
   return { clientId, clientSecret }
 }
 
+function paypalAuthErrorMessage(mode: string): string {
+  const env = mode === 'live' ? 'live (production)' : 'sandbox (test)'
+  return `Authentification PayPal refusée (${env}). Vérifiez que NUXT_PAYPAL_CLIENT_ID et NUXT_PAYPAL_CLIENT_SECRET correspondent au même environnement (NUXT_PAYPAL_MODE=${mode}) dans le dashboard developer.paypal.com.`
+}
+
 async function getPayPalAccessToken(): Promise<string> {
   if (cachedToken && Date.now() < cachedToken.expiresAt - 60_000) {
     return cachedToken.token
   }
   const { clientId, clientSecret } = getPayPalCredentials()
+  const config = useRuntimeConfig()
   const apiBase = getPayPalApiBase()
   const auth = Buffer.from(`${clientId}:${clientSecret}`).toString('base64')
-  const data = await $fetch<PayPalAccessToken>(`${apiBase}/v1/oauth2/token`, {
-    method: 'POST',
-    headers: {
-      Authorization: `Basic ${auth}`,
-      'Content-Type': 'application/x-www-form-urlencoded',
-    },
-    body: new URLSearchParams({ grant_type: 'client_credentials' }).toString(),
-  })
-  cachedToken = {
-    token: data.access_token,
-    expiresAt: Date.now() + data.expires_in * 1000,
+  try {
+    const data = await $fetch<PayPalAccessToken>(`${apiBase}/v1/oauth2/token`, {
+      method: 'POST',
+      headers: {
+        Authorization: `Basic ${auth}`,
+        'Content-Type': 'application/x-www-form-urlencoded',
+      },
+      body: new URLSearchParams({ grant_type: 'client_credentials' }).toString(),
+    })
+    cachedToken = {
+      token: data.access_token,
+      expiresAt: Date.now() + data.expires_in * 1000,
+    }
+    return data.access_token
+  } catch (e: unknown) {
+    const status = (e as { statusCode?: number })?.statusCode
+    if (status === 401 || status === 403) {
+      cachedToken = null
+      throw createError({
+        statusCode: 502,
+        statusMessage: paypalAuthErrorMessage(String(config.paypalMode || 'sandbox')),
+      })
+    }
+    throw e
   }
-  return data.access_token
 }
 
 async function paypalApi<T>(path: string, options: { method?: string; body?: unknown } = {}): Promise<T> {

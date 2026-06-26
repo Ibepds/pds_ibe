@@ -98,37 +98,6 @@ export default defineEventHandler(async (event) => {
       statusCode: 400,
       statusMessage: 'Identifiant de paiement manquant (session_id ou token).',
     })
-
-    // Coordonnées du donateur : collection privée, lisible par les admins seulement
-    if (email) {
-      await db.collection('donationContacts').add({
-        email,
-        username,
-        amount,
-        sessionId: session.id,
-        raffleParticipate,
-        ...(raffleParticipate
-          ? {
-              rafflePhone,
-              raffleInstagram,
-              raffleTiktok,
-            }
-          : {}),
-        createdAt: new Date().toISOString(),
-        serverCreatedAt: FieldValue.serverTimestamp(),
-      })
-    }
-
-    // Met à jour le compteur de collecte (atomique) : montant + nombre de donateurs
-    await db.collection('event').doc('main').set(
-      {
-        currentAmount: FieldValue.increment(amount),
-        donorsCount: FieldValue.increment(1),
-      },
-      { merge: true },
-    )
-
-    return { ok: true, amount, username, message }
   } catch (e) {
     if ((e as { statusCode?: number }).statusCode) throw e
     console.error('[donation-finalize] échec écriture Firestore:', e)

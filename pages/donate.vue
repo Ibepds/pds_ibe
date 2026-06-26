@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { MOCK_EVENT } from '~/utils/mockData'
 import { formatCurrency, formatCurrencyPrecise, getProgressPercent } from '~/utils/format'
-import { coverFeeCents, feeRateLabel, type FeeProvider } from '~/utils/fees'
+import { coverFeeCents, feeRateLabel } from '~/utils/fees'
 
 const { event, loading } = useEvent()
 
@@ -47,20 +47,12 @@ const validateCustom = () => {
 // Couverture des frais (pré-cochée : c'est le plus avantageux pour la cause)
 const coverFees = ref(true)
 
-const { public: { paymentProvider: defaultProvider } } = useRuntimeConfig()
-const selectedProvider = ref<FeeProvider>(
-  defaultProvider === 'stripe' ? 'stripe' : 'paypal',
-)
-
 const feeEuros = computed(
-  () => coverFeeCents(Math.round(amount.value * 100), selectedProvider.value) / 100,
+  () => coverFeeCents(Math.round(amount.value * 100), 'paypal') / 100,
 )
 const total = computed(() => amount.value + (coverFees.value ? feeEuros.value : 0))
 
-const paymentLabel = computed(() =>
-  selectedProvider.value === 'stripe' ? 'Stripe' : 'PayPal',
-)
-const feeRateHint = computed(() => feeRateLabel(selectedProvider.value))
+const feeRateHint = feeRateLabel('paypal')
 
 const { total: donationsTotal } = useDonationsLive()
 const current = computed(() => donationsTotal.value)
@@ -77,31 +69,6 @@ const startCheckout = async () => {
     error.value = 'Veuillez choisir un montant d’au moins 1 €.'
     return
   }
-  if (raffleChoice.value !== 'yes' && raffleChoice.value !== 'no') {
-    error.value = 'Veuillez indiquer si vous souhaitez participer au tirage au sort.'
-    return
-  }
-  if (raffleChoice.value === 'yes') {
-    const phone = rafflePhone.value.trim()
-    const instagram = normalizeHandle(raffleInstagram.value)
-    const tiktok = normalizeHandle(raffleTiktok.value)
-    if (!phone || phone.replace(/\D/g, '').length < 8) {
-      error.value = 'Veuillez saisir un numéro de téléphone valide pour le tirage au sort.'
-      return
-    }
-    if (!instagram) {
-      error.value = 'Veuillez indiquer votre pseudo Instagram pour le tirage au sort.'
-      return
-    }
-    if (!tiktok) {
-      error.value = 'Veuillez indiquer votre pseudo TikTok pour le tirage au sort.'
-      return
-    }
-    if (!raffleConditionsAccepted.value) {
-      error.value = 'Veuillez accepter les conditions de participation au tirage au sort.'
-      return
-    }
-  }
   submitting.value = true
   try {
     const { url } = await $fetch<{ url: string }>('/api/checkout', {
@@ -110,7 +77,7 @@ const startCheckout = async () => {
         email: email.value,
         amount: amount.value,
         coverFees: coverFees.value,
-        provider: selectedProvider.value,
+        provider: 'paypal',
       },
     })
     if (url) window.location.href = url
@@ -190,32 +157,6 @@ const startCheckout = async () => {
             </p>
           </div>
 
-          <!-- Mode de paiement -->
-          <div>
-            <label class="form-label">Mode de paiement</label>
-            <div class="grid grid-cols-2 gap-2">
-              <button
-                type="button"
-                class="chip text-center"
-                :class="selectedProvider === 'paypal' ? 'chip-active' : 'chip-idle'"
-                @click="selectedProvider = 'paypal'"
-              >
-                PayPal
-              </button>
-              <button
-                type="button"
-                class="chip text-center"
-                :class="selectedProvider === 'stripe' ? 'chip-active' : 'chip-idle'"
-                @click="selectedProvider = 'stripe'"
-              >
-                Carte (Stripe)
-              </button>
-            </div>
-            <p class="form-hint mt-2">
-              Frais estimés si couverts : {{ feeRateHint }} ({{ paymentLabel }}).
-            </p>
-          </div>
-
           <!-- Couvrir les frais -->
           <label
             class="flex cursor-pointer items-start gap-3 border-2 border-white/35 bg-white/5 p-4 transition hover:bg-white/10"
@@ -227,7 +168,7 @@ const startCheckout = async () => {
               </span>
               <span class="mt-1 block text-white/60">
                 Ainsi <strong class="text-white">100 % de mon don</strong> va à la cause (frais
-                {{ paymentLabel }} {{ feeRateHint }} pris en charge).
+                PayPal {{ feeRateHint }} pris en charge).
               </span>
             </span>
           </label>
@@ -248,122 +189,6 @@ const startCheckout = async () => {
             <p class="form-hint">Pour votre reçu et le suivi de votre don.</p>
           </div>
 
-          <!-- Tirage au sort -->
-          <div class="space-y-4 border-2 border-white/35 bg-white/5 p-4">
-            <p class="text-sm font-semibold text-white">
-              Je souhaite participer au tirage au sort pour remporter un lot et être contacté aux
-              coordonnées ci-dessous
-              <span class="text-accent-red">*</span>
-            </p>
-            <div class="grid grid-cols-2 gap-2">
-              <button
-                type="button"
-                class="chip"
-                :class="raffleChoice === 'yes' ? 'chip-active' : 'chip-idle'"
-                @click="pickRaffle('yes')"
-              >
-                Oui
-              </button>
-              <button
-                type="button"
-                class="chip"
-                :class="raffleChoice === 'no' ? 'chip-active' : 'chip-idle'"
-                @click="pickRaffle('no')"
-              >
-                Non
-              </button>
-            </div>
-
-            <div v-if="raffleChoice === 'yes'" class="space-y-4 border-t border-white/15 pt-4">
-              <div>
-                <label class="form-label">
-                  Numéro de téléphone <span class="text-accent-red">*</span>
-                </label>
-                <input
-                  v-model="rafflePhone"
-                  type="tel"
-                  maxlength="20"
-                  placeholder="06 12 34 56 78"
-                  class="input-field"
-                  autocomplete="tel"
-                />
-              </div>
-              <div>
-                <label class="form-label">
-                  Pseudo Instagram <span class="text-accent-red">*</span>
-                </label>
-                <input
-                  v-model="raffleInstagram"
-                  type="text"
-                  maxlength="40"
-                  placeholder="@votre_pseudo"
-                  class="input-field"
-                />
-              </div>
-              <div>
-                <label class="form-label">
-                  Pseudo TikTok <span class="text-accent-red">*</span>
-                </label>
-                <input
-                  v-model="raffleTiktok"
-                  type="text"
-                  maxlength="40"
-                  placeholder="@votre_pseudo"
-                  class="input-field"
-                />
-              </div>
-
-              <div class="space-y-2 text-sm text-white/75">
-                <p class="font-semibold text-white">Conditions de participation :</p>
-                <ul class="list-inside list-disc space-y-1.5 pl-1">
-                  <li>Faire un don d’au moins 1 € (sans limite — vous pouvez participer plusieurs fois).</li>
-                  <li>
-                    Être abonné aux comptes
-                    <a
-                      href="https://www.instagram.com/pdshumanity/"
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      class="text-primary-light underline"
-                    >@pdshumanity</a>
-                    sur Instagram et
-                    <a
-                      href="https://www.tiktok.com/@pdshumanity"
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      class="text-primary-light underline"
-                    >TikTok</a>.
-                  </li>
-                  <li>
-                    Avoir regardé les 3 vidéos épinglées sur le profil
-                    <strong class="text-white">ibepds</strong>
-                    parlant des associations.
-                  </li>
-                  <li>
-                    Être présent et joignable le <strong class="text-white">28 juin à 18 h</strong>
-                    pour le tirage au sort. Sans réponse, nous passerons automatiquement à un autre
-                    participant.
-                  </li>
-                  <li>
-                    Répondre à une question posée en live au téléphone : si la réponse est correcte,
-                    vous repartez avec la montre ; sinon, vous êtes éliminé.
-                  </li>
-                </ul>
-              </div>
-
-              <label class="flex cursor-pointer items-start gap-3">
-                <input
-                  v-model="raffleConditionsAccepted"
-                  type="checkbox"
-                  class="mt-0.5 h-5 w-5 shrink-0 rounded"
-                />
-                <span class="text-sm text-white/85">
-                  J’ai lu et j’accepte les conditions de participation au tirage au sort
-                  <span class="text-accent-red">*</span>
-                </span>
-              </label>
-            </div>
-          </div>
-
           <!-- Récapitulatif -->
           <div class="flex items-center justify-between border-t border-white/15 pt-4 text-sm">
             <span class="text-white/70">Total débité</span>
@@ -381,7 +206,7 @@ const startCheckout = async () => {
         </form>
 
         <p class="mt-4 text-center text-xs text-white/50">
-          Paiement sécurisé par {{ paymentLabel }}. Vous reviendrez ensuite sur le site.
+          Paiement sécurisé par PayPal. Vous reviendrez ensuite sur le site.
         </p>
       </div>
     </section>

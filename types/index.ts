@@ -64,20 +64,6 @@ export interface Donation {
   twitchMsgId?: string
 }
 
-export interface DonationContact {
-  id: string
-  email?: string
-  username?: string
-  amount?: number
-  sessionId?: string
-  createdAt?: string
-  /** Participation au tirage au sort pour la montre */
-  raffleParticipate?: boolean
-  rafflePhone?: string
-  raffleInstagram?: string
-  raffleTiktok?: string
-}
-
 export interface FaqItem {
   id: string
   question: string

@@ -57,7 +57,6 @@ const embedUrl = computed(() => {
         :src="embedUrl"
         class="absolute inset-x-0 bottom-0 aspect-video w-full"
         allow="autoplay; fullscreen; encrypted-media; picture-in-picture"
-        allowfullscreen
         frameborder="0"
         title="Live PDS Humanity — Twitch"
       />

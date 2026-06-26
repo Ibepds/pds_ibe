@@ -31,7 +31,7 @@ watch(() => props.alert.id, () => restartVideo())
     <video
       ref="videoRef"
       class="alert-video"
-      src="/videos/overlay-alerte.mp4"
+      src="/videos/overlay-alerte.mov"
       autoplay
       muted
       playsinline

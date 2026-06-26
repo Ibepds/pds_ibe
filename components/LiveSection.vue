@@ -69,7 +69,6 @@ const showEmbed = computed(() => props.isLive && !!embedUrl.value)
             :src="embedUrl"
             class="h-full w-full"
             allow="autoplay; fullscreen; encrypted-media; picture-in-picture"
-            allowfullscreen
             frameborder="0"
             title="Live PDS Humanity"
           />
