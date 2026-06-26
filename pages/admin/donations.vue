@@ -1,6 +1,7 @@
 <script setup lang="ts">
 definePageMeta({ layout: 'admin', middleware: 'admin' })
 
+import type { DonationContact } from '~/types'
 import { MOCK_DONATIONS } from '~/utils/mockData'
 import { formatCurrency } from '~/utils/format'
 
@@ -11,23 +12,33 @@ const { data: donations, loading, refresh } = useFirestoreCollection(
 )
 
 // Coordonnées privées des donateurs (collection admin-only), jointes par sessionId
-const { data: contacts, refresh: refreshContacts } = useFirestoreCollection<{
-  id: string
-  email?: string
-  sessionId?: string
-}>('donationContacts', [])
+const { data: contacts, refresh: refreshContacts } = useFirestoreCollection<DonationContact>(
+  'donationContacts',
+  [],
+)
 
-const emailBySession = computed(() => {
-  const map: Record<string, string> = {}
+const contactBySession = computed(() => {
+  const map: Record<string, DonationContact> = {}
   for (const c of contacts.value) {
-    if (c.sessionId && c.email) map[c.sessionId] = c.email
+    if (c.sessionId) map[c.sessionId] = c
   }
   return map
 })
 
+const contactOf = (d: { sessionId?: string }) =>
+  (d.sessionId ? contactBySession.value[d.sessionId] : undefined)
+
 // E-mail : depuis donationContacts (prod) ou inline (jeu de démo)
 const emailOf = (d: { sessionId?: string; email?: string }) =>
-  (d.sessionId ? emailBySession.value[d.sessionId] : undefined) ?? d.email ?? ''
+  contactOf(d)?.email ?? d.email ?? ''
+
+const raffleOnly = ref(false)
+
+const displayedDonations = computed(() =>
+  raffleOnly.value
+    ? donations.value.filter((d) => contactOf(d)?.raffleParticipate === true)
+    : donations.value,
+)
 
 const refreshAll = () => {
   refresh()
@@ -46,18 +57,36 @@ const stats = computed(() => ({
   total: donations.value.length,
   amount: donations.value.reduce((sum, d) => sum + (d.amount ?? 0), 0),
   withEmail: donations.value.filter((d) => emailOf(d)).length,
+  raffle: donations.value.filter((d) => contactOf(d)?.raffleParticipate === true).length,
 }))
 
 const exportCsv = () => {
   const rows = [
-    ['Date', 'E-mail', 'Pseudo', 'Montant (€)', 'Message'],
-    ...donations.value.map((d) => [
-      fmtDate(d.createdAt),
-      emailOf(d),
-      d.username,
-      String(d.amount ?? 0).replace('.', ','),
-      d.message ?? '',
-    ]),
+    [
+      'Date',
+      'E-mail',
+      'Pseudo',
+      'Montant (€)',
+      'Message',
+      'Tirage au sort',
+      'Téléphone',
+      'Instagram',
+      'TikTok',
+    ],
+    ...displayedDonations.value.map((d) => {
+      const c = contactOf(d)
+      return [
+        fmtDate(d.createdAt),
+        emailOf(d),
+        d.username,
+        String(d.amount ?? 0).replace('.', ','),
+        d.message ?? '',
+        c?.raffleParticipate ? 'Oui' : 'Non',
+        c?.rafflePhone ?? '',
+        c?.raffleInstagram ?? '',
+        c?.raffleTiktok ?? '',
+      ]
+    }),
   ]
   const csv = rows
     .map((r) => r.map((c) => `"${String(c).replace(/"/g, '""')}"`).join(';'))
@@ -76,7 +105,11 @@ const exportCsv = () => {
   <div>
     <div class="mb-2 flex flex-wrap items-center justify-between gap-3">
       <h1 class="text-xl font-bold text-gray-900">Dons</h1>
-      <div class="flex gap-2">
+      <div class="flex flex-wrap gap-2">
+        <label class="flex items-center gap-2 rounded-lg border border-gray-300 px-3 py-2 text-sm text-gray-700">
+          <input v-model="raffleOnly" type="checkbox" class="rounded" />
+          Tirage au sort uniquement
+        </label>
         <button
           class="rounded-lg border border-gray-300 px-4 py-2 text-sm hover:bg-gray-50"
           @click="refreshAll"
@@ -85,7 +118,7 @@ const exportCsv = () => {
         </button>
         <button
           class="rounded-lg bg-primary px-4 py-2 text-sm font-medium text-white hover:bg-primary-dark disabled:opacity-50"
-          :disabled="!donations.length"
+          :disabled="!displayedDonations.length"
           @click="exportCsv"
         >
           Exporter CSV
@@ -96,7 +129,7 @@ const exportCsv = () => {
       Liste des dons enregistrés après paiement (PayPal ou Stripe). L'e-mail est celui saisi lors du checkout.
     </p>
 
-    <div class="mb-6 grid grid-cols-2 gap-3 sm:grid-cols-3">
+    <div class="mb-6 grid grid-cols-2 gap-3 sm:grid-cols-4">
       <div class="rounded-lg border bg-white p-4 text-center">
         <p class="text-2xl font-bold text-gray-900">{{ stats.total }}</p>
         <p class="text-xs text-gray-500">Dons enregistrés</p>
@@ -109,6 +142,10 @@ const exportCsv = () => {
         <p class="text-2xl font-bold text-gray-900">{{ stats.withEmail }}</p>
         <p class="text-xs text-gray-500">Avec e-mail</p>
       </div>
+      <div class="rounded-lg border bg-white p-4 text-center">
+        <p class="text-2xl font-bold text-green-600">{{ stats.raffle }}</p>
+        <p class="text-xs text-gray-500">Tirage au sort</p>
+      </div>
     </div>
 
     <div v-if="loading" class="space-y-3">
@@ -116,10 +153,10 @@ const exportCsv = () => {
     </div>
 
     <div
-      v-else-if="donations.length === 0"
+      v-else-if="displayedDonations.length === 0"
       class="rounded-lg border border-dashed p-8 text-center text-gray-400"
     >
-      Aucun don enregistré pour le moment.
+      {{ raffleOnly ? 'Aucun participant au tirage au sort pour le moment.' : 'Aucun don enregistré pour le moment.' }}
     </div>
 
     <div v-else class="overflow-x-auto rounded-xl border border-gray-200 bg-white">
@@ -130,12 +167,14 @@ const exportCsv = () => {
             <th class="px-4 py-3 font-semibold text-gray-600">E-mail</th>
             <th class="px-4 py-3 font-semibold text-gray-600">Pseudo</th>
             <th class="px-4 py-3 font-semibold text-gray-600">Montant</th>
+            <th class="px-4 py-3 font-semibold text-gray-600">Tirage</th>
+            <th class="px-4 py-3 font-semibold text-gray-600">Contact tirage</th>
             <th class="px-4 py-3 font-semibold text-gray-600">Message</th>
           </tr>
         </thead>
         <tbody>
           <tr
-            v-for="d in donations"
+            v-for="d in displayedDonations"
             :key="d.id"
             class="border-b border-gray-100 hover:bg-gray-50"
           >
@@ -153,6 +192,23 @@ const exportCsv = () => {
             <td class="px-4 py-3 font-medium text-gray-900">{{ d.username }}</td>
             <td class="whitespace-nowrap px-4 py-3 font-semibold text-primary">
               {{ formatCurrency(d.amount) }}
+            </td>
+            <td class="whitespace-nowrap px-4 py-3">
+              <span
+                v-if="contactOf(d)?.raffleParticipate"
+                class="rounded-full bg-green-100 px-2 py-0.5 text-xs font-medium text-green-800"
+              >
+                Oui
+              </span>
+              <span v-else class="text-gray-400">Non</span>
+            </td>
+            <td class="px-4 py-3 text-xs text-gray-600">
+              <template v-if="contactOf(d)?.raffleParticipate">
+                <div v-if="contactOf(d)?.rafflePhone">{{ contactOf(d)?.rafflePhone }}</div>
+                <div v-if="contactOf(d)?.raffleInstagram">@{{ contactOf(d)?.raffleInstagram }}</div>
+                <div v-if="contactOf(d)?.raffleTiktok">@{{ contactOf(d)?.raffleTiktok }}</div>
+              </template>
+              <span v-else class="text-gray-400">—</span>
             </td>
             <td class="max-w-xs truncate px-4 py-3 text-gray-600" :title="d.message">
               {{ d.message || '—' }}
