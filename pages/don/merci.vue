@@ -7,7 +7,15 @@ usePageSeo({
 })
 
 const route = useRoute()
-const sessionId = computed(() => String(route.query.session_id ?? ''))
+
+/** Stripe : ?session_id=… — PayPal : ?token=… (order ID) */
+const paymentId = computed(() => {
+  const token = String(route.query.token ?? '')
+  const sessionId = String(route.query.session_id ?? '')
+  if (token) return { provider: 'paypal' as const, id: token }
+  if (sessionId) return { provider: 'stripe' as const, id: sessionId }
+  return null
+})
 
 const loading = ref(true)
 const paid = ref(false)
@@ -21,15 +29,23 @@ const submitting = ref(false)
 const error = ref('')
 
 onMounted(async () => {
-  if (!sessionId.value) {
+  if (!paymentId.value) {
     navigateTo('/donate')
     return
   }
   try {
-    const res = await $fetch<{ paid: boolean; amount: number; recorded: boolean }>(
-      '/api/donation-session',
-      { query: { session_id: sessionId.value } },
-    )
+    const query =
+      paymentId.value.provider === 'paypal'
+        ? { token: paymentId.value.id }
+        : { session_id: paymentId.value.id }
+
+    const res = await $fetch<{
+      paid: boolean
+      amount: number
+      recorded: boolean
+      provider?: string
+    }>('/api/donation-session', { query })
+
     paid.value = res.paid
     amount.value = res.amount
     alreadyRecorded.value = res.recorded
@@ -45,18 +61,26 @@ onMounted(async () => {
 })
 
 const finalize = async () => {
+  if (!paymentId.value) return
   submitting.value = true
   error.value = ''
   try {
-    await $fetch('/api/donation-finalize', {
-      method: 'POST',
-      body: {
-        session_id: sessionId.value,
-        anonymous: anonymous.value,
-        username: username.value,
-        message: message.value,
-      },
-    })
+    const body =
+      paymentId.value.provider === 'paypal'
+        ? {
+            token: paymentId.value.id,
+            anonymous: anonymous.value,
+            username: username.value,
+            message: message.value,
+          }
+        : {
+            session_id: paymentId.value.id,
+            anonymous: anonymous.value,
+            username: username.value,
+            message: message.value,
+          }
+
+    await $fetch('/api/donation-finalize', { method: 'POST', body })
     await navigateTo('/?merci=1')
   } catch (e: unknown) {
     error.value =

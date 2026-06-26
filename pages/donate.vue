@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { MOCK_EVENT } from '~/utils/mockData'
 import { formatCurrency, formatCurrencyPrecise, getProgressPercent } from '~/utils/format'
-import { coverFeeCents } from '~/utils/fees'
+import { coverFeeCents, feeRateLabel, type FeeProvider } from '~/utils/fees'
 
 const { event, loading } = useEvent()
 
@@ -47,8 +47,20 @@ const validateCustom = () => {
 // Couverture des frais (pré-cochée : c'est le plus avantageux pour la cause)
 const coverFees = ref(true)
 
-const feeEuros = computed(() => coverFeeCents(Math.round(amount.value * 100)) / 100)
+const { public: { paymentProvider: defaultProvider } } = useRuntimeConfig()
+const selectedProvider = ref<FeeProvider>(
+  defaultProvider === 'stripe' ? 'stripe' : 'paypal',
+)
+
+const feeEuros = computed(
+  () => coverFeeCents(Math.round(amount.value * 100), selectedProvider.value) / 100,
+)
 const total = computed(() => amount.value + (coverFees.value ? feeEuros.value : 0))
+
+const paymentLabel = computed(() =>
+  selectedProvider.value === 'stripe' ? 'Stripe' : 'PayPal',
+)
+const feeRateHint = computed(() => feeRateLabel(selectedProvider.value))
 
 const { total: donationsTotal } = useDonationsLive()
 const current = computed(() => donationsTotal.value)
@@ -69,7 +81,12 @@ const startCheckout = async () => {
   try {
     const { url } = await $fetch<{ url: string }>('/api/checkout', {
       method: 'POST',
-      body: { email: email.value, amount: amount.value, coverFees: coverFees.value },
+      body: {
+        email: email.value,
+        amount: amount.value,
+        coverFees: coverFees.value,
+        provider: selectedProvider.value,
+      },
     })
     if (url) window.location.href = url
     else throw new Error('Réponse invalide')
@@ -148,6 +165,32 @@ const startCheckout = async () => {
             </p>
           </div>
 
+          <!-- Mode de paiement -->
+          <div>
+            <label class="form-label">Mode de paiement</label>
+            <div class="grid grid-cols-2 gap-2">
+              <button
+                type="button"
+                class="chip text-center"
+                :class="selectedProvider === 'paypal' ? 'chip-active' : 'chip-idle'"
+                @click="selectedProvider = 'paypal'"
+              >
+                PayPal
+              </button>
+              <button
+                type="button"
+                class="chip text-center"
+                :class="selectedProvider === 'stripe' ? 'chip-active' : 'chip-idle'"
+                @click="selectedProvider = 'stripe'"
+              >
+                Carte (Stripe)
+              </button>
+            </div>
+            <p class="form-hint mt-2">
+              Frais estimés si couverts : {{ feeRateHint }} ({{ paymentLabel }}).
+            </p>
+          </div>
+
           <!-- Couvrir les frais -->
           <label
             class="flex cursor-pointer items-start gap-3 border-2 border-white/35 bg-white/5 p-4 transition hover:bg-white/10"
@@ -158,8 +201,8 @@ const startCheckout = async () => {
                 J'ajoute {{ formatCurrencyPrecise(feeEuros) }} pour couvrir les frais
               </span>
               <span class="mt-1 block text-white/60">
-                Ainsi <strong class="text-white">100 % de mon don</strong> va à la cause (les frais
-                de transaction bancaire sont pris en charge).
+                Ainsi <strong class="text-white">100 % de mon don</strong> va à la cause (frais
+                {{ paymentLabel }} {{ feeRateHint }} pris en charge).
               </span>
             </span>
           </label>
@@ -197,7 +240,7 @@ const startCheckout = async () => {
         </form>
 
         <p class="mt-4 text-center text-xs text-white/50">
-          Paiement sécurisé par Stripe. Vous reviendrez ensuite sur le site.
+          Paiement sécurisé par {{ paymentLabel }}. Vous reviendrez ensuite sur le site.
         </p>
       </div>
     </section>
