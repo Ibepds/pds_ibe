@@ -31,7 +31,8 @@ watch(() => props.alert.id, () => restartVideo())
     <video
       ref="videoRef"
       class="alert-video"
-      src="/videos/overlay-alerte.mov"
+      src="/videos/overlay-alerte.webm"
+      type="video/webm"
       autoplay
       muted
       playsinline
@@ -68,6 +69,7 @@ watch(() => props.alert.id, () => restartVideo())
   width: 100%;
   height: auto;
   border-radius: 0.15rem;
+  background: transparent;
 }
 
 .alert-text {
