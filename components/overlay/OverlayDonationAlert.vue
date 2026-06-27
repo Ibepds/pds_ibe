@@ -105,10 +105,8 @@ watch(() => props.alert.id, () => restartVideo())
   font-weight: 700;
   letter-spacing: 0.04em;
   text-transform: uppercase;
-  color: #fff;
-  text-shadow:
-    0 0 18px rgba(5, 70, 160, 0.65),
-    0 1px 2px rgba(0, 0, 0, 0.45);
+  color: #0546a0;
+  text-shadow: 0 1px 2px rgba(255, 255, 255, 0.65);
 }
 
 .alert-verb {
@@ -116,18 +114,16 @@ watch(() => props.alert.id, () => restartVideo())
   font-size: clamp(1.1rem, 3.6vw, 1.5rem);
   font-weight: 400;
   font-style: italic;
-  color: rgba(255, 255, 255, 0.82);
-  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.35);
+  color: #0546a0;
+  text-shadow: 0 1px 2px rgba(255, 255, 255, 0.5);
 }
 
 .alert-amount {
   font-size: clamp(1.5rem, 5.2vw, 2.35rem);
   font-weight: 700;
   letter-spacing: 0.03em;
-  color: #fff;
-  text-shadow:
-    0 0 14px rgba(255, 255, 255, 0.35),
-    0 1px 2px rgba(0, 0, 0, 0.45);
+  color: #0546a0;
+  text-shadow: 0 1px 2px rgba(255, 255, 255, 0.65);
 }
 
 .alert-message {
@@ -142,8 +138,8 @@ watch(() => props.alert.id, () => restartVideo())
   font-size: clamp(1rem, 3.2vw, 1.35rem);
   font-style: italic;
   line-height: 1.35;
-  color: rgba(255, 255, 255, 0.88);
-  text-shadow: 0 1px 4px rgba(0, 0, 0, 0.4);
+  color: #0546a0;
+  text-shadow: 0 1px 2px rgba(255, 255, 255, 0.55);
   overflow: hidden;
   display: -webkit-box;
   -webkit-box-orient: vertical;
