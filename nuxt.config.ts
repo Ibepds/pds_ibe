@@ -6,18 +6,12 @@ export default defineNuxtConfig({
   css: ['~/assets/css/main.css'],
   runtimeConfig: {
     // Privé (serveur uniquement) — surchargé par NUXT_* dans .env
-    paymentProvider: 'paypal', // paypal | stripe (NUXT_PAYMENT_PROVIDER)
     stripeSecretKey: '',
-    paypalClientId: '',
-    paypalClientSecret: '',
-    paypalMode: 'sandbox', // sandbox | live (NUXT_PAYPAL_MODE)
-    paypalApiBase: '', // optionnel : force l'URL API PayPal
     firebaseServiceAccount: '', // JSON du compte de service Firebase (une ligne)
     // Twitch EventSub (dons Bits/Cheers → site)
     twitchEventsubSecret: '', // secret partagé HMAC (≥ 10 caractères)
     bitsToEur: '0.01', // valeur d'un bit en € (1 bit ≈ 0,01 €)
     public: {
-      paymentProvider: 'paypal',
       siteUrl: 'https://pdshumanity.com',
       firebaseApiKey: '',
       firebaseAuthDomain: '',

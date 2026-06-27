@@ -1,12 +1,10 @@
 import { FieldValue } from 'firebase-admin/firestore'
-import type { PaymentProvider } from './paymentProvider'
 
 const clean = (s: unknown, max: number) =>
   (typeof s === 'string' ? s : '').trim().slice(0, max)
 
 export interface RecordDonationParams {
   sessionId: string
-  provider: PaymentProvider
   amount: number
   username: string
   message: string
@@ -20,7 +18,7 @@ export async function recordDonation(params: RecordDonationParams): Promise<{
   username: string
   message: string
 }> {
-  const { sessionId, provider, amount, username, message, email } = params
+  const { sessionId, amount, username, message, email } = params
 
   const db = getAdminDb()
 
@@ -38,7 +36,6 @@ export async function recordDonation(params: RecordDonationParams): Promise<{
     amount,
     message,
     sessionId,
-    provider,
     createdAt: new Date().toISOString(),
     serverCreatedAt: FieldValue.serverTimestamp(),
   })
@@ -49,7 +46,6 @@ export async function recordDonation(params: RecordDonationParams): Promise<{
       username,
       amount,
       sessionId,
-      provider,
       createdAt: new Date().toISOString(),
       serverCreatedAt: FieldValue.serverTimestamp(),
     })

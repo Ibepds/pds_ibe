@@ -93,7 +93,7 @@ const exportCsv = () => {
       </div>
     </div>
     <p class="mb-6 max-w-2xl text-sm text-gray-500">
-      Liste des dons enregistrés après paiement (PayPal ou Stripe). L'e-mail est celui saisi lors du checkout.
+      Liste des dons enregistrés après paiement Stripe. L'e-mail est celui saisi lors du checkout.
     </p>
 
     <div class="mb-6 grid grid-cols-2 gap-3 sm:grid-cols-3">

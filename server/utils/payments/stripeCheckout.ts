@@ -1,5 +1,4 @@
 import { getStripe } from '../stripe'
-import type { CheckoutResult } from '../checkoutShared'
 
 export async function createStripeCheckoutSession(params: {
   donationCents: number
@@ -7,7 +6,7 @@ export async function createStripeCheckoutSession(params: {
   totalCents: number
   email: string
   origin: string
-}): Promise<CheckoutResult> {
+}): Promise<{ url: string }> {
   const stripe = getStripe()
 
   const session = await stripe.checkout.sessions.create({
@@ -40,5 +39,5 @@ export async function createStripeCheckoutSession(params: {
     throw createError({ statusCode: 500, statusMessage: 'Impossible de créer la session Stripe' })
   }
 
-  return { url: session.url, provider: 'stripe' }
+  return { url: session.url }
 }

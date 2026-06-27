@@ -47,12 +47,10 @@ const validateCustom = () => {
 // Couverture des frais (pré-cochée : c'est le plus avantageux pour la cause)
 const coverFees = ref(true)
 
-const feeEuros = computed(
-  () => coverFeeCents(Math.round(amount.value * 100), 'paypal') / 100,
-)
+const feeEuros = computed(() => coverFeeCents(Math.round(amount.value * 100)) / 100)
 const total = computed(() => amount.value + (coverFees.value ? feeEuros.value : 0))
 
-const feeRateHint = feeRateLabel('paypal')
+const feeRateHint = feeRateLabel()
 
 const { total: donationsTotal } = useDonationsLive()
 const current = computed(() => donationsTotal.value)
@@ -73,12 +71,7 @@ const startCheckout = async () => {
   try {
     const { url } = await $fetch<{ url: string }>('/api/checkout', {
       method: 'POST',
-      body: {
-        email: email.value,
-        amount: amount.value,
-        coverFees: coverFees.value,
-        provider: 'paypal',
-      },
+      body: { email: email.value, amount: amount.value, coverFees: coverFees.value },
     })
     if (url) window.location.href = url
     else throw new Error('Réponse invalide')
@@ -168,7 +161,7 @@ const startCheckout = async () => {
               </span>
               <span class="mt-1 block text-white/60">
                 Ainsi <strong class="text-white">100 % de mon don</strong> va à la cause (frais
-                PayPal {{ feeRateHint }} pris en charge).
+                Stripe {{ feeRateHint }} pris en charge).
               </span>
             </span>
           </label>
@@ -206,7 +199,7 @@ const startCheckout = async () => {
         </form>
 
         <p class="mt-4 text-center text-xs text-white/50">
-          Paiement sécurisé par PayPal. Vous reviendrez ensuite sur le site.
+          Paiement sécurisé par Stripe. Vous reviendrez ensuite sur le site.
         </p>
       </div>
     </section>
